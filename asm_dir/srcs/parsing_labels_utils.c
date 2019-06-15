@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/08 06:59:35 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 17:25:38 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/11 11:58:48 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,10 +31,11 @@ int		find_addr(t_linelst *file)
 {
 	while (file->nxt && file->opcode <= 0)
 		file = file->nxt;
-	if (file->opcode == 0)
+	if (!file->nxt && file->opcode <= 0)
 		return (get_memory(NULL));
 	else
 		return (file->addr);
+	return (0);
 }
 
 t_label	*get_label_addr(t_linelst *file, t_label *lab_tab)

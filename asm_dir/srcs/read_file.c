@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/29 17:28:50 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 18:20:17 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/12 10:03:09 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,21 +44,35 @@ static void	trim_comments(char *line)
 			ft_bzero(line + i, ft_strlen(line) - i);
 }
 
+static void	check_errors(unsigned char *line, int gnl_ret)
+{
+	int i;
+
+	i = -1;
+	if (errno)
+		put_error(NULL, -1, strerror(errno), PE_ERR | PE_EXIT);
+	if (gnl_ret == -1)
+		asm_quit(QUIT, NULL);
+	while (line[++i])
+		if (line[i] == 255 || (line[i] > 0 && line[i] < 8) || \
+												(line[i] > 13 && line[i] < 32))
+			put_error(NULL, -1, g_str[E_FILE_CORRUPT], PE_ERR | PE_EXIT);
+}
+
 t_linelst	*read_file(int ac, char **av, t_linelst *file, t_file *file_data)
 {
-	int			i;
+	int			gnl_ret;
 	char		*line;
 	int			line_nb;
 	int			fd;
 
 	line = NULL;
-	i = 1;
+	gnl_ret = 1;
 	fd = input(ac, av, file_data);
 	line_nb = 0;
-	while ((i = get_next_line(fd, &line)))
+	while ((gnl_ret = get_next_line(fd, &line)))
 	{
-		if (i == -1)
-			asm_quit(QUIT, NULL);
+		check_errors((unsigned char *)line, gnl_ret);
 		line_nb++;
 		trim_comments(line);
 		if (is_instruction(line))
@@ -68,5 +82,7 @@ t_linelst	*read_file(int ac, char **av, t_linelst *file, t_file *file_data)
 		}
 		ft_strdel(&line);
 	}
+	if (!line_nb)
+		put_error(NULL, -1, g_str[E_EMPTY_FILE], PE_ERR | PE_EXIT);
 	return (file);
 }

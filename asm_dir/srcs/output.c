@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/14 12:40:49 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 18:49:40 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/12 10:04:20 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,7 @@ void	output(t_linelst *file, t_file *file_data)
 	int	fd_output;
 
 	if (file_data->header.prog_size == 0)
-		put_error(NULL, -1, "this champion sucks ...", PE_WARN);
+		put_error(NULL, -1, g_str[E_SUCK], PE_WARN);
 	if (!put_error(NULL, -1, NULL, PE_GET_ERRORS))
 	{
 		fd_output = open(file_data->output_name, O_CREAT | O_WRONLY | O_TRUNC |
@@ -32,10 +32,8 @@ void	output(t_linelst *file, t_file *file_data)
 		file_data->header.magic = ft_reverse_uint_bytes(COREWAR_EXEC_MAGIC);
 		output_header(*file_data, fd_output);
 		output_prog(file, fd_output);
-		ft_printf("Player " B_WHITE "%s" RESET " : compilation " \
-						B_GREEN "OK" RESET "\n", file_data->header.prog_name);
+		ft_printf(g_str[COMP_OK], file_data->header.prog_name);
 	}
 	else
-		ft_printf("Player " B_WHITE "%s" RESET " : compilation " \
-B_RED "FAILED" RESET "\n", file_data->header.prog_name);
+		ft_printf(g_str[COMP_FAIL], file_data->header.prog_name);
 }

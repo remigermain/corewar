@@ -6,7 +6,7 @@
 #    By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/11/07 09:01:58 by rcepre       #+#   ##    ##    #+#        #
-#    Updated: 2019/06/10 16:41:38 by loiberti    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/06/11 13:31:24 by rgermain    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -17,7 +17,7 @@ GRAPHIC = no
 
 CC= clang
 
-CFLAGS= -Wall -Wextra -Werror -g
+CFLAGS= -Wall -Wextra -Werror
 
 SRC =   srcs/conv_char.c \
 		srcs/conv_double.c \
@@ -38,21 +38,34 @@ SRC =   srcs/conv_char.c \
 
 HEADER = ./includes/.
 
+INCLUDE = includes/ft_printf.h
+
 OBJECT = $(SRC:.c=.o)
 
 LIBFT_PATH = ./libft/.
+.DEFAULT_GOAL := all
+COUNT = "1"
+ESC = $(shell printf '\033')
 
 ################################# RULES ########################################
+print_name :
+	@echo "\033[0m\n----------------------------------------------------------------------\n\033[37m"
+	@echo " \033[47m  \033[0m\033[37m                    [    FT_PRINTF     ]                      \033[0m  \033[47m  \033[0m"
+	@echo "\n----------------------------------------------------------------------\n"
 
-all: $(NAME)
+all: print_name $(NAME)
+	@if [ $(COUNT) = "1" ]; then \
+		echo $(SPACE)"\033[1;34m   Nothing are changed !\033[0m"; \
+	fi
 
 $(NAME): $(OBJECT) $(HEADER)
+	@echo ""
 
-
-%.o: %.c
-	@printf "\e[2K\r\033[0;36m>>>\tCompiling:$? ...\t"
-	@$(CC) -c $(CFLAGS) -I $(HEADER) $?
-	@mv $(notdir $(basename $?)).o ./srcs/
+%.o: %.c $(INCLUDE)
+	@$(eval COUNT = "0")
+	@printf "\e[2K\r\033[0;36m>>>\tCompiling:$@ ...\t"
+	@$(CC) -c $(CFLAGS) -I $(HEADER) $<
+	@mv $(notdir $(basename $<)).o ./srcs/
 
 
 clean:
@@ -67,7 +80,10 @@ fclean: clean clean_exe
 
 re: fclean all
 
-.PHONY: clean fclean
+norme :
+	@norminette $(SRC) $(HEADER) | sed "s,Norme,${ESC}[38;5;326m&${ESC}[0m," | sed "s/Error/  Error/g" | sed "s,Error,${ESC}[31m&${ESC}[0m,"
+
+.PHONY: clean fclean norme
 
 	################################# TEXT  ########################################
 

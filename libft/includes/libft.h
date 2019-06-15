@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/10 16:13:24 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 18:59:01 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/12 10:59:00 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,35 +16,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
-# define BUFF_SIZE 2048
-# define FT_LONG_MAX 9223372036854775807
-# define FT_LONG_MIN -9223372036854775808
-# define FT_INT_MAX 2147483647
-# define FT_INT_MIN -2147483648
-# define FT_UINT_MAX 4294967295
-# define FT_SHORT_MAX 32767
-# define FT_SHORT_MIN -32768
-# define INVALID_OPTION 0x8000000000000000
-# define ENCODE 1
-# define DECODE 2
-# define BLACK "\033[30m"
-# define RED "\033[31m"
-# define GREEN "\033[32m"
-# define YELLOW "\033[33m"
-# define BLUE "\033[34m"
-# define PINK "\033[35m"
-# define CYAN "\033[36m"
-# define WHITE "\033[37m"
-# define B_BLACK "\033[1;30m"
-# define B_RED "\033[1;31m"
-# define B_GREEN "\033[1;32m"
-# define B_YELLOW "\033[1;33m"
-# define B_BLUE "\033[1;34m"
-# define B_PINK "\033[1;35m"
-# define B_CYAN "\033[1;36m"
-# define B_WHITE "\033[1;37m"
-# define RESET "\033[0m"
-# define REM_LINE "\033[A"
+# include "colors.h"
+# include "gnl.h"
+# include "ft_options.h"
+# include "limits.h"
 
 # define WHITESPACES "\t \f\n\v\r"
 # define DIGITS "0123456789"
@@ -60,7 +35,6 @@ typedef struct		s_list
 
 int					ft_abs(int nb);
 int					get_next_line(const int fd, char **line);
-int					ft_printf(char *format, ...);
 int					ft_options(char *str, int instruction);
 void				ft_option_error(char c, char *name, char *valids);
 char				ft_options_encode(char **av, int ac, char *valids);
@@ -152,6 +126,7 @@ int					ft_islower(int c);
 int					ft_isupper(int c);
 int					ft_iswhitespace(int c);
 int					ft_strvalids(char *str, char *valids);
+char				ft_str_is_digit(char *str);
 
 /*
 ******************************* MEMORY *****************************************
@@ -169,26 +144,17 @@ void				*ft_realloc(void *ptr, size_t size);
 void				ft_freedbtab(void **tab);
 
 /*
-****************************** LISTS *******************************************
-*/
-t_list				*ft_lstnew(void const *content, size_t content_size);
-void				ft_lstdelone(t_list **alst, void (*del)(void*, size_t));
-void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
-void				ft_lstadd(t_list **alst, t_list *new);
-void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
-t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
-size_t				ft_lstcount(t_list *lst);
-t_list				*ft_dbstr_to_strlst(char **dbstr);
-char				**ft_strlst_to_dbstr(t_list *lst);
-
-/*
 ******************************** OTHER *****************************************
 */
 void				ft_sorttab(int *tab, int size);
+
+/*
+******************************** PRINTF*****************************************
+*/
 int					ft_stprintf(char ind, const char *str, ...);
 int					ft_dprintf(int fd, const char *str, ...);
 int					ft_sprintf(unsigned char **dest, const char *format, ...);
 int					ft_vaprintf(const char *str, va_list va);
-char				ft_str_is_digit(char *str);
+int					ft_printf(const char *format, ...);
 
 #endif

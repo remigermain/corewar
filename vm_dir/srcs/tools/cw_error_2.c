@@ -6,12 +6,46 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 15:24:41 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/09 18:32:38 by loiberti    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/11 21:47:43 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "corewar.h"
+
+/*
+**-----------------------------------------------------------------------
+** print error message and show where it is then free struct and exit
+**-----------------------------------------------------------------------
+*/
+
+void		cw_error_argv(t_argm *argm)
+{
+	int total;
+	int error_s;
+	int error_e;
+	int i;
+
+	i = 0;
+	total = 0;
+	error_s = 0;
+	error_e = 0;
+	ft_dprintf(2, "     " RESET);
+	while (argm->argv[i])
+	{
+		if (i == argm->i && (error_s = total))
+			ft_dprintf(2, B_RED);
+		total += ft_dprintf(2, " %s", argm->argv[i]);
+		if (i == argm->i)
+			error_e = total - error_s - 2;
+		ft_dprintf(2, RESET);
+		i++;
+	}
+	if (argm->i == i)
+		error_s = total;
+	if (error_s)
+		ft_dprintf(2, "\n%*c^%*@\n", error_s + 6, ' ', error_e, "char", '~');
+}
 
 void		cw_warning(int warning)
 {

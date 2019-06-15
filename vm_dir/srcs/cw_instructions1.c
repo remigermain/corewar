@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/23 12:51:28 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 17:29:51 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/13 03:51:02 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,32 +34,30 @@
 **-----------------------------------------------------------------------
 */
 
-void	live(t_core *cw, t_inst *inst, t_process *p)
+t_bool	live(t_core *cw, t_inst *inst, t_process *p)
 {
 	int i;
-	int head;
 
-	head = cw->vm.cycle_total % 1024;
-	if (head > 0 && head < 256)
-		play_audio(cw, 0, LIVE_CHAN);
-	if (head > 255 && head < 512)
-		play_audio(cw, 1, LIVE_CHAN);
-	if (head > 511 && head < 768)
-		play_audio(cw, 2, LIVE_CHAN);
-	if (head > 767 && head < 1024)
-		play_audio(cw, 3, LIVE_CHAN);
+	play_live(cw, cw->vm.cycle_total % 1024);
 	cw->vm.color[i_pc(p->pc)] = 10 + p->player + 1;
 	cw->vm.pc[i_pc(p->pc)] = 10 + p->player + 1;
 	i = find_player(cw, inst->value[0]);
 	cw->total_live++;
+	if (test_bit(&(cw->utils.flags), CW_DIFF))
+		ft_printf("P %4d | live %d\n", p->number, inst->value[0]);
 	if (i >= 0 && i < cw->nb_player)
 	{
 		cw->last_live = i;
 		cw->player[i].nb_live++;
+		if (test_bit(&(cw->utils.flags), CW_V4))
+			ft_printf("\tPlayer said he's " GREEN "alive\n" RESET);
+		else if (test_bit(&(cw->utils.flags), CW_DIFF))
+			ft_printf("Player 1 (%s) is said to be alive\n",
+				cw->player[p->player].data.prog_name);
 	}
 	p->live = 1;
-	if (test_bit(&(cw->utils.flags), CW_V4))
-		ft_printf("\tPlayer said he's " GREEN "alive\n" RESET);
+	p->live_cycle = cw->vm.cycle_total;
+	return (TRUE);
 }
 
 /*
@@ -77,20 +75,16 @@ void	live(t_core *cw, t_inst *inst, t_process *p)
 **-----------------------------------------------------------------------
 */
 
-void	ffork(t_core *cw, t_inst *inst, t_process *p)
+t_bool	ffork(t_core *cw, t_inst *inst, t_process *p)
 {
-	static int	head = 0;
-	int			value;
-
-	play_audio(cw, head + 8, FORK_CHAN);
-	head = head == 3 ? 0 : head + 1;
+	play_fork(cw);
 	cw->vm.color[i_pc(p->pc)] = 30 + p->player + 1;
 	cw->vm.pc[i_pc(p->pc)] = 30 + p->player + 1;
-	value = p->pc + convert_adress(p, inst, inst->value[0]);
-	add_process(cw, p, inst, i_pc(value));
+	add_process(cw, p, inst);
 	if (test_bit(&(cw->utils.flags), CW_V4))
 		ft_printf("\tA process has been created to arena[" B_PINK "%d"
-										RESET"]\n", i_pc(value));
+										RESET"]\n", i_pc(inst->value[0]));
+	return (TRUE);
 }
 
 /*
@@ -105,31 +99,32 @@ void	ffork(t_core *cw, t_inst *inst, t_process *p)
 ** these cycles in this case, it's up to you to decide.
 */
 
-void	zjmp(t_core *cw, t_inst *inst, t_process *p)
+t_bool	zjmp(t_core *cw, t_inst *inst, t_process *p)
 {
 	int	value;
-	int	head;
 
-	head = cw->vm.cycle_total % 1024;
-	if (head > 0 && head < 256)
-		play_audio(cw, 4, JUMP_CHAN);
-	if (head > 255 && head < 512)
-		play_audio(cw, 5, JUMP_CHAN);
-	if (head > 511 && head < 768)
-		play_audio(cw, 6, JUMP_CHAN);
-	if (head > 767 && head < 1024)
-		play_audio(cw, 7, JUMP_CHAN);
+	play_jump(cw, cw->vm.cycle_total % 1024);
+	if (test_bit(&(cw->utils.flags), CW_DIFF))
+		ft_printf("P %4d | %s %d ", p->number, cw->tab[inst->op - 1].name,
+				inst->value[0]);
 	if (p->carry == 1)
 	{
 		value = convert_adress(p, inst, inst->value[0]);
-		inst->size = i_pc(p->pc + value);
+		inst->size = i_pc(value);
 		if (test_bit(&(cw->utils.flags), CW_V4))
 			ft_printf("\tProcess moved to arena[" B_PINK "%d"RESET"]\n", value);
+		else if (test_bit(&(cw->utils.flags), CW_DIFF))
+			ft_printf("OK\n");
 		cw->vm.color[i_pc(p->pc)] = 20 + p->player + 1;
 		cw->vm.pc[i_pc(p->pc)] = 20 + p->player + 1;
 	}
 	if (test_bit(&(cw->utils.flags), CW_V4) && !p->carry)
 		ft_printf("\tZJMP failed\n");
+	else if (test_bit(&(cw->utils.flags), CW_DIFF) && !p->carry)
+		ft_printf("FAILED\n");
+	if (!p->carry)
+		return (FALSE);
+	return (TRUE);
 }
 
 /*
@@ -148,11 +143,12 @@ void	zjmp(t_core *cw, t_inst *inst, t_process *p)
 **-----------------------------------------------------------------------
 */
 
-void	aff(t_core *cw, t_inst *inst, t_process *p)
+t_bool	aff(t_core *cw, t_inst *inst, t_process *p)
 {
 	if (!convert_value(cw, p, inst, CW_P1))
-		return ;
+		return (FALSE);
 	if (test_bit(&(cw->utils.flags), CW_F_AFF) ||
 			test_bit(&(cw->utils.flags), CW_V4))
 		ft_printf("\taff '" B_WHITE "%C"RESET"'\n", inst->value[0] % 256);
+	return (TRUE);
 }

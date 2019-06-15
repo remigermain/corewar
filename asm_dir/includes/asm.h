@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/15 05:15:32 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 18:25:50 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/12 12:22:36 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,8 +14,8 @@
 #ifndef ASM_H
 # define ASM_H
 # include "op.h"
-# include "asm_errors_str.h"
-# include "colors.h"
+# include "asm_str.h"
+# include "cw_colors.h"
 # include <unistd.h>
 # include <fcntl.h>
 # include <string.h>
@@ -44,6 +44,10 @@
 # define QUIT 1
 # define INIT 2
 # define ERROR 4
+
+# define STR_NB 128
+
+extern const char *g_str[STR_NB];
 
 typedef struct	s_linelst
 {
@@ -102,7 +106,7 @@ void			output(t_linelst *file, t_file *file_data);
 
 int				manage_labels(t_linelst *file, char **str, int index, int todo);
 int				check_labels(t_linelst *file);
-t_label			*get_label_names(t_linelst *file, t_label *lab_tab);
+int				get_label_names(t_linelst *file, t_label *lab_tab);
 int				count_labels(t_linelst *file);
 int				find_addr(t_linelst *file);
 t_label			*get_label_addr(t_linelst *file, t_label *lab_tab);
@@ -156,7 +160,8 @@ int				ft_strtoi(const char *str, long *number);
 */
 
 void			error_resume();
-int				put_error(t_linelst *file, int col, char *error, int todo);
+int				put_error(t_linelst *file, int col, const char *error, \
+																	int todo);
 void			asm_quit();
 
 /*
@@ -180,6 +185,8 @@ int				get_memory(t_linelst *file);
 
 void			display_data(t_file *file_data, t_linelst *file);
 void			display_header_data(t_header header);
-void			display_line_data(t_linelst *file);
+int				display_line_data(t_linelst *file);
+void			display_leftovers_labels(t_file *file_data, int printed_labels);
+void			display_tab_header();
 
 #endif

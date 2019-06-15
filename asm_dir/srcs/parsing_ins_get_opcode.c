@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   parsing_ins_get_opcode.c                         .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: loiberti <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/29 17:15:53 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/29 17:16:10 by loiberti    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/12 10:00:23 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,8 +31,8 @@ int	get_opcode(char *line, t_linelst *file)
 				return (i + 1);
 	}
 	if (ft_isalpha(file->line[spn_label(file->line)]))
-		put_error(file, spn_label(file->line), ERR_INV_MNEM, PE_ERR);
+		put_error(file, spn_label(file->line), g_str[E_INV_MNEM], PE_ERR);
 	else
-		put_error(file, spn_label(file->line), ERR_UNEXP_EXPR, PE_ERR);
+		put_error(file, spn_label(file->line), g_str[E_UNEXP_EXPR], PE_ERR);
 	return (0);
 }

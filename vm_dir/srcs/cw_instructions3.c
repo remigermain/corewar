@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/23 12:50:49 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 14:23:01 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/14 14:21:43 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,21 +24,28 @@
 **-----------------------------------------------------------------------
 */
 
-void	st(t_core *cw, t_inst *inst, t_process *p)
+t_bool	st(t_core *cw, t_inst *inst, t_process *p)
 {
-	static int head = 0;
+	int	tmp[3];
 
-	play_audio(cw, head + 12, ST_CHAN);
-	head = head == 3 ? 0 : head + 1;
+	play_st(cw);
 	cw->vm.color[i_pc(p->pc)] = 40 + p->player + 1;
 	cw->vm.pc[i_pc(p->pc)] = 40 + p->player + 1;
+	ft_memcpy(tmp, inst->value, 4 * 3);
 	if (!convert_value(cw, p, inst, CW_P1))
-		return ;
-	if (inst->ocp == 0x50 && !put_reg(cw, p, \
-										inst->value[1] - 1, inst->value[0]))
-		return ;
-	else if (inst->ocp == 0x70)
-		put_arena(cw, p, p->pc + (inst->value[1] % IDX_MOD), inst->value[0]);
+		return (FALSE);
+	if (((inst->ocp >> 4) & 0x3) == REG_CODE &&
+			!put_reg(cw, p, inst->value[1] - 1, inst->value[0]))
+		return (FALSE);
+	else if (((inst->ocp >> 4) & 0x3) == IND_CODE)
+		put_arena(cw, p, convert_adress(p, inst, inst->value[1]),
+				inst->value[0]);
+	if (test_bit(&(cw->utils.flags), CW_DIFF))
+	{
+		ft_printf("P %4d | %s ", p->number, cw->tab[inst->op - 1].name);
+		ft_printf("r%d %d\n", tmp[0], tmp[1]);
+	}
+	return (TRUE);
 }
 
 /*
@@ -53,21 +60,28 @@ void	st(t_core *cw, t_inst *inst, t_process *p)
 **-----------------------------------------------------------------------
 */
 
-void	sti(t_core *cw, t_inst *inst, t_process *p)
+t_bool	sti(t_core *cw, t_inst *inst, t_process *p)
 {
-	static int head = 0;
+	int value;
+	int	add;
+	int	mem;
 
-	play_audio(cw, head + 12, ST_CHAN);
-	head = head == 3 ? 0 : head + 1;
+	play_st(cw);
 	cw->vm.color[i_pc(p->pc)] = 40 + p->player + 1;
 	cw->vm.pc[i_pc(p->pc)] = 40 + p->player + 1;
+	if (test_bit(&(cw->utils.flags), CW_DIFF))
+		if (((inst->ocp >> 6) & 0x3) == T_REG)
+			mem = inst->value[0];
 	if (!convert_value(cw, p, inst, CW_P123))
-		return ;
+		return (FALSE);
 	if (test_bit(&(cw->utils.flags), CW_V4))
 		ft_printf("\tstore to pc + (("B_WHITE"%d"RESET" + "
 		B_WHITE"%d"RESET") %% IDX_MOD)\n", inst->value[1], inst->value[2]);
-	put_arena(cw, p, \
-		p->pc + ((inst->value[1] + inst->value[2]) % IDX_MOD), inst->value[0]);
+	value = inst->value[1] + inst->value[2];
+	add = convert_adress(p, inst, value);
+	diff_sti(cw, inst, p, mem);
+	put_arena(cw, p, add, inst->value[0]);
+	return (TRUE);
 }
 
 /*
@@ -85,14 +99,30 @@ void	sti(t_core *cw, t_inst *inst, t_process *p)
 **-----------------------------------------------------------------------
 */
 
-void	ld(t_core *cw, t_inst *inst, t_process *p)
+t_bool	ld(t_core *cw, t_inst *inst, t_process *p)
 {
+	int	mem;
+
+	play_ld(cw);
 	cw->vm.color[i_pc(p->pc)] = 40 + p->player + 1;
 	cw->vm.pc[i_pc(p->pc)] = 40 + p->player + 1;
+	mem = inst->value[0];
 	if (!convert_value(cw, p, inst, CW_P1))
-		return ;
+		return (FALSE);
 	if (put_reg(cw, p, inst->value[1] - 1, inst->value[0]))
 		mod_carry(inst->value[0], p);
+	else
+		return (FALSE);
+	if (test_bit(&(cw->utils.flags), CW_DIFF))
+	{
+		if (((inst->ocp >> 4) & 0x3) == T_REG)
+			mem = inst->value[0];
+		ft_printf("P %4d | %s %d ", p->number, cw->tab[inst->op - 1].name, mem);
+		if (((inst->ocp >> 4) & 0x3) == T_REG)
+			ft_printf("r");
+		ft_printf("%d\n", inst->value[1]);
+	}
+	return (TRUE);
 }
 
 /*
@@ -111,14 +141,17 @@ void	ld(t_core *cw, t_inst *inst, t_process *p)
 **-----------------------------------------------------------------------
 */
 
-void	ldi(t_core *cw, t_inst *inst, t_process *p)
+t_bool	ldi(t_core *cw, t_inst *inst, t_process *p)
 {
 	int	value;
+	int	add;
+	int	mem;
 
+	play_ld(cw);
 	cw->vm.color[i_pc(p->pc)] = 40 + p->player + 1;
 	cw->vm.pc[i_pc(p->pc)] = 40 + p->player + 1;
 	if (!convert_value(cw, p, inst, CW_P12))
-		return ;
+		return (FALSE);
 	if (test_bit(&(cw->utils.flags), CW_V4))
 	{
 		if (inst->op == CW_LDI)
@@ -128,9 +161,11 @@ void	ldi(t_core *cw, t_inst *inst, t_process *p)
 			ft_printf("\tstore to pc + ("B_WHITE"%d"RESET" + "
 			B_WHITE"%d"RESET")\n", inst->value[1], inst->value[2]);
 	}
-	value = convert_adress(p, inst, inst->value[0] + inst->value[1]);
-	value = p->pc + value;
-	value = add_bytes(cw->vm.arena, value, DIR_SIZE);
-	if (put_reg(cw, p, inst->value[2] - 1, value) && inst->op == CW_LLDI)
-		mod_carry(value, p);
+	value = inst->value[0] + inst->value[1];
+	mem = convert_adress(p, inst, value);
+	add = add_bytes(cw->vm.arena, mem, REG_SIZE);
+	if (put_reg(cw, p, inst->value[2] - 1, add) && inst->op == CW_LLDI)
+		mod_carry(add, p);
+	diff_ldi(cw, inst, p);
+	return (TRUE);
 }

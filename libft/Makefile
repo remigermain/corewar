@@ -3,19 +3,19 @@
 #                                                               /              #
 #    Makefile                                         .::    .:/ .      .::    #
 #                                                  +:+:+   +:    +:  +:+:+     #
-#    By: rgermain <marvin@le-101.fr>                +:+   +:    +:    +:+      #
+#    By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2019/06/10 16:12:57 by rgermain     #+#   ##    ##    #+#        #
-#    Updated: 2019/06/10 16:58:47 by loiberti    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/06/11 13:43:03 by rgermain    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
 
 NAME = libft.a
 
-CC= gcc
+CC= clang
 
-CFLAGS= -Wall -Wextra -Werror -g3 
+CFLAGS= -Wall -Wextra -Werror
 
 SRC = 					srcs/ft_atoi.c\
 						srcs/ft_bzero.c\
@@ -25,12 +25,6 @@ SRC = 					srcs/ft_atoi.c\
 						srcs/ft_isdigit.c\
 						srcs/ft_isprint.c\
 						srcs/ft_itoa.c\
-						srcs/ft_lstadd.c\
-						srcs/ft_lstdel.c\
-						srcs/ft_lstdelone.c\
-						srcs/ft_lstiter.c\
-						srcs/ft_lstmap.c\
-						srcs/ft_lstnew.c\
 						srcs/ft_memalloc.c\
 						srcs/ft_memccpy.c\
 						srcs/ft_memchr.c\
@@ -80,12 +74,8 @@ SRC = 					srcs/ft_atoi.c\
 						srcs/ft_isupper.c\
 						srcs/ft_strcountwords.c\
 						srcs/ft_strndup.c\
-						srcs/ft_dbstr_to_strlst.c\
-						srcs/ft_lstcount.c\
 						srcs/ft_putdbstr.c\
-						srcs/ft_putstrlst.c\
 						srcs/ft_putcolor.c\
-						srcs/ft_strlst_to_dbstr.c\
 						srcs/ft_sorttab.c\
 						srcs/ft_puttab.c\
 						srcs/ft_iswhitespace.c\
@@ -115,7 +105,12 @@ SRC = 					srcs/ft_atoi.c\
 						srcs/ft_str_is_digit.c
 
 HEADER = ./includes/
-INCLUDE = includes/libft.h $(ft_printf_PATH)includes/ft_printf.h
+INCLUDE = includes/libft.h $(ft_printf_PATH)includes/ft_printf.h \
+			includes/colors.h \
+			includes/ft_options.h \
+			includes/gnl.h \
+			includes/libft.h \
+			includes/limits.h \
 
 ft_printf_OBJECTS =   	srcs/ft_printf/srcs/conv_char.o \
 						srcs/ft_printf/srcs/conv_double.o \
@@ -139,13 +134,13 @@ SPACE = "                    "
 ESC = $(shell printf '\033')
 
 print_name :
-	@echo "\n----------------------------------------------------------------------\n\033[37m"
-	@echo " \033[47m  \033[0m\033[37m                    [    LIBFT     ]                     \033[0m  \033[47m  \033[0m"
+	@echo "\033[0m\n----------------------------------------------------------------------\n\033[37m"
+	@echo " \033[47m  \033[0m\033[37m                    [    LIBFT     ]                      \033[0m  \033[47m  \033[0m"
 	@echo "\n----------------------------------------------------------------------\n"
 
 print_norme :
-	@echo "\n----------------------------------------------------------------------\n\033[37m"
-	@echo " \033[47m  \033[0m\033[37m                    [    LIBFT   NORME  ]                     \033[0m  \033[47m  \033[0m"
+	@echo "\033[0m\n----------------------------------------------------------------------\n\033[37m"
+	@echo " \033[47m  \033[0m\033[37m                    [    LIBFT   NORME  ]                 \033[0m  \033[47m  \033[0m"
 	@echo "\n----------------------------------------------------------------------\n"
 
 all: print_name $(NAME)
@@ -171,7 +166,6 @@ ft_printf_PATH = srcs/ft_printf/
 
 $(NAME): $(OBJECT) $(HEADER)
 	@$(eval COUNT = "0")
-	@echo "\t\033[0;36m#########$(RED)ft_printf\033[0;36m#########"
 	@(cd $(ft_printf_PATH) && make)
 	@ar rc $(NAME) $(OBJECT) $(ft_printf_OBJECTS)
 	@ranlib $(NAME)
@@ -197,9 +191,9 @@ re: fclean all
 	@(cd $(ft_printf_PATH) && make re)
 
 norme_printf :
-	@make norme -C $(ft_printf_PATH)
+	@make -C $(ft_printf_PATH) norme
 
-norme : norme_printf print_norme
+norme : print_norme norme_printf
 	@norminette $(SRC) $(HEADER) | sed "s,Norme,${ESC}[38;5;326m&${ESC}[0m," | sed "s/Error/  Error/g" | sed "s,Error,${ESC}[31m&${ESC}[0m,"
 
 .PHONY: clean fclean norme norme_printf re clean_exe

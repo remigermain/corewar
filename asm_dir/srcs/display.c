@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/17 09:39:51 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/09 17:43:05 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/11 21:49:20 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,31 +25,32 @@ void		display_header_data(t_header header)
 
 void		display_data(t_file *file_data, t_linelst *file)
 {
+	int printed_labels;
+
+	printed_labels = 0;
 	if (!ft_options("v", DECODE))
 		return ;
-	ft_printf("\n");
-	ft_printf("line | ins   opc |  oct(b)  oct | arg 1 value   | arg 2 value   \
-| arg 3 value   | addr\n");
-	ft_printf("----------------------------------------------------------------\
-----------------------\n");
+	display_tab_header();
 	while (file)
 	{
-		display_line_data(file);
+		printed_labels += display_line_data(file);
 		file = file->nxt;
 	}
-	ft_printf("----------------------------------------------------------------\
-----------------------\n");
+	display_leftovers_labels(file_data, printed_labels);
+	ft_printf("%86@\n", "char", '-');
 	if (file_data)
 		display_header_data(file_data->header);
 }
 
-void		display_label_link(t_linelst *file)
+int			display_label_link(t_linelst *file)
 {
 	int		label_nb;
 	int		i;
 	char	*name;
+	int		ret;
 
 	i = -1;
+	ret = 0;
 	name = NULL;
 	label_nb = manage_labels(NULL, NULL, 0, ML_GET_LAB_NB);
 	while (++i < label_nb)
@@ -58,8 +59,10 @@ void		display_label_link(t_linelst *file)
 		{
 			manage_labels(NULL, &name, i, ML_GET_LAB_NAME);
 			ft_printf(YELLOW "<- %s " RESET, name);
+			ret++;
 		}
 	}
+	return (ret);
 }
 
 void		display_arg_values(t_linelst *file, const t_op *op_tab)
@@ -86,10 +89,12 @@ void		display_arg_values(t_linelst *file, const t_op *op_tab)
 	}
 }
 
-void		display_line_data(t_linelst *file)
+int			display_line_data(t_linelst *file)
 {
 	static const t_op	*op_tab = NULL;
+	int					printed_labels;
 
+	printed_labels = 0;
 	if (!op_tab)
 		op_tab = get_op_tab();
 	if (file->opcode > 0)
@@ -97,10 +102,11 @@ void		display_line_data(t_linelst *file)
 		ft_printf("l%-3d | ", file->line_nb);
 		ft_printf(GREEN "%#-5.5s ", op_tab[file->opcode - 1].name);
 		ft_printf(BLUE"%2d " RESET " | ", file->opcode);
-		ft_printf(COL_OCT_B"%08b  "COL_OCT"%2x |", file->octal, file->octal);
+		ft_printf(RESET"%08b  "RESET"%2x |", file->octal, file->octal);
 		display_arg_values(file, op_tab);
 		ft_printf("" CYAN " 0x%-4x"RESET"  " RESET, file->addr);
-		display_label_link(file);
+		printed_labels = display_label_link(file);
 		ft_printf("\n");
 	}
+	return (printed_labels);
 }

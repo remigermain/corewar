@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/07 16:12:52 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 17:32:51 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/14 00:56:41 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,8 +35,10 @@ typedef struct	s_inst
 {
 	unsigned char	op;
 	unsigned char	ocp;
-	short			size;
+	int				pc;
+	int				size;
 	int				value[3];
+	int				mem;
 	t_bool			error;
 }				t_inst;
 
@@ -59,7 +61,7 @@ typedef struct	s_area
 
 /*
 **-----------------------------------------------------------------------
-**	side chain link
+**	process
 **-----------------------------------------------------------------------
 */
 
@@ -68,11 +70,12 @@ typedef struct	s_process
 	unsigned char		reg[REG_NUMBER][REG_SIZE];
 	unsigned char		op;
 	unsigned			carry : 1;
-	unsigned			live : 1;
-	short				cycle_instruction;
+	int					live;
+	int					live_cycle;
+	int					cycle_instruction;
 	short				pc;
 	size_t				number;
-	unsigned			player : 8;
+	int					player;
 }				t_process;
 
 /*
@@ -85,6 +88,7 @@ typedef struct	s_player
 {
 	unsigned char	inst[CHAMP_MAX_SIZE + 1];
 	t_header		data;
+	char			*name_file;
 	int				number;
 	int				start;
 	int				nb_process;
@@ -130,15 +134,13 @@ typedef struct	s_core
 	const t_op		*tab;
 	int				nb_player;
 	int				last_live;
-	size_t			total_process;
-	size_t			len_process;
+	int				total_process;
+	int				len_process;
 	int				total_live;
 	int				fork;
 	t_flags			utils;
 	t_player		player[MAX_PLAYERS];
 	t_area			vm;
-	t_process		*process_fork_first;
-	t_process		*process_fork;
 	t_process		*process;
 	Mix_Chunk		*samples[SAMPLE_NB];
 	t_visu			*visu;
@@ -154,10 +156,11 @@ void			cw_vm(t_core *cw, t_visu visu);
 **			cw_sdl****.c
 **-----------------------------------------------------------------------
 */
+void			open_images(t_visu *visu);
 void			handle_events(t_visu *visu, t_core *cw);
 void			clear_screen(t_visu *visu);
 void			quit_sdl(t_visu *visu, t_core *cw);
-void			responsive(t_visu *visu, t_core *cw, int todo);
+void			update_win_size(t_visu *visu, t_core *cw, int todo);
 void			put_frame_rect(t_visu *visu, SDL_Rect *rect, int color);
 void			update_bytes_pos(t_visu *visu);
 void			init_sdl(t_core *cw, t_visu *visu);
@@ -166,12 +169,11 @@ void			put_info_gl_end(t_visu *visu, t_core *cw);
 void			put_info_players(t_visu *visu, t_core *cw);
 void			color_translate(int base, SDL_Color *color);
 void			put_fill_rect(t_visu *visu, SDL_Rect *rect, int color);
-void			put_fill_rect2(t_visu *visu, t_core *cw, int pc);
+void			put_fill_rect_prog(t_visu *visu, t_core *cw, int pc);
 void			put_dot(t_visu *visu, SDL_Rect *rect, int color);
 void			put_text(t_visu *visu, SDL_Rect rect, char *str, int color);
 void			put_bytes(t_visu *visu, t_core *cw);
 void			put_one_byte(t_visu *visu, t_core *cw, int i);
-void			convert_little(t_core *cw, t_visu *visu, SDL_Rect *lit, int pc);
 void			sdl_intro(t_core *cw, t_visu *visu);
 void			sdl_outro(t_core *cw, t_visu *visu, int mod);
 int				display_intro(int mod, t_visu *visu);
@@ -179,9 +181,19 @@ int				display_outro(t_visu *visu);
 int				left_right_animation(t_visu *visu, unsigned char *a);
 int				up_down_animation(t_visu *visu, unsigned char *a, int mod);
 int				diagonal_animation(t_visu *visu, t_core *cw, int mod, int k);
-void			play_audio(t_core *cw, int indice, int channel);
+void			play_sample(t_core *cw, int indice, int channel);
 void			handle_time(t_visu *visu);
 void			put_winner(t_core *cw, t_visu *visu);
+void			play_fork(t_core *cw);
+void			play_st(t_core *cw);
+void			play_ld(t_core *cw);
+void			play_live(t_core *cw, int head);
+void			play_jump(t_core *cw, int head);
+void			load_samples(t_core *cw);
+void			put_background(t_visu *visu);
+void			update_bytes_pos(t_visu *visu);
+void			update_info_gl(t_visu *visu);
+void			update_info_players(t_visu *visu, t_core *cw);
 
 /*
 **-----------------------------------------------------------------------
@@ -189,8 +201,9 @@ void			put_winner(t_core *cw, t_visu *visu);
 **			cw_process.c
 **-----------------------------------------------------------------------
 */
-void			cw_flags(t_core *cw, t_argm *argm, t_visu *visu);
+void			cw_flags(t_core *cw, t_argm *argm);
 t_bool			cw_isflags(char *str);
+t_bool			cw_is_champ(char *str);
 void			get_screen_size(t_core *cw, t_argm *argm, t_visu *visu);
 void			cw_flags_visu(t_core *cw, t_argm *argm);
 void			cw_flags_verbo(t_core *cw, t_argm *argm);
@@ -206,7 +219,7 @@ void			cw_initplayer(t_core *cw);
 **-----------------------------------------------------------------------
 */
 void			remove_process(t_core *cw);
-void			add_process(t_core *cw, t_process *fork, t_inst *inst, int pc);
+void			add_process(t_core *cw, t_process *fork, t_inst *inst);
 void			covered_process(t_core *cw);
 
 /*
@@ -215,19 +228,19 @@ void			covered_process(t_core *cw);
 **			cw_instruction [1 && 2 && 3] .c
 **-----------------------------------------------------------------------
 */
-void			live(t_core *cw, t_inst *inst, t_process *p);
-void			st(t_core *cw, t_inst *inst, t_process *p);
-void			sti(t_core *cw, t_inst *inst, t_process *p);
-void			ld(t_core *cw, t_inst *inst, t_process *p);
-void			ldi(t_core *cw, t_inst *inst, t_process *p);
-void			add(t_core *cw, t_inst *inst, t_process *p);
-void			sub(t_core *cw, t_inst *inst, t_process *p);
-void			and(t_core *cw, t_inst *inst, t_process *p);
-void			or(t_core *cw, t_inst *inst, t_process *p);
-void			xor(t_core *cw, t_inst *inst, t_process *p);
-void			ffork(t_core *cw, t_inst *inst, t_process *p);
-void			aff(t_core *cw, t_inst *inst, t_process *p);
-void			zjmp(t_core *cw, t_inst *inst, t_process *p);
+t_bool			live(t_core *cw, t_inst *inst, t_process *p);
+t_bool			st(t_core *cw, t_inst *inst, t_process *p);
+t_bool			sti(t_core *cw, t_inst *inst, t_process *p);
+t_bool			ld(t_core *cw, t_inst *inst, t_process *p);
+t_bool			ldi(t_core *cw, t_inst *inst, t_process *p);
+t_bool			add(t_core *cw, t_inst *inst, t_process *p);
+t_bool			sub(t_core *cw, t_inst *inst, t_process *p);
+t_bool			and(t_core *cw, t_inst *inst, t_process *p);
+t_bool			or(t_core *cw, t_inst *inst, t_process *p);
+t_bool			xor(t_core *cw, t_inst *inst, t_process *p);
+t_bool			ffork(t_core *cw, t_inst *inst, t_process *p);
+t_bool			aff(t_core *cw, t_inst *inst, t_process *p);
+t_bool			zjmp(t_core *cw, t_inst *inst, t_process *p);
 
 /*
 **-----------------------------------------------------------------------
@@ -237,7 +250,7 @@ void			zjmp(t_core *cw, t_inst *inst, t_process *p);
 */
 void			launch_instruction(t_core *cw, t_process *p);
 int				next_inst(t_core *cw, t_process *p);
-void			execute_instruction(t_core *cw, t_process *p, t_inst *param);
+t_bool			execute_instruction(t_core *cw, t_process *p, t_inst *param);
 t_bool			convert_value(t_core *cw, t_process *p, t_inst *inst, int flag);
 void			less_cycle(t_core *cw, t_process *origi);
 
@@ -288,6 +301,10 @@ void			display_args(t_core *cw, t_process *p, t_inst *inst);
 void			remove_process_verbose(t_core *cw, t_process *p);
 void			cycle_verbose(t_core *cw);
 void			introducing_player_verbose(t_core *cw);
+void			diff_sti(t_core *cw, t_inst *inst, t_process *pr, int mem);
+void			diff_ldi(t_core *cw, t_inst *inst, t_process *process);
+void			diff_fork(t_core *cw, t_inst *inst, t_process *process);
+void			diff_base(t_core *cw, t_process *p, t_inst *inst, int mem);
 
 /*
 **-----------------------------------------------------------------------
@@ -298,6 +315,7 @@ void			introducing_player_verbose(t_core *cw);
 void			cw_error(t_core *cw, t_argm *argm, int nb, char *str);
 void			cw_error_run(t_core *cw, int error, char *str);
 void			cw_warning(int warning);
+void			cw_error_argv(t_argm *argm);
 
 /*
 **-----------------------------------------------------------------------

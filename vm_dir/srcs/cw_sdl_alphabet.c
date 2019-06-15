@@ -6,7 +6,7 @@
 /*   By: loiberti <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/05 17:01:19 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 12:47:17 by loiberti    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/11 12:18:05 by loiberti    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -102,9 +102,9 @@ int						display_intro(int mod, t_visu *visu)
 	alphabet = get_alphabet();
 	if (!mod)
 	{
-		print_word("WELCOME", arena, alphabet, 19);
+		print_word("WELCOME", arena, alphabet, 17);
 		print_word("TO", arena, alphabet, 28);
-		print_word("COREWAR", arena, alphabet, 37);
+		print_word("COREWAR", arena, alphabet, 39);
 	}
 	else
 	{

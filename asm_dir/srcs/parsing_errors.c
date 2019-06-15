@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/15 07:49:21 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 18:35:38 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/12 09:56:53 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,7 +46,7 @@ void	error_resume(void)
 		ft_printf("%d warnings generated.\n", warnings);
 }
 
-void	print_error(t_linelst *file, char *error, int col, int todo)
+void	print_error(t_linelst *file, const char *error, int col, int todo)
 {
 	int i;
 
@@ -69,7 +69,7 @@ void	print_error(t_linelst *file, char *error, int col, int todo)
 	ft_printf(B_RED "\u2191\n" RESET);
 }
 
-int		put_error(t_linelst *file, int col, char *error, int todo)
+int		put_error(t_linelst *file, int col, const char *error, int todo)
 {
 	static int	count_err = 0;
 	static int	count_warn = 0;

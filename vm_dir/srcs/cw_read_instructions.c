@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/16 11:56:11 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 12:58:13 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/14 01:15:34 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -127,12 +127,22 @@ void			launch_instruction(t_core *cw, t_process *p)
 
 	ft_bzero(&inst, sizeof(t_inst));
 	inst.size = i_pc(p->pc + 1);
+	inst.pc = i_pc(p->pc);
 	inst.op = p->op;
-	if (p->op >= CW_LIVE && p->op <= CW_AFF && check_ocp(cw, &inst, p))
-		execute_instruction(cw, p, &inst);
+	if (p->op >= CW_LIVE && p->op <= CW_AFF)
+	{
+		if (check_ocp(cw, &inst, p))
+		{
+			inst.mem = inst.size - inst.pc;
+			execute_instruction(cw, p, &inst);
+		}
+		inst.mem = inst.size - inst.pc;
+		if (inst.op != CW_FORK && inst.op != CW_LFORK)
+			diff_base(cw, p, &inst, inst.mem);
+	}
 	if (inst.op != CW_FORK && inst.op != CW_LFORK)
 	{
 		p->pc = i_pc(inst.size);
-		cw->vm.pc[p->pc] = p->player + 1;
+		cw->vm.pc[i_pc(inst.size)] = p->player + 1;
 	}
 }

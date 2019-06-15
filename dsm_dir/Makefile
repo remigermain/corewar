@@ -6,13 +6,13 @@
 #    By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/10/01 15:39:03 by rgermain     #+#   ##    ##    #+#        #
-#    Updated: 2019/06/10 15:04:30 by loiberti    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/06/13 13:49:34 by rgermain    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
 
 NAME = dsm
-TYPE = "de l'executable"
+TYPE = "of the executable"
 
 LIBFT_M :
 	@make -C ../libft/ all
@@ -68,7 +68,7 @@ print_name :
 
 print_norme : 
 	@printf "\n----------------------------------------------------------------------\n\n\033[37m"
-	@printf	" \033[47m  \033[0m\033[37m                 [   DSM NORME     ]          "
+	@printf	" \033[47m  \033[0m\033[37m                    [   DSM NORME     ]          "
 	@printf "         \033[0m  \033[47m  \033[0m\n"
 	@printf	"\n----------------------------------------------------------------------\n\n"
 
@@ -79,7 +79,7 @@ all: LIBFT_M print_name $(NAME)
 	fi
 
 $(NAME): $(COBJ) $(LIBFT)
-	@echo $(SPACE)"\033[JCompilation is \033[38;5;326m finish\033[0m"
+	@echo $(SPACE)"\033[JCompilation\033[38;5;326m completed\033[0m"
 	@echo $(SPACE)"Compilation" $(TYPE) "\033[34m" $(NAME) "\033[0m"
 	@clang $(COBJ) $(CFLAGS) $(LIBFT) -o $(NAME)
 
@@ -88,17 +88,22 @@ $(DOBJ)%.o : $(DSRC)%.c $(CHEADER) $(LIBFT)
 	@mkdir -p $(MDOBJ)
 	@mkdir -p $(addprefix $(DOBJ), $(ALL_D))
 	@clang $(CFLAGS) $(INCLUDE) -c $< -o $@
-	@echo $(SPACE)"compilation de la fonction \033[38;5;326m"$< "\033[0m\033[K\033[1A"
+	@echo $(SPACE)"Compilation from fonction \033[38;5;326m"$< "\033[0m\033[K\033[1A"
 
 clean: print_name
 	@rm -rf $(DOBJ)
-	@echo $(SPACE)"Suppresion des \033[38;5;265mobjects\033[0m"
+	@echo $(SPACE)"Deleting \033[38;5;265mobjects\033[0m"
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo $(SPACE)"Suppresion "$(TYPE) "\033[38;5;265m"$(NAME) "\033[0m"
+	@echo $(SPACE)"Deleting \033[38;5;265m"$(NAME) "\033[0m"
 
-re: fclean print_name $(NAME)
+re: print_name
+	@rm -f $(NAME)
+	@rm -rf $(DOBJ)
+	@echo $(SPACE)"Deleting \033[38;5;265m"$(NAME) "\033[0m"
+	@echo $(SPACE)"Deleting \033[38;5;265mobjects\033[0m"
+	@make all
 
 norme : print_norme
 	@norminette $(CSRC) $(CHEADER) | sed "s,Norme,${ESC}[38;5;326m&${ESC}[0m," | sed "s/Error/  Error/g" | sed "s,Error,${ESC}[31m&${ESC}[0m,"

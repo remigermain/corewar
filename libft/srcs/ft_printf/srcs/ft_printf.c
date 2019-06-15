@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/04 16:38:22 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/23 14:51:36 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/12 11:01:21 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -86,7 +86,7 @@ int			ft_dprintf(int fd, const char *format, ...)
 	return (i);
 }
 
-int			ft_printf(char *format, ...)
+int			ft_printf(const char *format, ...)
 {
 	t_pf	lst;
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/03 10:08:31 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 18:21:21 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/13 03:02:23 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -69,9 +69,10 @@ static void	put_process(t_core *cw, int i)
 	cw->process[i].number = i + 1;
 	cw->player[i].nb_process = 1;
 	cw->process[i].player = i;
+	cw->process[i].live_cycle = -1;
 	cw->player[i].number = FT_UINT_MAX - (cw->player[i].number - 1);
 	while (--j >= 0)
-		cw->process[i].reg[0][j] = ((cw->player[i].number << (j * 8)) >> 24);
+		cw->process[i].reg[0][j] = ((unsigned char*)(&cw->player[i].number))[j];
 	cw->process[i].cycle_instruction = next_inst(cw, &(cw->process[i])) + 1;
 	cw->last_live = i;
 	cw->total_process++;

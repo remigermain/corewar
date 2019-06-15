@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/15 06:46:56 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 12:28:57 by loiberti    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/12 09:57:29 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,7 +21,7 @@ static int	check_arg_type(t_linelst *file, int head, int param, int arg_type)
 		op_tab = get_op_tab();
 	arg_type = arg_type == 3 ? 4 : arg_type;
 	if (!(arg_type & op_tab[file->opcode - 1].args[param - 1]))
-		put_error(file, head, ERR_ARG_TYPE, PE_ERR);
+		put_error(file, head, g_str[E_ARG_TYPE], PE_ERR);
 	return (0);
 }
 
@@ -39,13 +39,13 @@ static void	extract_data(t_linelst *file, int *head, int param)
 	{
 		if (file->line[*head] && file->line[*head] != LABEL_CHAR)
 		{
-			put_error(file, *head, ERR_UNEXP_EXPR, PE_ERR);
+			put_error(file, *head, g_str[E_UNEXP_EXPR], PE_ERR);
 			file->line[*head] = ' ';
 		}
 		else if (ft_strlastchr(file->line) == SEPARATOR_CHAR)
-			put_error(file, *head, ERR_EXP_EXPR, PE_ERR);
+			put_error(file, *head, g_str[E_EXP_EXPR], PE_ERR);
 		else
-			put_error(file, *head, ERR_INV_ARG, PE_ERR);
+			put_error(file, *head, g_str[E_INV_ARG], PE_ERR);
 	}
 	file->param_type[param - 1] = arg_type;
 	*head += ft_strchri(file->line + *head, SEPARATOR_CHAR) + 1;
@@ -57,9 +57,9 @@ static void	check_too_many_args(t_linelst *file, int head)
 	{
 		if (*(file->line + head + spn_whspaces(file->line + head)))
 			put_error(file, head + spn_whspaces(file->line + head), \
-												ERR_TOO_ARG, PE_ERR);
+												g_str[E_TOO_ARG], PE_ERR);
 		else
-			put_error(file, head - 1, ERR_EXP_EXPR, PE_ERR);
+			put_error(file, head - 1, g_str[E_EXP_EXPR], PE_ERR);
 	}
 }
 
@@ -67,7 +67,7 @@ static int	check_arg_nb(t_linelst *file, int head, int param, int nb_args)
 {
 	if (!ft_strchr(file->line + head, SEPARATOR_CHAR) && param < nb_args)
 	{
-		put_error(file, spn_label(file->line), ERR_MISS_ARG, PE_ERR);
+		put_error(file, spn_label(file->line), g_str[E_MISS_ARG], PE_ERR);
 		return (1);
 	}
 	return (0);

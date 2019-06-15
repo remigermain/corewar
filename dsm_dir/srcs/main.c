@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 11:14:52 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/09 13:01:15 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/10 19:50:59 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -54,7 +54,9 @@ static t_bool	dsm_flags(t_core *dsm, int argc, char **argv)
 		else if (!ft_strcmp("-h", argv[dsm->argm.i]) ||
 				!ft_strcmp("--hexa", argv[dsm->argm.i]))
 			set_bit(&(dsm->flags), DSM_HEXA);
-		else if (!dsm->ar_i)
+		else if (!dsm->ar_i && ft_strlen(argv[dsm->argm.i]) > 4
+				&& !ft_strcmp(argv[dsm->argm.i] +
+					ft_strlen(argv[dsm->argm.i]) - 4, ".cor"))
 			dsm->ar_i = dsm->argm.i;
 		else
 			dsm_error(dsm, DSM_UNK_FLAGS, argv[dsm->argm.i]);

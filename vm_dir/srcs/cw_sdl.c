@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/07 18:22:38 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 14:25:03 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/11 14:08:07 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,7 +19,7 @@
 **-----------------------------------------------------------------------
 */
 
-static void	init_ttf(t_core *cw, t_visu *visu)
+static void		init_ttf(t_core *cw, t_visu *visu)
 {
 	if ((TTF_Init()) == -1)
 		cw_error_run(cw, SDL_TTF_INIT, NULL);
@@ -33,7 +33,7 @@ static void	init_ttf(t_core *cw, t_visu *visu)
 **-----------------------------------------------------------------------
 */
 
-static void	put_icon_and_title(t_visu *visu)
+static void		put_icon_and_title(t_visu *visu)
 {
 	SDL_Surface *icon;
 
@@ -45,43 +45,11 @@ static void	put_icon_and_title(t_visu *visu)
 
 /*
 **-----------------------------------------------------------------------
-** change samples song
-**-----------------------------------------------------------------------
-*/
-
-static void	load_samples(t_core *cw)
-{
-	int i;
-
-	i = 0;
-	cw->samples[0] = Mix_LoadWAV(DIR_S"live1.wav");
-	cw->samples[1] = Mix_LoadWAV(DIR_S"live2.wav");
-	cw->samples[2] = Mix_LoadWAV(DIR_S"live3.wav");
-	cw->samples[3] = Mix_LoadWAV(DIR_S"live4.wav");
-	cw->samples[4] = Mix_LoadWAV(DIR_S"jump1.wav");
-	cw->samples[5] = Mix_LoadWAV(DIR_S"jump2.wav");
-	cw->samples[6] = Mix_LoadWAV(DIR_S"jump3.wav");
-	cw->samples[7] = Mix_LoadWAV(DIR_S"jump4.wav");
-	cw->samples[8] = Mix_LoadWAV(DIR_S"fork1.wav");
-	cw->samples[9] = Mix_LoadWAV(DIR_S"fork2.wav");
-	cw->samples[10] = Mix_LoadWAV(DIR_S"fork3.wav");
-	cw->samples[11] = Mix_LoadWAV(DIR_S"fork4.wav");
-	cw->samples[12] = Mix_LoadWAV(DIR_S"st1.wav");
-	cw->samples[13] = Mix_LoadWAV(DIR_S"st2.wav");
-	cw->samples[14] = Mix_LoadWAV(DIR_S"st3.wav");
-	cw->samples[15] = Mix_LoadWAV(DIR_S"st4.wav");
-	while (i < SAMPLE_NB)
-		if (cw->samples[i++] == NULL)
-			cw_warning(SDL_LOAD_SAM);
-}
-
-/*
-**-----------------------------------------------------------------------
 **	init SDL, audio, fonts and make a renderer
 **-----------------------------------------------------------------------
 */
 
-void		init_sdl(t_core *cw, t_visu *visu)
+void			init_sdl(t_core *cw, t_visu *visu)
 {
 	SDL_DisplayMode	dm;
 	int				freq;
@@ -91,8 +59,6 @@ void		init_sdl(t_core *cw, t_visu *visu)
 		cw_error_run(cw, SDL_INIT, NULL);
 	if ((Mix_OpenAudio(freq, MIX_DEFAULT_FORMAT, STEREO, 128) == -1))
 		cw_error_run(cw, SDL_OPEN_AUDIO, NULL);
-	load_samples(cw);
-	Mix_AllocateChannels(5);
 	init_ttf(cw, visu);
 	if (visu->win_h == -1)
 	{
@@ -100,13 +66,15 @@ void		init_sdl(t_core *cw, t_visu *visu)
 		visu->win_h = dm.h * 0.8;
 		visu->win_w = dm.h * 0.8;
 	}
-	responsive(visu, cw, 0);
+	update_win_size(visu, cw, 0);
 	if (SDL_CreateWindowAndRenderer(visu->win_w, visu->win_h, SDL_WINDOW_SHOWN |
-				SDL_WINDOW_RESIZABLE, &visu->win, &visu->ren))
+						SDL_WINDOW_RESIZABLE | SDL_WINDOW_FULLSCREEN_DESKTOP,  \
+														&visu->win, &visu->ren))
 		cw_error_run(cw, SDL_CREATE_WIN, NULL);
-	SDL_SetWindowMinimumSize(visu->win, 600, 600);
+	load_samples(cw);
 	SDL_SetRenderDrawColor(visu->ren, 0x1e, 0x1e, 0x1e, 255);
 	put_icon_and_title(visu);
+	open_images(visu);
 	SDL_RenderClear(visu->ren);
 }
 
@@ -116,7 +84,7 @@ void		init_sdl(t_core *cw, t_visu *visu)
 **-----------------------------------------------------------------------
 */
 
-void		quit_sdl(t_visu *visu, t_core *cw)
+void			quit_sdl(t_visu *visu, t_core *cw)
 {
 	int i;
 
@@ -124,10 +92,23 @@ void		quit_sdl(t_visu *visu, t_core *cw)
 	while (++i < SAMPLE_NB)
 		Mix_FreeChunk(cw->samples[i]);
 	Mix_CloseAudio();
+	SDL_DestroyTexture(visu->background);
 	SDL_DestroyRenderer(visu->ren);
 	SDL_DestroyWindow(visu->win);
 	TTF_CloseFont(visu->font);
 	TTF_Quit();
 	SDL_Quit();
 	cw_error_run(cw, SDL_SDL_QUIT, NULL);
+}
+
+void			open_images(t_visu *visu)
+{
+	SDL_Surface	*surf;
+
+	if (!(surf = SDL_LoadBMP(IMG_COMMODORE_SCREEN)))
+		ft_printf("SDL_LoadBMP(): " RED "%s\n" WHITE, SDL_GetError());
+	if (!(visu->background = SDL_CreateTextureFromSurface(visu->ren, surf)))
+		ft_printf("SDL_CreateTextureFromSurface(): " RED "%s\n" WHITE,\
+																SDL_GetError());
+	SDL_FreeSurface(surf);
 }

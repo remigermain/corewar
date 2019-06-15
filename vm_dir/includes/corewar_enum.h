@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   corewar.h                                        .::    .:/ .      .::   */
+/*   corewar_enum.h                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 11:10:55 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 10:04:53 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/12 13:48:31 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #ifndef COREWAR_ENUM_H
 # define COREWAR_ENUM_H
+# define V_MO	63
 
 typedef unsigned char	t_bool;
 
 /*
 **-----------------------------------------------------------------------
-**			enum flags
+**			enum cw flags
 **-----------------------------------------------------------------------
 */
 enum {
 	CW_VISU,
 	CW_VISU_AN,
-	CW_VISU_M,
 	CW_VERBO,
 	CW_VERBO_S,
 	CW_DUMP,
@@ -36,7 +36,7 @@ enum {
 	CW_V8 = 11,
 	CW_V16 = 12,
 	CW_F_AFF,
-	CW_VISU_SIZE,
+	CW_DIFF,
 };
 
 /*
@@ -90,6 +90,11 @@ enum
 	CW_WRONG_NUMBER_VISU,
 	CW_WRONG_NUMBER_VERBO,
 	CW_WRONG_NO_NUMBER_DUMP,
+	CW_OPEN,
+	CW_FILE_COR,
+	CW_WTF,
+	CW_CHAMP_SIZE,
+	CW_PROG_SIZE,
 	CW_WRONG_FILE,
 	CW_WRONG_FILE_MISSING,
 	CW_WRONG_PROG_SIZE,
@@ -119,6 +124,8 @@ enum
 	CW_NEED_VISU,
 	CW_NEED_VERBO,
 	CW_NEED_DUMP,
+	CW_NUM_H,
+	CW_NUM_L,
 };
 
 /*
@@ -152,7 +159,7 @@ enum
 
 /*
 **-----------------------------------------------------------------------
-**			enum pour la sdl
+**			enum for sdl flags
 **-----------------------------------------------------------------------
 */
 enum
@@ -166,7 +173,7 @@ enum
 
 /*
 **-----------------------------------------------------------------------
-**			enum pour la sdl player
+**			enum for sdl player
 **-----------------------------------------------------------------------
 */
 

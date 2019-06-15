@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/23 12:47:14 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/09 17:51:39 by loiberti    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/13 00:18:18 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,7 +47,7 @@ void	put_arena(t_core *cw, t_process *pro, int i_are, int value)
 	i = -1;
 	if (test_bit(&(cw->utils.flags), CW_V4))
 		ft_printf("\tPut "B_WHITE"%d"RESET" to arena[" B_PINK "%d"RESET"]\n"
-														RESET, value, i_are);
+				RESET, value, i_are);
 	while (++i < DIR_SIZE)
 	{
 		cw->vm.arena[i_pc(i_are + i)] = (value << (i * 8)) >> 24;
@@ -63,13 +63,9 @@ void	put_arena(t_core *cw, t_process *pro, int i_are, int value)
 
 int		convert_adress(t_process *p, t_inst *inst, int add)
 {
-	int	value;
-
-	value = p->pc + add;
-	value = value - p->pc;
-	if (inst->op != CW_LLD && inst->op != CW_LLDI && inst->op != CW_LFORK)
-		value %= IDX_MOD;
-	return (value);
+	if (inst->op == CW_LLD || inst->op == CW_LLDI || inst->op == CW_LFORK)
+		return (p->pc + add);
+	return (p->pc + (add % IDX_MOD));
 }
 
 /*

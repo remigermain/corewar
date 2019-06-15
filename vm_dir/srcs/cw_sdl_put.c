@@ -6,33 +6,12 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/30 12:31:51 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/09 18:13:48 by loiberti    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/11 08:37:31 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-void	put_text(t_visu *visu, SDL_Rect rect, char *str, int color)
-{
-	SDL_Surface	*tmp;
-	SDL_Color	rgb;
-	SDL_Texture	*text;
-	SDL_Rect	text_rect;
-
-	text_rect.x = rect.x;
-	text_rect.y = rect.y;
-	color_translate(color, &rgb);
-	tmp = TTF_RenderText_Blended(visu->font, str, rgb);
-	text = SDL_CreateTextureFromSurface(visu->ren, tmp);
-	SDL_FreeSurface(tmp);
-	SDL_QueryTexture(text, NULL, NULL, &text_rect.w, &text_rect.h);
-	if (rect.w < text_rect.w)
-		text_rect.w = rect.w;
-	SDL_RenderCopy(visu->ren, text, NULL, &text_rect);
-	SDL_DestroyTexture(text);
-	ft_memdel((void**)&str);
-}
 
 /*
 **-----------------------------------------------------------------------
@@ -40,7 +19,7 @@ void	put_text(t_visu *visu, SDL_Rect rect, char *str, int color)
 **-----------------------------------------------------------------------
 */
 
-void	put_fill_rect(t_visu *visu, SDL_Rect *rect, int color)
+void		put_fill_rect(t_visu *visu, SDL_Rect *rect, int color)
 {
 	SDL_Rect	little;
 	SDL_Color	rgb;
@@ -56,11 +35,31 @@ void	put_fill_rect(t_visu *visu, SDL_Rect *rect, int color)
 
 /*
 **-----------------------------------------------------------------------
-** display a color rectangle depending on player
+** display a color rectangle with progression bar
 **-----------------------------------------------------------------------
 */
 
-void	put_fill_rect2(t_visu *visu, t_core *cw, int pc)
+static void	convert_little(t_core *cw, t_visu *visu, SDL_Rect *little, int pc)
+{
+	int max;
+	int value;
+
+	little->x = visu->bytetab[pc].coord.x + 2;
+	little->w = visu->bytetab[pc].coord.w - 4;
+	little->y = visu->bytetab[pc].coord.y + 2;
+	little->h = visu->bytetab[pc].coord.h - 4;
+	if (cw->vm.cycles[pc] && cw->vm.arena[pc] >= CW_LIVE &&
+		cw->vm.arena[pc] <= CW_AFF)
+	{
+		max = cw->tab[cw->vm.arena[pc] - 1].cycles;
+		value = cw->vm.cycles[pc];
+		if (value > max)
+			max = 1000;
+		little->w = (max - value) * little->w / max;
+	}
+}
+
+void		put_fill_rect_prog(t_visu *visu, t_core *cw, int pc)
 {
 	SDL_Rect	little;
 	SDL_Color	rgb;
@@ -82,7 +81,7 @@ void	put_fill_rect2(t_visu *visu, t_core *cw, int pc)
 	SDL_RenderFillRect(visu->ren, &little);
 }
 
-void	put_dot(t_visu *visu, SDL_Rect *rect, int color)
+void		put_dot(t_visu *visu, SDL_Rect *rect, int color)
 {
 	SDL_Rect	little;
 	SDL_Color	rgb;
@@ -97,7 +96,7 @@ void	put_dot(t_visu *visu, SDL_Rect *rect, int color)
 	SDL_RenderFillRect(visu->ren, &little);
 }
 
-void	put_frame_rect(t_visu *visu, SDL_Rect *rect, int color)
+void		put_frame_rect(t_visu *visu, SDL_Rect *rect, int color)
 {
 	SDL_Color rgb;
 

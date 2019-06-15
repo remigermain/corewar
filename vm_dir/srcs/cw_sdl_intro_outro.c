@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/07 17:25:01 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 17:14:21 by loiberti    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/11 12:48:05 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,8 +19,9 @@ static void	sdl_intro_text(t_core *cw, t_visu *visu, int ret, int mod)
 	{
 		handle_events(visu, cw);
 		clear_screen(visu);
+		put_background(visu);
 		if ((ret = display_intro(mod, visu)) == -1)
-			play_audio(cw, rand() % 4 + 8, rand() % 4);
+			play_sample(cw, rand() % 4 + 8, rand() % 4);
 		SDL_RenderPresent(visu->ren);
 		if (!ret && !mod && (++mod) && (ret = 1))
 			SDL_Delay(1000);
@@ -35,13 +36,14 @@ static void	sdl_intro_diag(t_core *cw, t_visu *visu, int ret)
 	{
 		handle_events(visu, cw);
 		clear_screen(visu);
+		put_background(visu);
 		ret = diagonal_animation(visu, cw, 1, 1);
 		if (ret == -1)
-			play_audio(cw, rand() % 4 + 12, rand() % 4);
+			play_sample(cw, rand() % 4 + 12, rand() % 4);
 		SDL_RenderPresent(visu->ren);
 		SDL_Delay(50);
 	}
-	play_audio(cw, 1, LIVE_CHAN);
+	play_sample(cw, 1, LIVE_CHAN);
 }
 
 /*
@@ -57,6 +59,7 @@ void		sdl_intro(t_core *cw, t_visu *visu)
 	mod = 0;
 	if (test_bit(&(cw->utils.flags), CW_VISU))
 	{
+		cw->visu->sound = 1;
 		init_sdl(cw, visu);
 		update_bytes_pos(visu);
 		if (!test_bit(&(cw->utils.flags), CW_VISU_AN))
@@ -76,13 +79,15 @@ void		sdl_outro(t_core *cw, t_visu *visu, int mod)
 	if (!test_bit(&(cw->utils.flags), CW_VISU) \
 								|| !test_bit(&(cw->utils.flags), CW_VISU_AN))
 		return ;
+	visu->sound = 1;
 	while (ret)
 	{
 		handle_events(visu, cw);
 		clear_screen(visu);
+		put_background(visu);
 		ret = !mod ? diagonal_animation(visu, cw, 0, 1) : display_outro(visu);
 		if (ret == -1)
-			play_audio(cw, rand() % 4 + 8, rand() % 4);
+			play_sample(cw, rand() % 4 + 8, rand() % 4);
 		SDL_RenderPresent(visu->ren);
 		!mod ? SDL_Delay(50) : SDL_Delay(100);
 	}

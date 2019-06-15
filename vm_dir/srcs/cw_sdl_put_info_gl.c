@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   cw_sdl_put_info_gl.c                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: rgermain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/07 13:34:01 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/07 13:41:46 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/11 08:28:04 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,29 +46,40 @@ void	put_info_gl(t_visu *visu, t_core *cw, int cycle)
 {
 	unsigned char	*str;
 
-	ft_sprintf(&str, "[cycle%d]", cw->vm.cycle_total);
+	ft_sprintf(&str, "[cycle %d]", cw->vm.cycle_total);
 	put_text(visu, visu->info_gl[CYCLES], (char*)str, RGB_INFO_TXT);
-	ft_sprintf(&str, "[%dprocess]", cw->total_process);
+	ft_sprintf(&str, "[%d process]", cw->total_process);
 	put_text(visu, visu->info_gl[PROCESS], (char*)str, RGB_INFO_TXT);
-	ft_sprintf(&str, "[speed%d]", visu->speed);
+	ft_sprintf(&str, "[speed %d]", visu->speed);
 	put_text(visu, visu->info_gl[SPEED], (char*)str, RGB_INFO_TXT);
 	if (!visu->pause)
-		ft_sprintf(&str, "[%dms]", visu->t2);
+		ft_sprintf(&str, "[%d ms]", visu->t2);
 	else
 		ft_sprintf(&str, "[paused]");
 	put_text(visu, visu->info_gl[MS], (char*)str,\
 		visu->pause ? RGB_PLAY_3 : RGB_INFO_TXT);
-	ft_sprintf(&str, "[%dplayers]", cw->nb_player);
-	put_text(visu, visu->info_gl[PLAYERS], (char*)str, RGB_INFO_TXT);
+	ft_sprintf(&str, "[ music ]", cw->nb_player);
+	if (visu->sound)
+		put_text(visu, visu->info_gl[PLAYERS], (char *)str, 0xAAFFAA);
+	else
+		put_text(visu, visu->info_gl[PLAYERS], (char*)str, 0x808080);
 	put_info_cycles(visu, cw->vm.cycle_to_die, cycle);
 }
 
 void	put_info_gl_end(t_visu *visu, t_core *cw)
 {
 	unsigned char	*str;
+	static	int		blink = 0;
 
-	ft_sprintf(&str, "[cycle%d]", cw->vm.cycle_total);
+	if (blink > 200)
+		blink = 0;
+	ft_sprintf(&str, "[cycle %d]", cw->vm.cycle_total);
 	put_text(visu, visu->info_gl[0], (char*)str, RGB_INFO_TXT);
+	ft_sprintf(&str, "[%s win !]", cw->player[cw->last_live].data.prog_name);
+	if (blink++ > 100)
+		put_text(visu, visu->info_gl[2], (char*)str, RGB_JUMP);
+	else
+		put_text(visu, visu->info_gl[2], (char*)str, RGB_FORK);
 	ft_sprintf(&str, "[END]");
 	put_text(visu, visu->info_gl[4], (char*)str, RGB_INFO_TXT);
 }

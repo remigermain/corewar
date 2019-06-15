@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   cw_sdl_put_bytes.c                               .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: loiberti <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/07 13:01:10 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/07 17:35:18 by loiberti    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/11 08:30:19 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,7 +16,7 @@
 void	put_one_byte(t_visu *visu, t_core *cw, int i)
 {
 	if (cw->vm.arena[i])
-		put_fill_rect2(visu, cw, i);
+		put_fill_rect_prog(visu, cw, i);
 	else if (cw->vm.color[i])
 	{
 		if (cw->vm.color[i] == 1 || cw->vm.color[i] == 2)

@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   op.h                                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: rgermain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/06 13:45:16 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/06 19:42:59 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/11 10:02:48 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,6 +15,7 @@
 ** Toutes les tailles sont en octets.
 ** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
 */
+
 #ifndef OP_H
 # define OP_H
 # define TRUE					1

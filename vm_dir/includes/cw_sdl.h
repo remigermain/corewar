@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/06 18:14:08 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 14:23:50 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/11 13:00:27 by loiberti    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,7 +31,7 @@
 # define RGB_FORK 0xf8ff38
 # define RGB_COM 0x5b65a3
 # define IMG_NB 1
-# define IMG_COMMODORE_SCREEN "../img/purple_monitor.bmp"
+# define IMG_COMMODORE_SCREEN "ressources_sdl/background.bmp"
 # define RESIZE 8
 # define LIVE_CHAN 0
 # define FORK_CHAN 1
@@ -85,5 +85,8 @@ typedef struct	s_visu
 	int				test;
 	TTF_Font		*font;
 	char			pause;
+	char			sound;
+	char			responsive_mode;
+	SDL_Texture		*background;
 }				t_visu;
 #endif

@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/16 11:56:11 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/29 08:59:34 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/10 20:01:51 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,13 +40,12 @@ static void		put_hexa(t_core *dsm, t_inst_l *lst, int size)
 				ft_dprintf(dsm->fd, ",   ");
 			binary = (lst->ocp >> binary_shift(param_nb)) & 0x03;
 			if (binary == REG_CODE)
-				ft_dprintf(dsm->fd, "reg: %3d",\
+				ft_dprintf(dsm->fd, "reg: %6d",\
 						lst->value[param_nb - 1]);
 			else if (binary == DIR_CODE)
-				print_hexa(dsm, lst->value[param_nb - 1],\
-						dsm->tab[param_nb - 1].dir_size);
+				print_hexa(dsm, lst->value[param_nb - 1], 4);
 			else if (binary == IND_CODE)
-				print_hexa(dsm, lst->value[param_nb - 1], 2);
+				print_hexa(dsm, lst->value[param_nb - 1], 4);
 		}
 	}
 }

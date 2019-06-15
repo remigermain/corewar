@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   cw_instructions2.c                               .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
+/*   By: rgermain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/05/23 12:49:44 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/09 17:45:54 by loiberti    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/06/13 00:05:50 by rgermain     #+#   ##    ##    #+#       */
+/*   Updated: 2019/06/13 00:12:47 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,19 +24,27 @@
 **-----------------------------------------------------------------------
 */
 
-void	add(t_core *cw, t_inst *inst, t_process *p)
+t_bool	add(t_core *cw, t_inst *inst, t_process *p)
 {
+	int	tmp[3];
 	int	value;
 
+	ft_memcpy(tmp, inst->value, 4 * 3);
 	if (!convert_value(cw, p, inst, CW_P12))
-		return ;
+		return (FALSE);
 	if (test_bit(&(cw->utils.flags), CW_V4))
 		ft_printf("\t("B_WHITE"%d"RESET" + "B_WHITE"%d"RESET")\n",
 												inst->value[0], inst->value[1]);
 	value = inst->value[0] + inst->value[1];
 	if (!put_reg(cw, p, inst->value[2] - 1, value))
-		return ;
+		return (FALSE);
+	if (test_bit(&(cw->utils.flags), CW_DIFF))
+	{
+		ft_printf("P %4d | %s ", p->number, cw->tab[inst->op - 1].name);
+		ft_printf("r%d r%d r%d\n", tmp[0], tmp[1], tmp[2]);
+	}
 	mod_carry(value, p);
+	return (TRUE);
 }
 
 /*
@@ -50,19 +58,27 @@ void	add(t_core *cw, t_inst *inst, t_process *p)
 **-----------------------------------------------------------------------
 */
 
-void	sub(t_core *cw, t_inst *inst, t_process *p)
+t_bool	sub(t_core *cw, t_inst *inst, t_process *p)
 {
 	int	value;
+	int	tmp[3];
 
+	ft_memcpy(tmp, inst->value, 4 * 3);
 	if (!convert_value(cw, p, inst, CW_P12))
-		return ;
-	value = inst->value[0] - inst->value[1];
+		return (FALSE);
 	if (test_bit(&(cw->utils.flags), CW_V4))
 		ft_printf("\t("B_WHITE"%d"RESET" - "B_WHITE"%d"RESET")\n",
 												inst->value[0], inst->value[1]);
+	value = inst->value[0] - inst->value[1];
 	if (!put_reg(cw, p, inst->value[2] - 1, value))
-		return ;
+		return (FALSE);
+	if (test_bit(&(cw->utils.flags), CW_DIFF))
+	{
+		ft_printf("P %4d | %s ", p->number, cw->tab[inst->op - 1].name);
+		ft_printf("r%d r%d r%d\n", tmp[0], tmp[1], tmp[2]);
+	}
 	mod_carry(value, p);
+	return (TRUE);
 }
 
 /*
@@ -76,19 +92,27 @@ void	sub(t_core *cw, t_inst *inst, t_process *p)
 **-----------------------------------------------------------------------
 */
 
-void	and(t_core *cw, t_inst *inst, t_process *p)
+t_bool	and(t_core *cw, t_inst *inst, t_process *p)
 {
 	int	value;
+	int	tmp[3];
 
 	if (!convert_value(cw, p, inst, CW_P12))
-		return ;
-	value = inst->value[0] & inst->value[1];
+		return (FALSE);
+	ft_memcpy(tmp, inst->value, 4 * 3);
 	if (test_bit(&(cw->utils.flags), CW_V4))
 		ft_printf("\t("B_WHITE"%d"RESET" & "B_WHITE"%d"RESET")\n",
 												inst->value[0], inst->value[1]);
+	value = inst->value[0] & inst->value[1];
 	if (!put_reg(cw, p, inst->value[2] - 1, value))
-		return ;
+		return (FALSE);
+	if (test_bit(&(cw->utils.flags), CW_DIFF))
+	{
+		ft_printf("P %4d | %s ", p->number, cw->tab[inst->op - 1].name);
+		ft_printf("%d %d r%d\n", tmp[0], tmp[1], tmp[2]);
+	}
 	mod_carry(value, p);
+	return (TRUE);
 }
 
 /*
@@ -102,19 +126,27 @@ void	and(t_core *cw, t_inst *inst, t_process *p)
 **-----------------------------------------------------------------------
 */
 
-void	or(t_core *cw, t_inst *inst, t_process *p)
+t_bool	or(t_core *cw, t_inst *inst, t_process *p)
 {
 	int	value;
+	int	tmp[3];
 
 	if (!convert_value(cw, p, inst, CW_P12))
-		return ;
-	value = inst->value[0] | inst->value[1];
+		return (FALSE);
+	ft_memcpy(tmp, inst->value, 4 * 3);
 	if (test_bit(&(cw->utils.flags), CW_V4))
 		ft_printf("\t("B_WHITE"%d"RESET" | "B_WHITE"%d"RESET")\n",
 												inst->value[0], inst->value[1]);
+	value = inst->value[0] | inst->value[1];
 	if (!put_reg(cw, p, inst->value[2] - 1, value))
-		return ;
+		return (FALSE);
+	if (test_bit(&(cw->utils.flags), CW_DIFF))
+	{
+		ft_printf("P %4d | %s ", p->number, cw->tab[inst->op - 1].name);
+		ft_printf("%d %d r%d\n", tmp[0], tmp[1], tmp[2]);
+	}
 	mod_carry(value, p);
+	return (TRUE);
 }
 
 /*
@@ -128,17 +160,25 @@ void	or(t_core *cw, t_inst *inst, t_process *p)
 **-----------------------------------------------------------------------
 */
 
-void	xor(t_core *cw, t_inst *inst, t_process *p)
+t_bool	xor(t_core *cw, t_inst *inst, t_process *p)
 {
 	int	value;
+	int	tmp[3];
 
 	if (!convert_value(cw, p, inst, CW_P12))
-		return ;
-	value = inst->value[0] ^ inst->value[1];
+		return (FALSE);
+	ft_memcpy(tmp, inst->value, 4 * 3);
 	if (test_bit(&(cw->utils.flags), CW_V4))
 		ft_printf("\t("B_WHITE"%d"RESET" ^ "B_WHITE"%d"RESET")\n",
 												inst->value[0], inst->value[1]);
+	value = inst->value[0] ^ inst->value[1];
 	if (!put_reg(cw, p, inst->value[2] - 1, value))
-		return ;
+		return (FALSE);
+	if (test_bit(&(cw->utils.flags), CW_DIFF))
+	{
+		ft_printf("P %4d | %s ", p->number, cw->tab[inst->op - 1].name);
+		ft_printf("%d %d r%d\n", tmp[0], tmp[1], tmp[2]);
+	}
 	mod_carry(value, p);
+	return (TRUE);
 }
