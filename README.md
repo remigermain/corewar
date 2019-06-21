@@ -1,6 +1,6 @@
 # Corwar :heavy_check_mark:
 <br />
-<img src="https://i.imgur.com/ZkxLhCo.jpg" height="500" width="1300"
+<img src="https://i.imgur.com/ZkxLhCo.jpg" height="700" width="1300"
 
 #### usage corewar
 ```
