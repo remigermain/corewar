@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/07 18:22:38 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/11 14:08:07 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/17 18:59:35 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,7 +38,8 @@ static void		put_icon_and_title(t_visu *visu)
 	SDL_Surface *icon;
 
 	SDL_SetWindowTitle(visu->win, "Corewar");
-	icon = SDL_LoadBMP(DIR_S"cw_icon.bmp");
+	if (!(icon = SDL_LoadBMP(DIR_S"cw_icon.bmp")))
+		cw_warning(SDL_LOAD_BMP);
 	SDL_SetWindowIcon(visu->win, icon);
 	SDL_FreeSurface(icon);
 }
@@ -106,9 +107,8 @@ void			open_images(t_visu *visu)
 	SDL_Surface	*surf;
 
 	if (!(surf = SDL_LoadBMP(IMG_COMMODORE_SCREEN)))
-		ft_printf("SDL_LoadBMP(): " RED "%s\n" WHITE, SDL_GetError());
+		cw_warning(SDL_LOAD_BMP);
 	if (!(visu->background = SDL_CreateTextureFromSurface(visu->ren, surf)))
-		ft_printf("SDL_CreateTextureFromSurface(): " RED "%s\n" WHITE,\
-																SDL_GetError());
+		cw_warning(SDL_CREATE_TEXT);
 	SDL_FreeSurface(surf);
 }

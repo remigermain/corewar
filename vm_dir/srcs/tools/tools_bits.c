@@ -6,7 +6,7 @@
 /*   By: loiberti <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/14 14:36:08 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/09 12:48:10 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/17 13:31:16 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -79,17 +79,12 @@ int		binary_shift(int param)
 
 int		add_bytes(unsigned char *str, int i, int mod)
 {
-	int	bin;
 	int	nb;
 	int j;
 
 	nb = 0;
 	j = -1;
-	bin = (mod * 8) - 8;
 	while (++j < mod)
-	{
-		nb += (str[i_pc(i + j)] << bin);
-		bin -= 8;
-	}
+		((unsigned char*)(&nb))[(mod - 1) - j] = str[i_pc(i + j)];
 	return (nb);
 }

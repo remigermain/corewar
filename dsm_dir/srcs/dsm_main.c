@@ -6,7 +6,7 @@
 /*   By: rgermain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/25 17:04:54 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/06 13:51:28 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/16 12:28:51 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,9 +23,9 @@ static void		read_player(t_core *dsm, char *name)
 {
 	int	fd;
 
-	if ((fd = open(name, O_RDONLY)) <= 0)
+	errno = 0;
+	if ((fd = open(name, O_RDONLY | O_NOFOLLOW)) < 0)
 	{
-		close(fd);
 		dsm_error(dsm, DSM_WRONG_FILE_MISSING, name);
 		return ;
 	}

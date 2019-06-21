@@ -6,12 +6,24 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/29 17:38:00 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 18:38:47 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/19 18:45:08 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "asm.h"
+
+static int	add_link(t_linelst **elem, char *str, int line_nb)
+{
+	if (!(*elem = (t_linelst *)malloc(sizeof(t_linelst))))
+		return (0);
+	ft_bzero(*elem, sizeof(t_linelst));
+	(*elem)->line_nb = line_nb;
+	if (!((*elem)->line = ft_strdup(str)))
+		return (0);
+	(*elem)->nxt = NULL;
+	return (1);
+}
 
 t_linelst	*add_linelst(t_linelst *lst, char *str, int line_nb)
 {
@@ -21,21 +33,13 @@ t_linelst	*add_linelst(t_linelst *lst, char *str, int line_nb)
 	start = lst;
 	if (!lst)
 	{
-		if (!(elem = (t_linelst *)malloc(sizeof(t_linelst))))
-			return (0);
-		ft_bzero(elem, sizeof(t_linelst));
-		elem->line_nb = line_nb;
-		elem->line = ft_strdup(str);
-		elem->nxt = NULL;
+		if (!(add_link(&elem, str, line_nb)))
+			return (NULL);
 		asm_quit(INIT, elem);
 		return (elem);
 	}
-	if (!(elem = (t_linelst *)malloc(sizeof(t_linelst))))
-		return (0);
-	ft_bzero(elem, sizeof(t_linelst));
-	elem->line_nb = line_nb;
-	elem->line = ft_strdup(str);
-	elem->nxt = NULL;
+	if (!(add_link(&elem, str, line_nb)))
+		return (NULL);
 	while (lst->nxt)
 		lst = lst->nxt;
 	lst->nxt = elem;

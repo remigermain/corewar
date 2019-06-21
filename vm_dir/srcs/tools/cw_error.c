@@ -6,14 +6,14 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 15:24:41 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/14 02:01:21 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/17 13:56:45 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static void	cw_error_4(int error, char *str)
+static void	cw_error_4(enum e_error error, char *str)
 {
 	if (error == CW_DEF_IDX_MOD)
 		ft_dprintf(2, "IDX_MOD = " B_WHITE "\"%d\".\n", IDX_MOD);
@@ -42,7 +42,7 @@ static void	cw_error_4(int error, char *str)
 		ft_dprintf(2, "no error.\n\n");
 }
 
-static void	cw_error_3(int error, char *str)
+static void	cw_error_3(enum e_error error, char *str)
 {
 	if (error == CW_DEF_DELTA)
 		ft_dprintf(2, "CYCLE_DELTA = " B_WHITE "\"%d\".\n", CYCLE_DELTA);
@@ -71,7 +71,7 @@ static void	cw_error_3(int error, char *str)
 		cw_error_4(error, str);
 }
 
-static void	cw_error_2(t_core *cw, int error, char *str)
+static void	cw_error_2(t_core *cw, enum e_error error, char *str)
 {
 	if (error == CW_NO_PLAYER)
 		ft_dprintf(2, "No player.\n");
@@ -100,7 +100,7 @@ static void	cw_error_2(t_core *cw, int error, char *str)
 		cw_error_3(error, str);
 }
 
-static void	cw_error_1(t_core *cw, int error, char *str)
+static void	cw_error_1(t_core *cw, enum e_error error, char *str)
 {
 	if (error == CW_WRONG_NUMBER_PLAYER)
 		ft_dprintf(2, "Wrong number player.\n");
@@ -117,7 +117,7 @@ static void	cw_error_1(t_core *cw, int error, char *str)
 		cw_error_2(cw, error, str);
 }
 
-void		cw_error(t_core *cw, t_argm *argm, int error, char *str)
+void		cw_error(t_core *cw, t_argm *argm, enum e_error error, char *str)
 {
 	ft_dprintf(2, B_RED "error: " RESET);
 	if (error == CW_UNK_FLAG)

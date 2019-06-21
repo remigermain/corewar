@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/16 15:14:21 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/14 01:19:12 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/17 13:58:33 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,7 +35,8 @@ void		convert_add(t_core *cw, t_process *p, t_inst *inst, int par_nb)
 		inst->value[par_nb] = add_bytes(cw->vm.arena, value, IND_SIZE);
 }
 
-t_bool		convert_value(t_core *cw, t_process *p, t_inst *inst, int flag)
+t_bool		convert_value(t_core *cw, t_process *p, t_inst *inst,
+		enum e_conv cv)
 {
 	int	binary;
 	int	par_nb;
@@ -44,7 +45,7 @@ t_bool		convert_value(t_core *cw, t_process *p, t_inst *inst, int flag)
 	while (++par_nb <= cw->tab[inst->op - 1].nb_args)
 	{
 		binary = (inst->ocp >> binary_shift(par_nb + 1)) & 0x03;
-		if (flag & (1 << par_nb))
+		if (cv & (1 << par_nb))
 		{
 			if (binary == REG_CODE &&
 			inst->value[par_nb] > 0 && inst->value[par_nb] <= REG_NUMBER)

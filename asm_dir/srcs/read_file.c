@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/29 17:28:50 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/12 10:03:09 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/19 19:44:46 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,17 +46,30 @@ static void	trim_comments(char *line)
 
 static void	check_errors(unsigned char *line, int gnl_ret)
 {
-	int i;
+	int			i;
+	static int	bytes = 0;
 
 	i = -1;
+	bytes += ft_strlen((char*)line);
+	if (bytes > MAX_FILE_LENGHT)
+	{
+		put_error(NULL, -1, g_str[E_FILE_TOO_BIG], PE_ERR);
+		asm_quit(QUIT, line);
+	}
 	if (errno)
-		put_error(NULL, -1, strerror(errno), PE_ERR | PE_EXIT);
+	{
+		put_error(NULL, -1, strerror(errno), PE_ERR);
+		asm_quit(QUIT, line);
+	}
 	if (gnl_ret == -1)
-		asm_quit(QUIT, NULL);
+		asm_quit(QUIT | ERROR, line);
 	while (line[++i])
 		if (line[i] == 255 || (line[i] > 0 && line[i] < 8) || \
 												(line[i] > 13 && line[i] < 32))
-			put_error(NULL, -1, g_str[E_FILE_CORRUPT], PE_ERR | PE_EXIT);
+		{
+			put_error(NULL, -1, g_str[E_FILE_CORRUPT], PE_ERR);
+			asm_quit(QUIT, line);
+		}
 }
 
 t_linelst	*read_file(int ac, char **av, t_linelst *file, t_file *file_data)
@@ -78,7 +91,7 @@ t_linelst	*read_file(int ac, char **av, t_linelst *file, t_file *file_data)
 		if (is_instruction(line))
 		{
 			if (!(file = add_linelst(file, line, line_nb)))
-				asm_quit(QUIT, NULL);
+				asm_quit(QUIT, line);
 		}
 		ft_strdel(&line);
 	}

@@ -6,7 +6,7 @@
 /*   By: rgermain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/24 08:38:36 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/14 00:55:48 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/18 14:17:07 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,7 +41,7 @@ void	remove_process_verbose(t_core *cw, t_process *p)
 		B_WHITE"%d"RESET"\n\n", p->number, cw->vm.cycle_total);
 	else if (test_bit(&(cw->utils.flags), CW_DIFF))
 		ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n",
-				p->number, cw->vm.cycle_total - p->live_cycle - 1,
+				p->number, cw->vm.cycle_total - p->live_cycle,
 				cw->vm.cycle_to_die);
 }
 
@@ -64,7 +64,7 @@ void	introducing_player_verbose(t_core *cw)
 		ft_printf("Introducing contestants...\n");
 		while (++i < cw->nb_player)
 			ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
-			-cw->player[i].number, cw->player[i].data.prog_size,
+			ft_abs(cw->player[i].number), cw->player[i].data.prog_size,
 			cw->player[i].data.prog_name, cw->player[i].data.comment);
 		return ;
 	}

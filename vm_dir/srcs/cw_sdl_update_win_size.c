@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/11 08:24:08 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/11 09:08:17 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/16 11:41:35 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,7 +24,7 @@ void	set_sizes_responsive(t_visu *visu)
 	visu->info.y = visu->win_h / 128;
 	visu->info.h = visu->arena.y - (visu->info.y * 2);
 }
-/*
+
 void	set_sizes_fix(t_visu *visu)
 {
 	visu->arena.x = 700;
@@ -34,19 +34,6 @@ void	set_sizes_fix(t_visu *visu)
 	visu->info.x = visu->arena.x;
 	visu->info.w = visu->arena.w;
 	visu->info.y = 95;
-	visu->info.h = 60;
-}
-*/
-
-void	set_sizes_fix(t_visu *visu)
-{
-	visu->arena.x = 525;
-	visu->arena.w = 1973 - 700 - 280;
-	visu->arena.y = 95 + 70 - 20;
-	visu->arena.h = 1100 - 165 - 240;
-	visu->info.x = visu->arena.x;
-	visu->info.w = visu->arena.w;
-	visu->info.y = 65;
 	visu->info.h = 60;
 }
 

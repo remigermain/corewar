@@ -7,25 +7,25 @@ function	run_test()
 {
 	COUNTER=$3
 	echo "[ START ]\n"
-	./corewar --diff -d 1 $1 > .diff_core && ./subject_ressources/original_corewar -d 1 -v 31 $1 > .diff_oricore
+	./corewar --diff -d 1 $1 > .diff_core && ./ressources/original_corewar -d 1 -v 31 $1 > .diff_oricore
 	BASE=`diff .diff_core .diff_oricore | wc -l | bc`
 	echo "diff is $BASE\n"
 	while [[ ${COUNTER} -lt $2 ]]
 	do
-			./corewar -d $COUNTER --diff $1 > .diff_core && ./subject_ressources/original_corewar -d $COUNTER -v 31 $1 > .diff_oricore
+			./corewar -d $COUNTER --diff $1 > .diff_core && ./ressources/original_corewar -d $COUNTER -v 31 $1 > .diff_oricore
 			MED=`diff .diff_core .diff_oricore | wc -l | bc`
 			echo "\033[1A\c"
 			echo "count = "${COUNTER}
 			if [[ ${MED} -ne $BASE ]]
 			then
-				TEST=`./subject_ressources/original_corewar -d 500000 $1 | wc -l | bc`
-				NOW=`./subject_ressources/original_corewar -d $COUNTER $1 | wc -l | bc`
+				TEST=`./ressources/original_corewar -d 500000 $1 | wc -l | bc`
+				NOW=`./ressources/original_corewar -d $COUNTER $1 | wc -l | bc`
 				if [[ ${TEST} -ne ${NOW} ]]
 				then
 					echo "[ ENDING ]\n[ KO ]count = "${COUNTER}
 					{
 						diff .diff_core .diff_oricore
-						echo "[ diff ][ cycle = ${COUNTER} ]  $1 " >> script/log_diff
+						echo "[ diff ][ cycle = ${COUNTER} ]  $1 " >> script/diff.log
 					}
 					else
 					{
@@ -108,7 +108,7 @@ else
 fi
 
 DATE=`date`
-echo "[ $DATE ]\n" >> script/log_diff
+echo "[ $DATE ]\n" >> script/diff.log
 
 awk -v prefix="${NEW}" '{print prefix $0}' .script_1 > .script_2
 input=".script_2"

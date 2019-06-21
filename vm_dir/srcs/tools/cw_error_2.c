@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 15:24:41 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/11 21:47:43 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/17 15:24:53 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,7 +47,7 @@ void		cw_error_argv(t_argm *argm)
 		ft_dprintf(2, "\n%*c^%*@\n", error_s + 6, ' ', error_e, "char", '~');
 }
 
-void		cw_warning(int warning)
+void		cw_warning(enum e_warning warning)
 {
 	ft_printf(BLUE"warning in run time: "RESET);
 	if (warning == SDL_PLAY_CHAN)
@@ -56,6 +56,11 @@ void		cw_warning(int warning)
 		ft_printf("Mix_LoadWav(): "WHITE"%s" WHITE, Mix_GetError());
 	else if (warning == SDL_RENDER_CLEAR)
 		ft_printf("SDL_RnderClar(): "WHITE"%s" WHITE, SDL_GetError());
+	else if (warning == SDL_LOAD_BMP)
+		ft_printf("SDL_LoadBMP(): " RED "%s\n" WHITE, SDL_GetError());
+	else if (warning == SDL_CREATE_TEXT)
+		ft_printf("SDL_CreateTextureFromSurface(): " RED "%s\n" WHITE,\
+				SDL_GetError());
 	ft_printf(RESET".\n");
 }
 
@@ -65,7 +70,7 @@ void		cw_warning(int warning)
 **-----------------------------------------------------------------------
 */
 
-void		cw_error_run(t_core *cw, int error, char *str)
+void		cw_error_run(t_core *cw, enum e_error_r error, char *str)
 {
 	if (error != SDL_SDL_QUIT)
 		ft_dprintf(2, B_RED "error in run time: " RESET);

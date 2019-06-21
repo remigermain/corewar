@@ -6,7 +6,7 @@ NAME2=`echo $NAME | sed "s/.cor/.s/g"`
 echo "\n[  DSM  $NAME ]\n"
 ./dsm $NAME -labels -hexa
 rm -rf $NAME
-./../subject_ressources/original_asm $NAME2
+./ressources/original_asm $NAME2
 hexdump $NAME > .new
 hexdump $1 > .base
 DIFF=`diff .base .new | wc -l`

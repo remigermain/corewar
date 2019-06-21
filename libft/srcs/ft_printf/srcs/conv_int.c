@@ -26,7 +26,7 @@ static void	lst_putnb_unb(t_pf *lst)
 	else if (LENGHT == 20)
 		lst->flag.ul_nb = va_arg(lst->va_copy, t_ulong);
 	else if (LENGHT == 100)
-		lst->flag.ul_nb = va_arg(lst->va_copy, long);
+		lst->flag.ul_nb = va_arg(lst->va_copy, intmax_t);
 	else if (LENGHT == 1000)
 		lst->flag.ul_nb = va_arg(lst->va_copy, size_t);
 	else if (CONV == 'o' || CONV == 'x' || CONV == 'X' ||
@@ -52,7 +52,7 @@ static void	lst_putnb_snb(t_pf *lst)
 	else if (LENGHT == 20)
 		nb_tmp = va_arg(lst->va_copy, long);
 	else if (LENGHT == 100)
-		nb_tmp = va_arg(lst->va_copy, long);
+		nb_tmp = va_arg(lst->va_copy, intmax_t);
 	else if (LENGHT == 1000)
 		nb_tmp = va_arg(lst->va_copy, size_t);
 	else if (CONV == 'D' || CONV == 'I' || LENGHT != 0)

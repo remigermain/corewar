@@ -21,7 +21,7 @@ check='0';
 	launch_game()
 	{
 		sh script/champion_generator.sh >> /dev/null;
-		haystack=`./subject_ressources/original_corewar -a $1 -a subject_ressources/champs_total/compile/Randomize_Commodore.cor`;
+		haystack=`./ressources/original_corewar -a $1 -a ressources/compile/Randomize_Commodore.cor`;
 		score=`echo $haystack | grep -c "\"Randomize Commodore\", has won"`
 	
 	}
@@ -30,20 +30,20 @@ check='0';
 	checker()
 	{
 		check='0';
-		haystack=`./subject_ressources/original_corewar -a $1 -a subject_ressources/champs_total/compile/zork.cor`;
+		haystack=`./ressources/original_corewar -a $1 -a ressources/compile/zork.cor`;
 		v1=`echo $haystack | grep -c "\"Randomize Commodore\", has won"`
-		haystack=`./subject_ressources/original_corewar -a $1 -a subject_ressources/champs_total/compile/helltrain.cor`;
+		haystack=`./ressources/original_corewar -a $1 -a ressources/compile/helltrain.cor`;
 		v2=`echo $haystack | grep -c "\"Randomize Commodore\", has won"`
-		haystack=`./subject_ressources/original_corewar -a $1 -a subject_ressources/champs_total/compile/Octobre_Rouge_V4.2.cor`;
+		haystack=`./ressources/original_corewar -a $1 -a ressources/compile/Octobre_Rouge_V4.2.cor`;
 		v3=`echo $haystack | grep -c "\"Randomize Commodore\", has won"`
-		haystack=`./subject_ressources/original_corewar -a $1 -a subject_ressources/champs_total/compile/Gagnant.cor`;
+		haystack=`./ressources/original_corewar -a $1 -a ressources/compile/Gagnant.cor`;
 		v4=`echo $haystack | grep -c "\"Randomize Commodore\", has won"`
 		echo "zork : $v1 || helltrain : $v2 || octobre : $v3 || gagnant : $v4";
 		if [ $v1 -eq 1 -a $v2 -eq 1 -a $v3 -eq 1 -a $v4 -eq 1 ]; then
-			sed -i -e '1s/Randomize Commodore/Darwin/g' subject_ressources/champs_total/sources/Randomize_Commodore.s;
-			sed -i -e "2s/I'm the result of hasard, what could you do against that ?/I evolved to kick your ass !/g" subject_ressources/champs_total/sources/Randomize_Commodore.s
-			mv subject_ressources/champs_total/compile/Randomize_Commodore.cor subject_ressources/champs_total/compile/Darwin.cor;
-			mv subject_ressources/champs_total/sources/Randomize_Commodore.s subject_ressources/champs_total/compile/Darwin.s;
+			sed -i -e '1s/Randomize Commodore/Darwin/g' ressources/sources/Randomize_Commodore.s;
+			sed -i -e "2s/I'm the result of hasard, what could you do against that ?/I evolved to kick your ass !/g" ressources/sources/Randomize_Commodore.s
+			mv ressources/compile/Randomize_Commodore.cor ressources/compile/Darwin.cor;
+			mv ressources/sources/Randomize_Commodore.s ressources/compile/Darwin.s;
 			check='1';
 		fi
 	}
@@ -56,7 +56,7 @@ check='0';
 		while [ $check -eq 0 ]; do
 			launch_game $1;
 			if [ $score -eq 1 ]; then
-				checker subject_ressources/champs_total/compile/Randomize_Commodore.cor;
+				checker ressources/compile/Randomize_Commodore.cor;
 			fi
 		done;
 		echo "A better champion has been created !";

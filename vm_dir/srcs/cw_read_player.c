@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 11:16:03 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/14 01:51:15 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/21 14:45:28 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -50,6 +50,7 @@ static void	read_player2(t_core *cw, t_argm *argm, int nb_player, int fd)
 	int		i;
 
 	i = cw->nb_player;
+	cw->player[i].number = -1;
 	cw->player[i].data.prog_size =
 			ft_reverse_uint_bytes(cw->player[i].data.prog_size);
 	if (cw->player[i].data.prog_size > CHAMP_MAX_SIZE)
@@ -67,6 +68,7 @@ static void	read_player(t_core *cw, t_argm *argm, char *name, int nb_player)
 	int		i;
 
 	i = cw->nb_player;
+	cw->player[i].name_file = name;
 	errno = 0;
 	cw->player[i].name_file = name;
 	if ((fd = open(name, O_RDONLY | O_NOFOLLOW)) <= 0)
@@ -99,7 +101,7 @@ void		put_player(t_core *cw, t_argm *argm)
 	int	nb_player;
 
 	nb_player = cw->nb_player + 1;
-	if (nb_player == MAX_PLAYERS + 1)
+	if (nb_player >= MAX_PLAYERS + 1)
 		cw_error(cw, argm, CW_TO_MANY_PLAYER, NULL);
 	if (argm->argv[argm->i] && (!ft_strcmp(argm->argv[argm->i], "-n") ||
 			!ft_strcmp(argm->argv[argm->i], "--number")))
@@ -114,7 +116,8 @@ void		put_player(t_core *cw, t_argm *argm)
 		else
 			argm->i++;
 	}
-	if (!argm->argv[argm->i] || !cw_is_champ(argm->argv[argm->i]))
+	if (!argm->argv[argm->i] || !cw_is_champ(argm->argv[argm->i]) ||
+			nb_player >= MAX_PLAYERS + 1)
 	{
 		cw_error(cw, argm, CW_WRONG_FILE_MISSING, NULL);
 		argm->i++;

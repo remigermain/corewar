@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/15 06:54:30 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/12 12:25:41 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/19 16:45:19 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,6 +15,7 @@
 # define ASM_STR_H
 
 enum {
+	E_FILE_TOO_BIG,
 	E_DOT_CHAR,
 	E_NAME_TOO_LONG,
 	E_COM_TOO_LONG,

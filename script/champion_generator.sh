@@ -146,37 +146,37 @@
 	{
 		get_value $1;
 		if [ $1 -eq 1 ]; then
-			echo "live $v1" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "live $v1" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 9 ]; then
-			echo "zjmp $v1" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "zjmp $v1" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 12 ]; then
-			echo "fork $v1" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "fork $v1" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 15 ]; then
-			echo "lfork $v1" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "lfork $v1" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 4 ]; then
-			echo "add $v1, $v2, $v3" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "add $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 5 ]; then
-			echo "sub $v1, $v2, $v3" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "sub $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 2 ]; then
-			echo "ld $v1, $v2" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "ld $v1, $v2" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 13 ]; then
-			echo "lld $v1, $v2" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "lld $v1, $v2" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 16 ]; then
-			echo "aff $v1" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "aff $v1" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 3 ]; then
-			echo "st $v1, $v2" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "st $v1, $v2" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 6 ]; then
-			echo "and $v1, $v2, $v3" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "and $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 7 ]; then
-			echo "or $v1, $v2, $v3" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "or $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 8 ]; then
-			echo "xor $v1, $v2, $v3" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "xor $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 10 ]; then
-			echo "ldi $v1, $v2, $v3" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "ldi $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 14 ]; then
-			echo "lldi $v1, $v2, $v3" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "lldi $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 11 ]; then
-			echo "sti $v1, $v2, $v3" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo "sti $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		fi
 	}
 
@@ -184,15 +184,15 @@
 	{
 		random_size=$(( ( RANDOM % 450 )  + 200 ));
 		i='4';
-		if [ -f "./subject_ressources/champs_total/sources/Randomize_Commodore.s" ]; then
-			rm subject_ressources/champs_total/sources/Randomize_Commodore.s;
+		if [ -f "./ressources/sources/Randomize_Commodore.s" ]; then
+			rm ressources/sources/Randomize_Commodore.s;
 		fi
 		if [ $3 -eq 2 ]; then
-			echo ".name \"$1\"" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
-			echo ".comment \"$2\"" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo ".name \"$1\"" >> ressources/sources/Randomize_Commodore.s;
+			echo ".comment \"$2\"" >> ressources/sources/Randomize_Commodore.s;
 		else
-			echo ".name \"Randomize Commodore\"" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
-			echo ".comment \"I'm the result of hasard, what could you do against that ?\"" >> subject_ressources/champs_total/sources/Randomize_Commodore.s;
+			echo ".name \"Randomize Commodore\"" >> ressources/sources/Randomize_Commodore.s;
+			echo ".comment \"I'm the result of hasard, what could you do against that ?\"" >> ressources/sources/Randomize_Commodore.s;
 		fi
 		while [ $i -lt $random_size ]; do
 			((i++));
@@ -209,4 +209,4 @@
 		make;
 	fi
 	random_champion "$1" "$2" $#;
-	./asm subject_ressources/champs_total/sources/Randomize_Commodore.s -o subject_ressources/champs_total/compile/Randomize_Commodore.cor;
+	./asm ressources/sources/Randomize_Commodore.s -o ressources/compile/Randomize_Commodore.cor;

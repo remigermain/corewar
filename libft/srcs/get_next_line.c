@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/10/17 14:22:36 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 15:41:20 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/19 16:16:09 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,15 +27,25 @@ static int			extract_line(char **line, char **rest)
 	return (0);
 }
 
-int					all_free(int ret, char **line, char *rest)
+int					all_free(int ret, char **line)
 {
 	if (ret == 0 && !**line)
 	{
-		free(*line);
-		free(rest);
+		ft_strdel(line);
 		return (0);
 	}
 	return (1);
+}
+
+int					check_input(char **line, char **rest, int fd)
+{
+	if (fd < 0 || line == NULL)
+	{
+		if (*rest)
+			ft_strdel(rest);
+		return (-1);
+	}
+	return (0);
 }
 
 int					get_next_line(const int fd, char **line)
@@ -46,7 +56,7 @@ int					get_next_line(const int fd, char **line)
 	char			*tmp;
 
 	ret = 1;
-	if (fd < 0 || line == NULL)
+	if (check_input(line, &rest, fd) == -1)
 		return (-1);
 	while ((!rest || !ft_strrchr(rest, '\n')) && ret)
 	{
@@ -60,7 +70,7 @@ int					get_next_line(const int fd, char **line)
 	}
 	if (extract_line(line, &rest) == -1)
 		return (-1);
-	if (!all_free(ret, line, rest))
+	if (!all_free(ret, line))
 		return (0);
 	return (1);
 }

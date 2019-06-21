@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 11:14:52 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/10 19:50:59 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/16 12:36:02 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -45,7 +45,6 @@ static void		find_help(int argc, char **argv)
 
 static t_bool	dsm_flags(t_core *dsm, int argc, char **argv)
 {
-	dsm->argm.i = 0;
 	while (++dsm->argm.i < argc)
 	{
 		if (!ft_strcmp("-l", argv[dsm->argm.i]) ||
@@ -54,12 +53,15 @@ static t_bool	dsm_flags(t_core *dsm, int argc, char **argv)
 		else if (!ft_strcmp("-h", argv[dsm->argm.i]) ||
 				!ft_strcmp("--hexa", argv[dsm->argm.i]))
 			set_bit(&(dsm->flags), DSM_HEXA);
-		else if (!dsm->ar_i && ft_strlen(argv[dsm->argm.i]) > 4
-				&& !ft_strcmp(argv[dsm->argm.i] +
-					ft_strlen(argv[dsm->argm.i]) - 4, ".cor"))
-			dsm->ar_i = dsm->argm.i;
+		else if (argv[dsm->argm.i][0] != '-' && ft_strlen(argv[dsm->argm.i])
+		> 4 && !ft_strcmp(argv[dsm->argm.i] +
+		ft_strlen(argv[dsm->argm.i]) - 4, ".cor"))
+			!dsm->ar_i ? dsm->ar_i = dsm->argm.i :
+				dsm_error(dsm, DSM_MULTI_FILE, NULL);
 		else
-			dsm_error(dsm, DSM_UNK_FLAGS, argv[dsm->argm.i]);
+			argv[dsm->argm.i][0] == '-' ?
+				dsm_error(dsm, DSM_UNK_FLAGS, argv[dsm->argm.i]) :
+				dsm_error(dsm, DSM_UNK_PARAMS, argv[dsm->argm.i]);
 	}
 	dsm->argm.i = (!dsm->ar_i ? argc : dsm->ar_i);
 	if (dsm->ar_i && !dsm->argm.error)

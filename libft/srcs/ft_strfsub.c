@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   ft_strfsub.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: rcepre <rcepre@student.42.fr>              +:+   +:    +:    +:+     */
+/*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/11/01 11:13:59 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2018/11/05 21:12:40 by loiberti    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/19 14:19:49 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,8 +19,7 @@ char	*ft_strfsub(char **s, unsigned int start, size_t len)
 
 	if (!(tmp = ft_strsub(*s, start, len)))
 		return (NULL);
-	free(*s);
-	*s = ft_strdup(tmp);
-	free(tmp);
+	ft_strdel(s);
+	*s = tmp;
 	return (*s);
 }

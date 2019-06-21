@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/08 10:35:00 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/13 04:12:10 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/18 16:54:57 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,7 +27,7 @@ static void		vm_check(t_core *cw)
 	remove_process(cw);
 	if (cw->total_live >= NBR_LIVE || check >= MAX_CHECKS)
 	{
-		check = 1;
+		check = 0;
 		cw->vm.cycle_to_die -= CYCLE_DELTA;
 		if (test_bit(&(cw->utils.flags), CW_V2))
 			ft_printf("\t\tCycle to die is now "B_WHITE"%d"RESET"\n\n",
@@ -149,11 +149,9 @@ void			cw_vm(t_core *cw, t_visu visu)
 	cw->visu = &visu;
 	introducing_player_verbose(cw);
 	sdl_intro(cw, &visu);
-	while (cw->vm.cycle_to_die > 0 && cw->total_process &&
+	while (cw->total_process &&
 			nb_cycle < cw->utils.dump_cycle)
 	{
-		if (!cw->total_process)
-			break ;
 		do_vm(cw, &visu, &cycle, &nb_cycle);
 		visu_vm(cw, &visu, cycle);
 	}

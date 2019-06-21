@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/23 12:51:28 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/13 03:51:02 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/18 13:25:54 by loiberti    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -52,8 +52,8 @@ t_bool	live(t_core *cw, t_inst *inst, t_process *p)
 		if (test_bit(&(cw->utils.flags), CW_V4))
 			ft_printf("\tPlayer said he's " GREEN "alive\n" RESET);
 		else if (test_bit(&(cw->utils.flags), CW_DIFF))
-			ft_printf("Player 1 (%s) is said to be alive\n",
-				cw->player[p->player].data.prog_name);
+			ft_printf("Player %d (%s) is said to be alive\n",
+				ft_abs(cw->player[i].number), cw->player[i].data.prog_name);
 	}
 	p->live = 1;
 	p->live_cycle = cw->vm.cycle_total;

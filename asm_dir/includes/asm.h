@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/15 05:15:32 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/12 12:22:36 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/20 06:42:59 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,6 +29,8 @@
 # define ML_FREE 4
 # define ML_GET_LAB_NB 5
 # define ML_GET_LAB_NAME 6
+
+# define MAX_FILE_LENGHT 32768
 
 # define VALIDS_OPTIONS "v"
 
@@ -105,7 +107,7 @@ void			output(t_linelst *file, t_file *file_data);
 */
 
 int				manage_labels(t_linelst *file, char **str, int index, int todo);
-int				check_labels(t_linelst *file);
+int				check_and_remove_labels(t_linelst *file);
 int				get_label_names(t_linelst *file, t_label *lab_tab);
 int				count_labels(t_linelst *file);
 int				find_addr(t_linelst *file);
@@ -162,7 +164,7 @@ int				ft_strtoi(const char *str, long *number);
 void			error_resume();
 int				put_error(t_linelst *file, int col, const char *error, \
 																	int todo);
-void			asm_quit();
+void			asm_quit(int todo, void *data);
 
 /*
 **-----------------------------------------------------------------------
@@ -171,7 +173,8 @@ void			asm_quit();
 */
 
 int				get_arguments(t_linelst *file);
-int				get_arguments_value(t_linelst *file, int head, int param);
+int				get_arguments_value_and_type(t_linelst *file, int head, \
+																	int param);
 void			check_maxs(t_linelst *file, int head, int arg_type, long value);
 int				get_opcode(char *line, t_linelst *file);
 void			get_instructions(t_linelst *file);

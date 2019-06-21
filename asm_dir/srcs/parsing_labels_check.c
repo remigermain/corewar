@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/09 11:51:03 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/12 10:39:14 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/20 06:05:07 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,8 +22,8 @@ static void	check_alone_label_char(t_linelst *file)
 	error = 1;
 	while (file->line[++i])
 	{
-		if (file->line[i] == LABEL_CHAR \
-									&& file->line[i - 1] && file->line[i + 1])
+		if (file->line[i] == LABEL_CHAR && (i > 0 && file->line[i - 1]) && \
+															file->line[i + 1])
 		{
 			if ((file->line[i - 1] == LABEL_CHAR ||
 						ft_iswhitespace(file->line[i - 1])) &&
@@ -42,15 +42,10 @@ static void	check_alone_label_char(t_linelst *file)
 
 int			label_too_long(int st, int end, t_linelst *file)
 {
-	char *tmp;
-
 	if (end - st > LABEL_LENGTH)
 	{
 		put_error(file, st, g_str[E_LONG_LAB], PE_ERR);
-		tmp = ft_strsub(file->line, end + 1,
-						ft_strlen(file->line - end) - 1);
-		free(file->line);
-		file->line = tmp;
+		ft_memset(file->line + st, ' ', end - st + 1);
 		return (1);
 	}
 	return (0);
@@ -58,20 +53,16 @@ int			label_too_long(int st, int end, t_linelst *file)
 
 void		check_valid_name(char *label_str, int st, int end, t_linelst *file)
 {
-	char *tmp;
+	int		i;
 
-	if (ft_strvalids(label_str, LABEL_CHARS))
+	if ((i = ft_strvalids(label_str, LABEL_CHARS)) != -1)
 	{
-		put_error(file, st + ft_strvalids(label_str, \
-									LABEL_CHARS), g_str[E_CHAR_LAB], PE_ERR);
-		tmp = ft_strsub(file->line, end + 1, \
-												ft_strlen(file->line) - end);
-		free(file->line);
-		file->line = tmp;
+		put_error(file, st + i, g_str[E_CHAR_LAB], PE_ERR);
+		ft_memset(file->line + st, ' ', end - st + 1);
 	}
 }
 
-int			check_labels(t_linelst *file)
+int			check_and_remove_labels(t_linelst *file)
 {
 	int		st;
 	int		end;

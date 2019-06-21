@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/15 06:49:19 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/12 10:03:21 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/20 06:13:15 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -45,17 +45,17 @@ static int	sub_str_arg_value(char **str, t_linelst *file, int head)
 
 	size = 0;
 	tmp = file->line + head;
-	while (tmp[size] && tmp[size] != SEPARATOR_CHAR && tmp[size] != '\n'       \
+	while (tmp[size] && tmp[size] != SEP_CHAR && tmp[size] != '\n'       \
 												&& !ft_iswhitespace(tmp[size]))
 	{
 		size++;
 	}
 	i = size + spn_whspaces(tmp + size);
 	if (!(*str = ft_strsub(tmp, 0, size)))
-		asm_quit(QUIT);
+		asm_quit(QUIT, NULL);
 	else if (!**str)
 		put_error(file, head, g_str[E_MISS_VAL], PE_ERR);
-	else if (tmp[i] && tmp[i] != SEPARATOR_CHAR)
+	else if (tmp[i] && tmp[i] != SEP_CHAR)
 		put_error(file, head + i, g_str[E_UNEXP_EXPR], PE_ERR);
 	return (0);
 }
@@ -64,22 +64,26 @@ int			get_label_value(t_linelst *file, int head, int param)
 {
 	char *tmp;
 
-	if (file->line[head] == LABEL_CHAR || file->line[head + 1] == LABEL_CHAR)
+	if (file->line[head] == LABEL_CHAR || (file->line[head] && \
+					file->line[head + 1] && file->line[head + 1] == LABEL_CHAR))
 	{
+		if (file->line[head] == 'r')
+			return (1);
 		tmp = file->line + head + 1;
-		if ((file->param[param - 1] = manage_labels(file, &tmp, 0,
-														ML_GET_INDEX)) == -1)
+		if ((file->param[param - 1] = \
+							manage_labels(file, &tmp, 0, ML_GET_INDEX)) == -1)
 		{
 			put_error(file, head, g_str[E_UNDECL_LAB], PE_ERR);
 		}
-		file->labels += 1 << (param - 1);
+		else
+			file->labels += 1 << (param - 1);
 		if (file->line[head] == LABEL_CHAR)
 			return (1);
 	}
 	return (0);
 }
 
-int			get_arguments_value(t_linelst *file, int head, int param)
+int			get_arguments_value_and_type(t_linelst *file, int head, int param)
 {
 	long	value;
 	char	*str;

@@ -6,7 +6,7 @@
 #    By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2019/06/10 16:12:57 by rgermain     #+#   ##    ##    #+#        #
-#    Updated: 2019/06/11 13:43:03 by rgermain    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/06/18 17:48:18 by loiberti    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -165,6 +165,7 @@ ft_printf_PATH = srcs/ft_printf/
 
 
 $(NAME): $(OBJECT) $(HEADER)
+	@echo ""
 	@$(eval COUNT = "0")
 	@(cd $(ft_printf_PATH) && make)
 	@ar rc $(NAME) $(OBJECT) $(ft_printf_OBJECTS)

@@ -6,7 +6,7 @@
 /*   By: rgermain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 15:07:13 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/13 02:39:36 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/17 13:33:22 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -77,13 +77,13 @@ int			find_player(t_core *cw, int i)
 int			registre_player(t_core *cw, t_process *origi)
 {
 	int	j;
-	int	i;
+	int	nb;
 
 	j = -1;
-	i = 0;
-	while (++j < 4)
-		i += ((origi->reg[0][j] << (j * 8)) >> 24);
-	return (find_player(cw, i));
+	nb = 0;
+	while (++j < REG_SIZE)
+		((unsigned char*)(&nb))[3 - j] = origi->reg[0][j];
+	return (find_player(cw, nb));
 }
 
 /*

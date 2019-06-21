@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 11:10:55 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/11 10:17:45 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/17 14:04:06 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,6 +18,7 @@
 # include "dsm_enum.h"
 # include <fcntl.h>
 # include "cw_colors.h"
+# include <errno.h>
 
 typedef struct	s_inst_l
 {
@@ -73,7 +74,7 @@ void			put_file(t_core *dsm);
 **			tools_bits.c
 **-----------------------------------------------------------------------
 */
-t_bool			dsm_error(t_core *dsm, int error, char *str);
+t_bool			dsm_error(t_core *dsm, enum e_error error, char *str);
 t_bool			test_bit(int *st, int i);
 void			set_bit(int *st, int i);
 void			clear_bit(int *st, int i);

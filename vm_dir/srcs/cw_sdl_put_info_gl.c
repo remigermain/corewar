@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/07 13:34:01 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/11 08:28:04 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/18 10:16:37 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,17 +29,6 @@ void	put_info_cycles(t_visu *visu, int value, int cycle)
 	rect.w = cycle * (visu->info.w) / CYCLE_TO_DIE;
 	SDL_SetRenderDrawColor(visu->ren, color.r, color.g, color.b, 0);
 	SDL_RenderFillRect(visu->ren, &rect);
-}
-
-void	dbg_put_frames(t_visu *visu)
-{
-	put_frame_rect(visu, &visu->arena, RGB_PLAY_3 - 666);
-	put_frame_rect(visu, &visu->info, RGB_PLAY_3 - 666);
-	put_frame_rect(visu, &visu->info_gl[0], RGB_PLAY_3 - 666);
-	put_frame_rect(visu, &visu->info_gl[1], RGB_PLAY_3 - 666);
-	put_frame_rect(visu, &visu->info_gl[2], RGB_PLAY_3 - 666);
-	put_frame_rect(visu, &visu->info_gl[3], RGB_PLAY_3 - 666);
-	put_frame_rect(visu, &visu->info_gl[4], RGB_PLAY_3 - 666);
 }
 
 void	put_info_gl(t_visu *visu, t_core *cw, int cycle)

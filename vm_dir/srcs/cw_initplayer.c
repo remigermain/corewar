@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/03 10:08:31 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/13 03:02:23 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/18 16:31:58 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,33 +25,7 @@ static void	init_start(t_core *cw)
 
 	i = -1;
 	while (++i < cw->nb_player)
-		cw->player[i].start = (64 / cw->nb_player) * i * 64;
-}
-
-/*
-**-----------------------------------------------------------------------
-**	sort processus by numbers
-**-----------------------------------------------------------------------
-*/
-
-static void	sort_process(t_core *cw)
-{
-	t_process	*process;
-	int			i;
-
-	i = -1;
-	while (++i < (cw->nb_player - 1))
-	{
-		if (cw->player[cw->process[i].player].number <
-				cw->player[cw->process[i + 1].player].number)
-		{
-			process = &(cw->process[i]);
-			ft_memcpy(&(cw->process[i]), &(cw->process[i + 1]),\
-					sizeof(t_process));
-			ft_memcpy(&(cw->process[i + 1]), &process, sizeof(t_process));
-			i = -1;
-		}
-	}
+		cw->player[i].start = (MEM_SIZE / cw->nb_player) * i;
 }
 
 /*
@@ -62,17 +36,19 @@ static void	sort_process(t_core *cw)
 
 static void	put_process(t_core *cw, int i)
 {
-	int			j;
+	int	j;
+	int number;
 
 	j = 4;
 	cw->process[i].pc = cw->player[i].start;
 	cw->process[i].number = i + 1;
 	cw->player[i].nb_process = 1;
 	cw->process[i].player = i;
-	cw->process[i].live_cycle = -1;
-	cw->player[i].number = FT_UINT_MAX - (cw->player[i].number - 1);
+	cw->process[i].live_cycle = 0;
+	cw->player[i].number = -(cw->player[i].number);
+	number = cw->player[i].number;
 	while (--j >= 0)
-		cw->process[i].reg[0][j] = ((unsigned char*)(&cw->player[i].number))[j];
+		cw->process[i].reg[0][3 - j] = ((unsigned char*)(&number))[j];
 	cw->process[i].cycle_instruction = next_inst(cw, &(cw->process[i])) + 1;
 	cw->last_live = i;
 	cw->total_process++;
@@ -105,5 +81,4 @@ void		cw_initplayer(t_core *cw)
 					cw->len_process)))
 		cw_error_run(cw, CW_MALLOC, "init_process");
 	put_process(cw, 0);
-	sort_process(cw);
 }

@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 11:10:55 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/12 13:48:31 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/17 13:56:08 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,7 +22,8 @@ typedef unsigned char	t_bool;
 **			enum cw flags
 **-----------------------------------------------------------------------
 */
-enum {
+enum	e_flags
+{
 	CW_VISU,
 	CW_VISU_AN,
 	CW_VERBO,
@@ -44,7 +45,8 @@ enum {
 **			enum instruction
 **-----------------------------------------------------------------------
 */
-enum {
+enum	e_inst
+{
 	CW_LIVE = 1,
 	CW_LD,
 	CW_ST,
@@ -67,7 +69,7 @@ enum {
 **			enum flags for convervalue
 **-----------------------------------------------------------------------
 */
-enum {
+enum	e_conv {
 	CW_P1 = 0b001,
 	CW_P2 = 0b010,
 	CW_P3 = 0b100,
@@ -82,7 +84,7 @@ enum {
 **			enum error parse
 **-----------------------------------------------------------------------
 */
-enum
+enum	e_error
 {
 	CW_UNK_FLAG,
 	CW_WRONG_NUMBER_PLAYER,
@@ -130,14 +132,16 @@ enum
 
 /*
 **-----------------------------------------------------------------------
-**			warnning error run time
+**			warnning run time
 **-----------------------------------------------------------------------
 */
-enum
+enum	e_warning
 {
 	SDL_PLAY_CHAN,
 	SDL_LOAD_SAM,
 	SDL_RENDER_CLEAR,
+	SDL_LOAD_BMP,
+	SDL_CREATE_TEXT,
 };
 
 /*
@@ -145,7 +149,7 @@ enum
 **			enum error run time
 **-----------------------------------------------------------------------
 */
-enum
+enum	e_error_r
 {
 	CW_MALLOC,
 	SDL_INIT,
@@ -162,7 +166,7 @@ enum
 **			enum for sdl flags
 **-----------------------------------------------------------------------
 */
-enum
+enum	e_flags_sdl
 {
 	CYCLES,
 	PROCESS,
@@ -177,7 +181,7 @@ enum
 **-----------------------------------------------------------------------
 */
 
-enum
+enum	e_player
 {
 	PL1,
 	PL2,

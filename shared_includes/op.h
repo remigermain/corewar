@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/06 13:45:16 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/11 10:02:48 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/18 06:58:37 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,7 +37,7 @@
 # define COMMENT_CHAR			'#'
 # define LABEL_CHAR				':'
 # define DIRECT_CHAR				'%'
-# define SEPARATOR_CHAR			','
+# define SEP_CHAR			','
 
 # define LABEL_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789"
 

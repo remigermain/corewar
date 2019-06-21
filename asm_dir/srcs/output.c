@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/14 12:40:49 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/12 10:04:20 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/18 07:16:08 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,10 +22,10 @@ void	output(t_linelst *file, t_file *file_data)
 {
 	int	fd_output;
 
-	if (file_data->header.prog_size == 0)
-		put_error(NULL, -1, g_str[E_SUCK], PE_WARN);
 	if (!put_error(NULL, -1, NULL, PE_GET_ERRORS))
 	{
+		if (file_data->header.prog_size == 0)
+			put_error(NULL, -1, g_str[E_SUCK], PE_WARN);
 		fd_output = open(file_data->output_name, O_CREAT | O_WRONLY | O_TRUNC |
 															O_APPEND, S_IRWXU);
 		file_data->header.prog_size = ft_reverse_uint_bytes(get_memory(file));

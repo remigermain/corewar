@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/07 16:15:00 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/14 02:01:51 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/16 20:00:49 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,13 +27,14 @@ static void	print_usage(void)
 ":\n\t\t\t\t1 : print base\n\t\t\t\t2 : Print cycle_to_die\n\t\t\t\t4 : Prin"\
 "t instruction \n\t\t\t\t8 : Print Kill process\n\t\t\t\t16 : Print pc mouve"\
 "ment\n\n\t--step\t(-s)		\t:  Verbose step by step. ( d"\
-"efault if off )\n	--aff\t(-f)		\t:  print aff result in stdin ( in verbos"\
+"efault if off ).\n	--aff\t(-f)		\t:  print aff result in stdin ( in verbos"\
 "e is same as mode 4 ).\n\n [ champion ]\n\t--player (-p)   <Number"\
 ">	:  Set champion, <Number> for set number to player.\n\t\t\t(Default is UN"\
 "SIGNED INT MAX less the numbers of player)\n\n [ visu events ]\n\tm   : "\
-"turn ON/OFF music (when turn ON speed is limited to 1)\n\t+/- : inscrease/"\
-"decrease speed\n\tesc : quit sdl\n\nCorewar © 2019 le-101 "\
-"Loiberti - Rcepre - Rgermain\n");
+"turn ON/OFF music (when turn ON speed is limited to 1).\n\t+/- : inscrease/"\
+"decrease speed.\n\tr   : switch to responsive mode.\n\tp   : change backgrou"\
+"nd ( only with fullscreen mode ).\n\tesc : quit sdl.\n\nCorewar © 2019 le-10"\
+"1 Loiberti - Rcepre - Rgermain\n");
 }
 
 static void	cw_usage(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: rgermain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/25 17:25:27 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/09 13:00:52 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/17 14:50:49 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,7 +41,7 @@ static void	print_line(t_core *dsm)
 		ft_dprintf(2, "\n%*c^%*@\n", error_s + 6, ' ', error_e, "char", '~');
 }
 
-static void	dsm_error2(int error, char *str)
+static void	dsm_error2(enum e_error error, char *str)
 {
 	if (error == DSM_WRONG_HEADER_SIZE)
 		ft_dprintf(2, "Bad header size in file : "RESET"\"%s"B_WHITE"\"\n",
@@ -57,23 +57,25 @@ static void	dsm_error2(int error, char *str)
 		ft_dprintf(2, "Malloc fail from function \""RESET"%s"B_WHITE"\"\n",\
 				str);
 	else if (error == DSM_UNK_FLAGS)
-		ft_dprintf(2, "Unknow flag "B_WHITE"\"%s\"\n", str);
+		ft_dprintf(2, "Unknow flag.\n");
 	else if (error == DSM_NO_FILE)
 		ft_dprintf(2, "No file !\n");
 	else if (error == DSM_WRONG_INST)
-		ft_dprintf(2, "instruction not valid in file\n");
+		ft_dprintf(2, "Instruction not valid in file\n");
+	else if (error == DSM_UNK_PARAMS)
+		ft_dprintf(2, "Unknow params.\n");
 }
 
-t_bool		dsm_error(t_core *dsm, int error, char *str)
+t_bool		dsm_error(t_core *dsm, enum e_error error, char *str)
 {
 	if (error != DSM_ERROR)
-		ft_dprintf(2, B_RED"error: "B_WHITE);
+		ft_dprintf(2, B_RED"error: "RESET);
 	if (error == DSM_ERROR)
 		ft_dprintf(2, "%d error generated\n", dsm->argm.error);
 	if (error == DSM_WRONG_FILE)
 		ft_dprintf(2, "wrong file"RESET" \"%s\"\n", str);
 	else if (error == DSM_WRONG_FILE_MISSING)
-		ft_dprintf(2, "File "RESET"\"%s"B_WHITE"\" not found\n", str);
+		ft_dprintf(2, "Can't open file, %m.\n");
 	else if (error == DSM_WRONG_PROG_SIZE)
 		ft_dprintf(2, "Bad program size : "RESET"\"%s\"\n", str);
 	else if (error == DSM_WRONG_MAGIC)

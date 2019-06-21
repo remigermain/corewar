@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/15 07:49:21 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/12 09:56:53 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/19 18:17:37 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,10 +19,15 @@ void	asm_quit(int todo, void *data)
 
 	if (todo & INIT)
 		list = (t_linelst*)data;
+	if (todo & ERROR)
+		put_error(NULL, -1, "allocation error", PE_ERR);
 	if (todo & QUIT)
 	{
 		if (list)
 			delete_linelst(list);
+		if (data)
+			free(data);
+		get_next_line(0, NULL);
 		manage_labels(NULL, NULL, 0, ML_FREE);
 		if (todo & ERROR)
 			ft_putstr_fd(B_RED "fatal:"B_WHITE" \

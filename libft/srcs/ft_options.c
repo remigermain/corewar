@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/05 06:42:26 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/12 11:24:44 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/19 19:28:18 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,6 +20,7 @@ static int	ft_options_2(char *str, int instruction, int i, __uint64_t options)
 
 	j = -1;
 	if (instruction == CHECK_OPT)
+	{
 		while (str[++j])
 		{
 			i = -1;
@@ -32,12 +33,11 @@ static int	ft_options_2(char *str, int instruction, int i, __uint64_t options)
 				else
 					c = i - 4;
 				if (!!(options & (1LU << i)))
-				{
 					if (!ft_strchr(str, c))
 						return (c);
-				}
 			}
 		}
+	}
 	return (0);
 }
 

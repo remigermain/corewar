@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 11:10:55 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/05 11:59:43 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/17 14:03:46 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,8 @@ typedef unsigned char	t_bool;
 **			enum instruction
 **-----------------------------------------------------------------------
 */
-enum {
+enum	e_inst
+{
 	CW_LIVE = 1,
 	CW_LD,
 	CW_ST,
@@ -47,11 +48,14 @@ enum {
 **			enum error
 **-----------------------------------------------------------------------
 */
-enum {
+enum	e_error
+{
 	DSM_MALLOC,
 	DSM_ERROR,
 	DSM_UNK_FLAGS,
+	DSM_UNK_PARAMS,
 	DSM_NO_FILE,
+	DSM_MULTI_FILE,
 	DSM_WRONG_FILE,
 	DSM_WRONG_FILE_MISSING,
 	DSM_WRONG_PROG_SIZE,
@@ -69,7 +73,8 @@ enum {
 **			flags  dsm
 **-----------------------------------------------------------------------
 */
-enum {
+enum	e_flag
+{
 	DSM_LABELS,
 	DSM_HEXA,
 };

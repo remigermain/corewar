@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/08 06:59:35 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/11 11:03:38 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/20 06:05:50 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,7 +20,7 @@ int				manage_labels(t_linelst *file, char **str, int index, int todo)
 
 	if (todo == ML_INIT && !lab_tab && file)
 	{
-		check_labels(file);
+		check_and_remove_labels(file);
 		label_nb = count_labels(file);
 		if (!(lab_tab = (t_label *)ft_memalloc(sizeof(t_label) * label_nb)))
 			asm_quit(QUIT, NULL);

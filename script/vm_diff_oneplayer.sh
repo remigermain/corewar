@@ -4,8 +4,8 @@ ERROR="0"
 
 	function	run_test()
 	{
-	#	./corewar $1 -d $2 > .diff_core && ./subject_ressources/original_corewar $1 -d $2 > .diff_oricore
-		./corewar --diff $1 -d $2 > .diff_core && ./subject_ressources/original_corewar -v 31 $1 -d $2 > .diff_oricore
+	#	./corewar $1 -d $2 > .diff_core && ./ressources/original_corewar $1 -d $2 > .diff_oricore
+		./corewar --diff $1 -d $2 > .diff_core && ./ressources/original_corewar -v 31 $1 -d $2 > .diff_oricore
 		echo "[finish]"
 		DIFF=`diff .diff_core .diff_oricore`
 		DIFF_LINE=`diff .diff_core .diff_oricore | wc -l`
@@ -36,7 +36,7 @@ then
 	ERROR="1"
 fi
 
-if [ ! -f "subject_ressources/original_corewar" ]
+if [ ! -f "ressources/original_corewar" ]
 then
 	echo "Cant's find corewar"
 	ERROR="1"

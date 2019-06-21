@@ -6,7 +6,7 @@
 /*   By: rgermain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/13 00:05:50 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/13 00:12:47 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/16 19:46:44 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,7 +29,7 @@ t_bool	add(t_core *cw, t_inst *inst, t_process *p)
 	int	tmp[3];
 	int	value;
 
-	ft_memcpy(tmp, inst->value, 4 * 3);
+	ft_memcpy(tmp, inst->value, sizeof(int) * 3);
 	if (!convert_value(cw, p, inst, CW_P12))
 		return (FALSE);
 	if (test_bit(&(cw->utils.flags), CW_V4))
@@ -63,7 +63,7 @@ t_bool	sub(t_core *cw, t_inst *inst, t_process *p)
 	int	value;
 	int	tmp[3];
 
-	ft_memcpy(tmp, inst->value, 4 * 3);
+	ft_memcpy(tmp, inst->value, sizeof(int) * 3);
 	if (!convert_value(cw, p, inst, CW_P12))
 		return (FALSE);
 	if (test_bit(&(cw->utils.flags), CW_V4))
@@ -99,7 +99,7 @@ t_bool	and(t_core *cw, t_inst *inst, t_process *p)
 
 	if (!convert_value(cw, p, inst, CW_P12))
 		return (FALSE);
-	ft_memcpy(tmp, inst->value, 4 * 3);
+	ft_memcpy(tmp, inst->value, sizeof(int) * 3);
 	if (test_bit(&(cw->utils.flags), CW_V4))
 		ft_printf("\t("B_WHITE"%d"RESET" & "B_WHITE"%d"RESET")\n",
 												inst->value[0], inst->value[1]);
@@ -133,7 +133,7 @@ t_bool	or(t_core *cw, t_inst *inst, t_process *p)
 
 	if (!convert_value(cw, p, inst, CW_P12))
 		return (FALSE);
-	ft_memcpy(tmp, inst->value, 4 * 3);
+	ft_memcpy(tmp, inst->value, sizeof(int) * 3);
 	if (test_bit(&(cw->utils.flags), CW_V4))
 		ft_printf("\t("B_WHITE"%d"RESET" | "B_WHITE"%d"RESET")\n",
 												inst->value[0], inst->value[1]);
@@ -167,7 +167,7 @@ t_bool	xor(t_core *cw, t_inst *inst, t_process *p)
 
 	if (!convert_value(cw, p, inst, CW_P12))
 		return (FALSE);
-	ft_memcpy(tmp, inst->value, 4 * 3);
+	ft_memcpy(tmp, inst->value, sizeof(int) * 3);
 	if (test_bit(&(cw->utils.flags), CW_V4))
 		ft_printf("\t("B_WHITE"%d"RESET" ^ "B_WHITE"%d"RESET")\n",
 												inst->value[0], inst->value[1]);

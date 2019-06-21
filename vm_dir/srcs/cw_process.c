@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/03 10:08:31 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/14 01:31:35 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/18 16:11:19 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -52,7 +52,6 @@ static void			remove_process2(t_core *cw, int i, int j)
 		ft_memcpy(&(cw->process[i]), &(cw->process[j]), sizeof(t_process));
 	if (cw->process[i].player < cw->nb_player)
 		cw->player[cw->process[i].player].nb_process++;
-	cw->process[i].live_cycle--;
 	cw->process[i].live = 0;
 	cw->process[j].live = 0;
 }
@@ -61,10 +60,14 @@ static void			remove_process_verbo(t_core *cw)
 {
 	int		i;
 
+	if (!test_bit(&(cw->utils.flags), CW_VERBO) &&
+			!test_bit(&(cw->utils.flags), CW_DIFF))
+		return ;
 	i = cw->total_process;
 	while (--i >= 0)
 	{
-		if (!cw->process[i].live)
+		if (!cw->process[i].live || (cw->vm.cycle_total -
+					cw->process[i].live_cycle) >= cw->vm.cycle_to_die)
 			remove_process_verbose(cw, &(cw->process[i]));
 	}
 }
@@ -79,13 +82,16 @@ void				remove_process(t_core *cw)
 	remove_process_verbo(cw);
 	while (j < cw->total_process)
 	{
-		while (j < cw->total_process && !cw->process[j].live)
+		while (j < cw->total_process && (!cw->process[j].live ||
+			((cw->vm.cycle_total -
+				cw->process[j].live_cycle) >= cw->vm.cycle_to_die)))
 		{
 			cw->vm.pc[i_pc(cw->process[j].pc)] = 0;
-			cw->vm.cycles[i_pc(cw->process[j].pc)] = 0;
-			j++;
+			cw->vm.cycles[i_pc(cw->process[j++].pc)] = 0;
 		}
-		if (j < cw->total_process && cw->process[j].live)
+		if (j < cw->total_process && cw->process[j].live &&
+				((cw->vm.cycle_total - cw->process[j].live_cycle)
+				< cw->vm.cycle_to_die))
 		{
 			remove_process2(cw, i, j);
 			i++;

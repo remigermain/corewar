@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/15 06:46:56 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/12 09:57:29 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/20 06:13:15 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,7 +30,7 @@ static void	extract_data(t_linelst *file, int *head, int param)
 	int		arg_type;
 
 	*head += spn_whspaces(file->line + *head);
-	if ((arg_type = get_arguments_value(file, *head, param)))
+	if ((arg_type = get_arguments_value_and_type(file, *head, param)))
 	{
 		file->octal += arg_type << binary_shift(param);
 		check_arg_type(file, *head, param, arg_type);
@@ -42,18 +42,18 @@ static void	extract_data(t_linelst *file, int *head, int param)
 			put_error(file, *head, g_str[E_UNEXP_EXPR], PE_ERR);
 			file->line[*head] = ' ';
 		}
-		else if (ft_strlastchr(file->line) == SEPARATOR_CHAR)
+		else if (ft_strlastchr(file->line) == SEP_CHAR || !file->line[*head])
 			put_error(file, *head, g_str[E_EXP_EXPR], PE_ERR);
 		else
 			put_error(file, *head, g_str[E_INV_ARG], PE_ERR);
 	}
 	file->param_type[param - 1] = arg_type;
-	*head += ft_strchri(file->line + *head, SEPARATOR_CHAR) + 1;
+	*head += ft_strchri(file->line + *head, SEP_CHAR) + 1;
 }
 
 static void	check_too_many_args(t_linelst *file, int head)
 {
-	if (ft_strchr(file->line + head - 1, SEPARATOR_CHAR))
+	if (ft_strchr(file->line + head - 1, SEP_CHAR))
 	{
 		if (*(file->line + head + spn_whspaces(file->line + head)))
 			put_error(file, head + spn_whspaces(file->line + head), \
@@ -65,7 +65,7 @@ static void	check_too_many_args(t_linelst *file, int head)
 
 static int	check_arg_nb(t_linelst *file, int head, int param, int nb_args)
 {
-	if (!ft_strchr(file->line + head, SEPARATOR_CHAR) && param < nb_args)
+	if (!ft_strchr(file->line + head, SEP_CHAR) && param < nb_args)
 	{
 		put_error(file, spn_label(file->line), g_str[E_MISS_ARG], PE_ERR);
 		return (1);

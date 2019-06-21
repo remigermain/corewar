@@ -21,7 +21,7 @@ score='0';
 	launch_game()
 	{
 		sh script/champion_generator.sh "$2 Nemesis" "I'm sure to beat $2, that's a good start !" >> /dev/null;
-		haystack=`./subject_ressources/original_corewar -a $1 -a subject_ressources/champs_total/compile/Randomize_Commodore.cor`;
+		haystack=`./ressources/original_corewar -a $1 -a ressources/compile/Randomize_Commodore.cor`;
 		score=`echo $haystack | grep -c "\"$2 Nemesis\", has won"`
 	}
 
@@ -41,6 +41,6 @@ score='0';
 		foo2="$foo";
 		foo+="_Nemesis.cor";
 		foo2+="_Nemesis.s";
-		mv subject_ressources/champs_total/compile/Randomize_Commodore.cor subject_ressources/champs_total/compile/$foo;
-		mv subject_ressources/champs_total/sources/Randomize_Commodore.s subject_ressources/champs_total/sources/$foo2;
+		mv ressources/compile/Randomize_Commodore.cor ressources/compile/$foo;
+		mv ressources/sources/Randomize_Commodore.s ressources/sources/$foo2;
 	fi

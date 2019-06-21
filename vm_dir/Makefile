@@ -6,7 +6,7 @@
 #    By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2019/06/07 13:02:13 by loiberti     #+#   ##    ##    #+#        #
-#    Updated: 2019/06/13 13:48:18 by rgermain    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/06/19 18:33:57 by rgermain    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -19,9 +19,9 @@ LIBFT_M :
 	@make -C ../libft/ all
 
 CFLAGS = -Wall -Werror -Wextra
-NCURSES = -L $(HOME)/.brew/lib/ -lSDL2 -lSDL2_ttf -lSDL2_mixer
+NCURSES = -L $(HOME)/.brew/lib/ -lSDL2 -lSDL2_ttf -lSDL2_mixer #-lsmpeg
 
-INCLUDE = -Iincludes -I../libft/includes -I../shared_includes -I$(HOME)/.brew/include
+INCLUDE = -Iincludes -I../libft/includes -I../shared_includes  -I$(HOME)/.brew/include
 
 HEADER = corewar.h corewar_enum.h cw_sdl.h
 
@@ -72,6 +72,7 @@ SRC =	main.c \
 		tools/cw_error_2.c \
 		cw_sdl.c \
 		cw_sdl_events.c \
+		cw_sdl_events_extra.c \
 		cw_sdl_put.c \
 		cw_sdl_put2.c \
 		cw_sdl_utils.c \
@@ -140,6 +141,5 @@ re: print_name
 norme : print_norme
 	@norminette $(CSRC) $(CHEADER) | sed "s,Norme,${ESC}[38;5;326m&${ESC}[0m," | sed "s/Error/  Error/g" | sed "s,Error,${ESC}[31m&${ESC}[0m,"
 
-normeall : norme
 
-.PHONY: default all fclean clean_f fclean re re_clean norme normeall print_norme print_name all_re
+.PHONY: default all fclean clean re norme print_norme print_name

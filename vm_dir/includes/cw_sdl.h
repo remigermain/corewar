@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/06 18:14:08 by rgermain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/11 13:00:27 by loiberti    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/17 19:00:02 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,7 +17,6 @@
 # include "SDL2/SDL.h"
 # include "SDL2/SDL_ttf.h"
 # include "SDL2/SDL_mixer.h"
-
 # define DIR_S "ressources_sdl/"
 # define RGB_PLAY_1 0x74d3ae
 # define RGB_PLAY_2 0xa6c48a
@@ -32,12 +31,30 @@
 # define RGB_COM 0x5b65a3
 # define IMG_NB 1
 # define IMG_COMMODORE_SCREEN "ressources_sdl/background.bmp"
+# define IMG_COMMODORE_SCREEN_2 "ressources_sdl/background_2.bmp"
+# define IMG_COMMODORE_SCREEN_2_1 "ressources_sdl/background_2_1.bmp"
 # define RESIZE 8
 # define LIVE_CHAN 0
 # define FORK_CHAN 1
 # define JUMP_CHAN 2
 # define ST_CHAN 3
 # define LD_CHAN 4
+# define GR_POWER_1	1915
+# define GR_POWER_2	1970
+# define GR_POWER_3	1170
+# define GR_POWER_4	1970
+# define CO_POWER_1	1925
+# define CO_POWER_2	1978
+# define CO_POWER_3	1163
+# define CO_POWER_4	1194
+# define CO_LIGHT_1	15
+# define CO_LIGHT_2	75
+# define CO_LIGHT_3	110
+# define CO_LIGHT_4	140
+# define CO_MU_1 280
+# define CO_MU_2 320
+# define CO_MU_3 1120
+# define CO_MU_4 1150
 
 /*
 **-----------------------------------------------------------------------
@@ -86,6 +103,8 @@ typedef struct	s_visu
 	TTF_Font		*font;
 	char			pause;
 	char			sound;
+	char			mod_back;
+	char			light;
 	char			responsive_mode;
 	SDL_Texture		*background;
 }				t_visu;

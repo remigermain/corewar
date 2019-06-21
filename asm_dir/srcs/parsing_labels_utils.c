@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/08 06:59:35 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/11 11:58:48 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/18 10:16:53 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -67,7 +67,7 @@ int		find_index(char *str, t_label *lab_tab, int label_nb)
 	ft_bzero(tmp, LABEL_LENGTH);
 	while (str[st] && (str[st] == LABEL_CHAR || str[st] == DIRECT_CHAR))
 		st++;
-	while (str[end] && str[end] != SEPARATOR_CHAR && !ft_iswhitespace(str[end]))
+	while (str[end] && str[end] != SEP_CHAR && !ft_iswhitespace(str[end]))
 		end++;
 	ft_strncpy(tmp, str + st, end - st);
 	i = -1;

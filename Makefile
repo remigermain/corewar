@@ -6,7 +6,7 @@
 #    By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/10/01 15:39:03 by rgermain     #+#   ##    ##    #+#        #
-#    Updated: 2019/06/13 13:45:02 by rgermain    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/06/19 18:32:39 by rgermain    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -33,19 +33,16 @@ DSM = $(addprefix $(DDSM), $(NAME_DSM))
 ##						bse								 ##
 ###########################################################
 
-all: libft asm vm dsm
-	@cp $(ASM) .
-	@cp $(VM) .
-	@cp $(DSM) .
+all: libft asm corewar dsm
 
-clean: libft_clean vm_clean dsm_clean asm_clean
+clean: libft_clean corewar_clean dsm_clean asm_clean
 
-fclean: libft_fclean asm_fclean vm_fclean dsm_fclean
+fclean: libft_fclean asm_fclean corewar_fclean dsm_fclean
 	@rm -rf $(NAME_ASM) $(NAME_VM) $(NAME_DSM)
 
 re: fclean print_name all
 
-norme : vm_norme asm_norme dsm_norme
+norme : corewar_norme asm_norme dsm_norme
 
 normeall : norme
 	@make -C $(DLIBFT) norme
@@ -61,10 +58,13 @@ libft:
 	@make -C $(DLIBFT)
 asm:
 	@make -C $(DASM)
-vm:
+	@cp $(ASM) .
+corewar:
 	@make -C $(DVM)
+	@cp $(VM) .
 dsm:
 	@make -C $(DDSM)
+	@cp $(DSM) .
 
 ############################################################
 
@@ -72,7 +72,7 @@ libft_clean:
 	@make -C $(DLIBFT) clean
 asm_clean:
 	@make -C $(DASM) clean
-vm_clean:
+corewar_clean:
 	@make -C $(DVM) clean
 dsm_clean:
 	@make -C $(DDSM) clean
@@ -83,7 +83,7 @@ libft_fclean:
 	@make -C $(DLIBFT) fclean
 asm_fclean:
 	@make -C $(DASM) fclean
-vm_fclean:
+corewar_fclean:
 	@make -C $(DVM) fclean
 dsm_fclean:
 	@make -C $(DDSM) fclean
@@ -94,16 +94,16 @@ libft_re:
 	@make -C $(DLIBFT) re
 asm_re:
 	@make -C $(DASM) re
-vm_re:
+corewar_re:
 	@make -C $(DVM) re
 dsm_re:
 	@make -C $(DDSM) re
 
 #############################################################
 
-libf_norme:
+libft_norme:
 	@make -C $(DLIBFT) norme
-vm_norme:
+corewar_norme:
 	@make -C $(DVM) norme
 asm_norme:
 	@make -C $(DASM) norme
@@ -113,4 +113,4 @@ dsm_norme:
 #############################################################
 #############################################################
 
-.PHONY: default all clean fclean re norme normeall print_norme print_name asm asm_clean asm_fclean asm_re vm asm_clean vm_fclean vm_re dsm dsm_clean dsm_fclean vm_re vm_norme asm_norme dsm_nome
+.PHONY: default all clean fclean re norme normeall print_norme print_name asm asm_clean asm_fclean asm_re corewar asm_clean corewar_fclean corewar_re dsm dsm_clean dsm_fclean corewar_norme asm_norme dsm_nome

@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/06/07 16:12:52 by loiberti     #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/14 00:56:41 by rgermain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/18 11:40:09 by rgermain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -194,7 +194,7 @@ void			put_background(t_visu *visu);
 void			update_bytes_pos(t_visu *visu);
 void			update_info_gl(t_visu *visu);
 void			update_info_players(t_visu *visu, t_core *cw);
-
+void			get_mouse(t_visu *visu, t_core *cw);
 /*
 **-----------------------------------------------------------------------
 **  		init flags , check define , init player
@@ -251,7 +251,8 @@ t_bool			zjmp(t_core *cw, t_inst *inst, t_process *p);
 void			launch_instruction(t_core *cw, t_process *p);
 int				next_inst(t_core *cw, t_process *p);
 t_bool			execute_instruction(t_core *cw, t_process *p, t_inst *param);
-t_bool			convert_value(t_core *cw, t_process *p, t_inst *inst, int flag);
+t_bool			convert_value(t_core *cw, t_process *p, t_inst *inst,
+		enum e_conv conv);
 void			less_cycle(t_core *cw, t_process *origi);
 
 /*
@@ -312,9 +313,9 @@ void			diff_base(t_core *cw, t_process *p, t_inst *inst, int mem);
 **			cw_error.c
 **-----------------------------------------------------------------------
 */
-void			cw_error(t_core *cw, t_argm *argm, int nb, char *str);
-void			cw_error_run(t_core *cw, int error, char *str);
-void			cw_warning(int warning);
+void			cw_error(t_core *cw, t_argm *argm, enum e_error er, char *str);
+void			cw_error_run(t_core *cw, enum e_error_r err, char *str);
+void			cw_warning(enum e_warning warning);
 void			cw_error_argv(t_argm *argm);
 
 /*

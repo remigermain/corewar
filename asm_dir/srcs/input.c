@@ -6,7 +6,7 @@
 /*   By: rcepre <rcepre@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/15 06:23:23 by rcepre       #+#   ##    ##    #+#       */
-/*   Updated: 2019/06/12 11:28:04 by rcepre      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/19 19:27:03 by rcepre      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -109,8 +109,7 @@ int		input(int ac, char **av, t_file *file_data)
 	if ((rest = check_options(ac, av, rest)) < 2)
 		put_error(NULL, -1, g_str[E_MISS_FILE], PE_ERR | PE_EXIT);
 	get_file_name(ac, av, file_data);
-	if ((fd = open(file_data->file_name, \
-									O_RDONLY | O_NOCTTY | O_NOFOLLOW)) == -1)
+	if ((fd = open(file_data->file_name, O_RDONLY | O_NOCTTY)) == -1)
 		put_error(NULL, -1, strerror(errno), PE_ERR | PE_EXIT);
 	return (fd);
 }
