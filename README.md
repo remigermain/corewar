@@ -2,6 +2,15 @@
 <br />
 <img src="https://i.imgur.com/ZkxLhCo.jpg" height="700" width="1300"
 
+### You need
+```
+you need brew in your home ( .brew )
+and install sdl2
+    install sdl2_ttf
+    install sdl2_mixer
+
+```
+
 #### usage corewar
 ```
 usage : ./corewar [ -flags ] -p [ -n <number> ] <champion.cor>
@@ -48,7 +57,6 @@ usage : ./asm [-flags] <champion.s>
 	--output  (-o) :  Define the output name.
 	--help    (-h) :  Print this Help.
 Corewar	© 2019 le-101   Loiberti - Rcepre - Rgermain
- rgermain@z2r3p3  ~/Documents/frama   master 
 ```
 
 #### usage de-assembler
