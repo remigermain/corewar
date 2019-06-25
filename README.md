@@ -22,8 +22,7 @@ distinctes :
 2.  La machine virtuelle: C’est l’"arène" dans laquelle les champions vont 
     s’exécuter. 
     Elle offre de nombreuses fonctionnalités, toutes utiles au combat des 
-    cham-pions. Il va de soi qu’elle permet d’exécuter plusieurs processus en 
-    simultané ; onvous demande une arène, pas unsimulateur de one-man show.
+    cham-pions.
 3.  Le champion: il est ecrit en langage assembleur, est compileé par le 
     programme asm, et peut etre lanceé par la VM de corewar.
 
