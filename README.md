@@ -1,5 +1,4 @@
-
-# Corwar :heavy_check_mark:
+# Corwar :heavy_check_mark: Loiberti - Rcepre - Rgermain 
 
 Le Corewar est un jeu très particulier.
 Il consiste à rassembler autour d’une "ma-chine virtuelle" des "joueurs",
@@ -30,7 +29,19 @@ distinctes :
 
 <br />
 <img src="https://i.imgur.com/ZkxLhCo.jpg" />
-original screen made in sdl2.
+Original screen made in sdl2.
+
+![](https://gitlab.com/rcepre/corewar/raw/master/pictures/cw3.png)
+
+![](https://gitlab.com/rcepre/corewar/raw/master/pictures/cw4.png)
+
+Handling clang-like errors of the asm, and verbose mode:
+
+![](https://gitlab.com/rcepre/corewar/raw/master/pictures/asm_pict.png)
+
+Verbose of the VM: 
+
+![](https://gitlab.com/rcepre/corewar/raw/master/pictures/verbsoe.png)
 
 ### You need
 ```
