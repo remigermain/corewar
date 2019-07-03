@@ -27,20 +27,20 @@ distinctes :
     programme asm, et peut etre lanceé par la VM de corewar.
 
 <br />
-<img src="https://i.imgur.com/ZkxLhCo.jpg" />
+<img src="/readme_img/corewar.jpg" />
 Original screen made in sdl2.
 
-![](https://gitlab.com/rcepre/corewar/raw/master/pictures/cw3.png)
+![](/readme_img/corewar2.png)
 
-![](https://gitlab.com/rcepre/corewar/raw/master/pictures/cw4.png)
+![](/readme_img/corewar3.png)
 
 Handling clang-like errors of the asm, and verbose mode:
 
-![](https://gitlab.com/rcepre/corewar/raw/master/pictures/asm_pict.png)
+![](/readme_img/asm_pict.png)
 
 Verbose of the VM: 
 
-![](https://gitlab.com/rcepre/corewar/raw/master/pictures/verbsoe.png)
+![](/readme_img/verbose_vm.png)
 
 ### You need
 ```
