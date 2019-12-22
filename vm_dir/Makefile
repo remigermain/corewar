@@ -18,7 +18,7 @@ TYPE = "of the executable"
 LIBFT_M :
 	@make -C ../libft/ all
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Wextra
 NCURSES = -L $(HOME)/.brew/lib/ -lSDL2 -lSDL2_ttf -lSDL2_mixer #-lsmpeg
 
 INCLUDE = -Iincludes -I../libft/includes -I../shared_includes  -I$(HOME)/.brew/include
@@ -27,7 +27,7 @@ HEADER = corewar.h corewar_enum.h cw_sdl.h
 
 LIBFT = ../libft/libft.a
 
-CC = clang
+CC = gcc
 
 OBJ = $(SRC:.c=.o)
 

@@ -17,6 +17,9 @@
 # include <stdarg.h>
 # include <errno.h>
 # include <string.h>
+# ifdef __linux__
+#  include <inttypes.h>
+# endif
 # define BUFF_PRINTF 128
 # define KEEP_PF	1
 # define OUT_PF	0

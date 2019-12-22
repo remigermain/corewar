@@ -15,9 +15,9 @@ NAME = libftprintf.a
 
 GRAPHIC = no
 
-CC= clang
+CC= gcc
 
-CFLAGS= -Wall -Wextra -Werror
+CFLAGS= -Wall -Wextra 
 
 SRC =   srcs/conv_char.c \
 		srcs/conv_double.c \

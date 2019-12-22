@@ -14,13 +14,13 @@
 NAME = asm
 TYPE = "of the executable"
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror 
 
 INCLUDE = -Iincludes -I../libft/includes -I../shared_includes
 
 HEADER = asm.h asm_str.h
 
-CC = clang
+CC = gcc
 LIBFT = ../libft/libft.a
 
 LIBFT_M : 

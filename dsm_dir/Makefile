@@ -14,10 +14,12 @@
 NAME = dsm
 TYPE = "of the executable"
 
+CC = gcc
+
 LIBFT_M :
 	@make -C ../libft/ all
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror 
 
 INCLUDE = -Iincludes -I../libft/includes -I../shared_includes
 
@@ -81,13 +83,13 @@ all: LIBFT_M print_name $(NAME)
 $(NAME): $(COBJ) $(LIBFT)
 	@echo $(SPACE)"\033[JCompilation\033[38;5;326m completed\033[0m"
 	@echo $(SPACE)"Compilation" $(TYPE) "\033[34m" $(NAME) "\033[0m"
-	@clang $(COBJ) $(CFLAGS) $(LIBFT) -o $(NAME)
+	$(CC) $(COBJ) $(CFLAGS) $(LIBFT) -o $(NAME)
 
 $(DOBJ)%.o : $(DSRC)%.c $(CHEADER) $(LIBFT)
 	@$(eval COUNT = "0")
 	@mkdir -p $(MDOBJ)
 	@mkdir -p $(addprefix $(DOBJ), $(ALL_D))
-	@clang $(CFLAGS) $(INCLUDE) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 	@echo $(SPACE)"Compilation from fonction \033[38;5;326m"$< "\033[0m\033[K\033[1A"
 
 clean: print_name

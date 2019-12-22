@@ -13,10 +13,16 @@
 
 #ifndef CW_SDL_H
 # define CW_SDL_H
-# include "corewar.h"
-# include "SDL2/SDL.h"
-# include "SDL2/SDL_ttf.h"
-# include "SDL2/SDL_mixer.h"
+#  include "corewar.h"
+# ifdef __linux__
+#  include <SDL2/SDL.h>
+#  include <SDL2/SDL_ttf.h>
+#  include <SDL2/SDL_mixer.h>
+# else
+#  include "SDL2/SDL.h"
+#  include "SDL2/SDL_ttf.h"
+#  include "SDL2/SDL_mixer.h"
+# endif
 # define DIR_S "ressources_sdl/"
 # define RGB_PLAY_1 0x74d3ae
 # define RGB_PLAY_2 0xa6c48a
