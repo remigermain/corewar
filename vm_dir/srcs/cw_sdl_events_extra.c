@@ -13,6 +13,8 @@
 
 #include "corewar.h"
 
+#define SCREEN(cw, value) ((value / 4) * cw->utils.size)
+
 /*
 **-----------------------------------------------------------------------
 ** SDL function for music in walkman , button exit et light
@@ -74,17 +76,17 @@ void		get_mouse(t_visu *visu, t_core *cw)
 		!visu->responsive_mode && visu->event.key.repeat == 0)
 	{
 		is_press = 0;
-		if (!visu->mod_back && x >= GR_POWER_1 && x <= GR_POWER_2 &&
-				y >= GR_POWER_3 && y <= GR_POWER_4)
+		if (!visu->mod_back && x >= SCREEN(cw, GR_POWER_1) && x <= SCREEN(cw, GR_POWER_2) &&
+				y >= SCREEN(cw, GR_POWER_3) && y <= SCREEN(cw, GR_POWER_4))
 			quit_sdl(visu, cw);
-		else if (visu->mod_back && x >= CO_POWER_1 && x <= CO_POWER_2 &&
-				y >= CO_POWER_3 && y <= CO_POWER_4)
+		else if (visu->mod_back && x >= SCREEN(cw, CO_POWER_1) && x <= SCREEN(cw, CO_POWER_2) &&
+				y >= SCREEN(cw, CO_POWER_3) && y <= SCREEN(cw, CO_POWER_4))
 			quit_sdl(visu, cw);
-		else if (visu->mod_back && x >= CO_MU_1 && x <= CO_MU_2 &&
-				y >= CO_MU_3 && y <= CO_MU_4)
+		else if (visu->mod_back && x >= SCREEN(cw, CO_MU_1) && x <= SCREEN(cw, CO_MU_2) &&
+				y >= SCREEN(cw, CO_MU_3) && y <= SCREEN(cw, CO_MU_4))
 			is_press = change_music();
-		else if (visu->mod_back && x >= CO_LIGHT_1 && x <= CO_LIGHT_2 &&
-				y >= CO_LIGHT_3 && y <= CO_LIGHT_4)
+		else if (visu->mod_back && x >= SCREEN(cw, CO_LIGHT_1) && x <= SCREEN(cw, CO_LIGHT_2) &&
+				y >= SCREEN(cw, CO_LIGHT_3) && y <= SCREEN(cw, CO_LIGHT_4))
 			is_press = change_light(visu);
 	}
 }

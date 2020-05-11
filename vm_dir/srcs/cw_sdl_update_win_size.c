@@ -25,16 +25,16 @@ void	set_sizes_responsive(t_visu *visu)
 	visu->info.h = visu->arena.y - (visu->info.y * 2);
 }
 
-void	set_sizes_fix(t_visu *visu)
+void	set_sizes_fix(t_core *cw, t_visu *visu)
 {
-	visu->arena.x = 700;
-	visu->arena.w = 1973 - 700;
-	visu->arena.y = 95 + 70;
-	visu->arena.h = 1100 - 165;
+	visu->arena.x = (700 / 4) * cw->utils.size;
+	visu->arena.w = ((1973 - 700) / 4) * cw->utils.size;
+	visu->arena.y = ((95 + 70) / 4) * cw->utils.size;
+	visu->arena.h = ((1100 - 165) / 4) * cw->utils.size;
 	visu->info.x = visu->arena.x;
 	visu->info.w = visu->arena.w;
-	visu->info.y = 95;
-	visu->info.h = 60;
+	visu->info.y = (95 / 4) * cw->utils.size;
+	visu->info.h = (60 / 4) * cw->utils.size;
 }
 
 void	update_win_size(t_visu *visu, t_core *cw, int todo)
@@ -44,7 +44,7 @@ void	update_win_size(t_visu *visu, t_core *cw, int todo)
 	if (visu->responsive_mode)
 		set_sizes_responsive(visu);
 	else
-		set_sizes_fix(visu);
+		set_sizes_fix(cw, visu);
 	update_bytes_pos(visu);
 	update_info_gl(visu);
 	update_info_players(visu, cw);

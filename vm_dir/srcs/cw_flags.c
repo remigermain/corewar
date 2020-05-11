@@ -26,6 +26,7 @@ t_bool			cw_isflags(char *str)
 			ft_strcmp(str, "-s") && ft_strcmp(str, "--step") &&
 			ft_strcmp(str, "-a") && ft_strcmp(str, "--animation") &&
 			ft_strcmp(str, "-f") && ft_strcmp(str, "--aff") &&
+			ft_strcmp(str, "--screen") &&
 			ft_strcmp(str, "--diff"))
 		return (FALSE);
 	return (TRUE);
@@ -81,6 +82,11 @@ static t_bool	cw_flags2(t_core *cw, t_argm *argm)
 	else if ((!ft_strcmp(argm->argv[argm->i], "-p") ||
 				!ft_strcmp(argm->argv[argm->i], "--player")) && (argm->i++))
 		put_player(cw, argm);
+	else if (!ft_strcmp(argm->argv[argm->i], "--screen") && (argm->i++))
+	{
+		if (argm->argv[argm->i])
+			cw->utils.size = (!ft_strcmp(argm->argv[argm->i++], "1920") ? 3 : 4);
+	}
 	else if (!ft_strcmp(argm->argv[argm->i], "-n") ||
 				!ft_strcmp(argm->argv[argm->i], "--number") ||
 				(argm->argv[argm->i] && cw_is_champ(argm->argv[argm->i])))
@@ -95,6 +101,7 @@ static t_bool	cw_flags2(t_core *cw, t_argm *argm)
 void			cw_flags(t_core *cw, t_argm *argm)
 {
 	argm->i = 1;
+	cw->utils.size = 4;
 	while (argm->argv[argm->i] && argm->i < argm->argc)
 	{
 		if (!ft_strcmp(argm->argv[argm->i], "-V") ||

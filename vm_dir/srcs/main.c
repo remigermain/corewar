@@ -17,7 +17,7 @@ static void	print_usage(void)
 {
 	ft_printf("usage : ./corewar [ -flags ] -p [ -n <number> ] <champion.cor>"\
 "\n\n [ flags ]\n  	--visu\t (-V)\t\t\t:  Visual made in SDL2.\n"
-"\n	[ visu flags ]\n\t\t--animation (-a)	: "\
+"\n	[ visu flags ]\n\t\t--screen  : 1920 or 4k\n\t\t--animation (-a)	: "\
 " Print annimation in start and end ( default is off )."\
 "\n\t--dump\t (-d)   <Numbe"\
 "r>	:  Dumps memory after <Number> cyles and exits.\n	--color\t (-c)		"\
