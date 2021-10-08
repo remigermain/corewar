@@ -34,12 +34,11 @@ void	diff_sti(t_core *cw, t_inst *inst, t_process *p, int mem)
 void	diff_ldi(t_core *cw, t_inst *inst, t_process *p)
 {
 	int	value;
-	int	add;
 	int	mem;
 
 	value = inst->value[0] + inst->value[1];
 	mem = convert_adress(p, inst, value);
-	add = add_bytes(cw->vm.arena, mem, REG_SIZE);
+	add_bytes(cw->vm.arena, mem, REG_SIZE);
 	if (test_bit(&(cw->utils.flags), CW_DIFF))
 	{
 		ft_printf("P %4d | %s ", p->number, cw->tab[inst->op - 1].name);

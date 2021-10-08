@@ -49,6 +49,8 @@ void	load_samples(t_core *cw)
 void	play_sample(t_core *cw, int indice, int channel)
 {
 	if (cw->visu->sound)
-		if (Mix_PlayChannel(channel, cw->samples[indice], 0) == -1)
+	{
+		if (Mix_PlayChannel(channel, cw->samples[indice], 0) < 0)
 			cw_warning(SDL_PLAY_CHAN);
+	}
 }

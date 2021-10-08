@@ -64,10 +64,10 @@ static void	change_background(t_visu *visu)
 	if (visu->event.key.keysym.sym == SDLK_p && !visu->responsive_mode)
 	{
 		SDL_DestroyTexture(visu->background);
-		if (visu->mod_back && !(surf = SDL_LoadBMP(IMG_COMMODORE_SCREEN)))
+		if (visu->mod_back && !(surf = SDL_LoadBMP(visu->screen.graph)))
 			cw_warning(SDL_LOAD_BMP);
 		else if (!visu->mod_back &&
-				!(surf = SDL_LoadBMP(IMG_COMMODORE_SCREEN_2)))
+				!(surf = SDL_LoadBMP(visu->screen.base)))
 			cw_warning(SDL_LOAD_BMP);
 		visu->mod_back = (visu->mod_back ? 0 : 1);
 		if (!(visu->background = SDL_CreateTextureFromSurface(visu->ren, surf)))

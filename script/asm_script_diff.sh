@@ -4,25 +4,25 @@ ERRROR="0"
 
 if [[ $# -ne 1 ]]
 then
-	echo "usage: asm_script_diff.sh <file.s>"
+echo -e "usage: asm_script_diff.sh <file.s>"
 	ERROR="1";
 fi
 
 if [[ ! -f "asm" ]]
 then
-	echo "usage: asm_script_diff.sh <file.s>"
+echo -e "usage: asm_script_diff.sh <file.s>"
 	ERROR="1";
 fi
 
 if [[ ! -f "ressources/original_asm" ]]
 then
-	echo "can't find ressources/original_asm"
+echo -e "can't find ressources/original_asm"
 	ERROR="1";
 fi
 
 if [[ ! -f "asm" ]]
 then
-	echo "can't find ressources/original_asm"
+echo -e "can't find ressources/original_asm"
 	ERROR="1";
 fi
 
@@ -49,9 +49,9 @@ hexdump .original_asm.cor > .base
 DIFF=`diff .base .new | wc -l`
 if [[ ${DIFF} -ge 1 ]]
 then
-	echo "\033[1;31m[ diff  KO ]\033[1;31m"
+echo -e "\033[1;31m[ diff  KO ]\033[1;31m"
 	diff .base .new
 else
-	echo "\033[1;32m[ diff OK ]\033[1;31m"
+echo -e "\033[1;32m[ diff OK ]\033[1;31m"
 fi
 rm -rf .base .new $NAME2 $NAME

@@ -1,6 +1,6 @@
 ## Champion 1
 
-.name "Echo"
+.name echo -e"
 .comment "I'm coming"
 
 live:

@@ -38,6 +38,8 @@ static void	cw_error_4(enum e_error error, char *str)
 	else if (error == CW_NUM_L)
 		ft_dprintf(2, "The number can't be less than "\
 				"\"0\".\n", FT_INT_MIN);
+	else if (error == CW_VISU_SCREEN)
+		ft_dprintf(2, "The value need to be 1080 or 4k\n");
 	else
 		ft_dprintf(2, "no error.\n\n");
 }

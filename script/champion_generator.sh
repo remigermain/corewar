@@ -146,37 +146,37 @@
 	{
 		get_value $1;
 		if [ $1 -eq 1 ]; then
-			echo "live $v1" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "live $v1" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 9 ]; then
-			echo "zjmp $v1" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "zjmp $v1" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 12 ]; then
-			echo "fork $v1" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "fork $v1" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 15 ]; then
-			echo "lfork $v1" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "lfork $v1" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 4 ]; then
-			echo "add $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "add $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 5 ]; then
-			echo "sub $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "sub $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 2 ]; then
-			echo "ld $v1, $v2" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "ld $v1, $v2" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 13 ]; then
-			echo "lld $v1, $v2" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "lld $v1, $v2" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 16 ]; then
-			echo "aff $v1" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "aff $v1" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 3 ]; then
-			echo "st $v1, $v2" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "st $v1, $v2" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 6 ]; then
-			echo "and $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "and $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 7 ]; then
-			echo "or $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "or $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 8 ]; then
-			echo "xor $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "xor $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 10 ]; then
-			echo "ldi $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "ldi $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 14 ]; then
-			echo "lldi $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "lldi $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		elif [ $1 -eq 11 ]; then
-			echo "sti $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
+		echo -e "sti $v1, $v2, $v3" >> ressources/sources/Randomize_Commodore.s;
 		fi
 	}
 
@@ -188,11 +188,11 @@
 			rm ressources/sources/Randomize_Commodore.s;
 		fi
 		if [ $3 -eq 2 ]; then
-			echo ".name \"$1\"" >> ressources/sources/Randomize_Commodore.s;
-			echo ".comment \"$2\"" >> ressources/sources/Randomize_Commodore.s;
+		echo -e ".name \"$1\"" >> ressources/sources/Randomize_Commodore.s;
+		echo -e ".comment \"$2\"" >> ressources/sources/Randomize_Commodore.s;
 		else
-			echo ".name \"Randomize Commodore\"" >> ressources/sources/Randomize_Commodore.s;
-			echo ".comment \"I'm the result of hasard, what could you do against that ?\"" >> ressources/sources/Randomize_Commodore.s;
+		echo -e ".name \"Randomize Commodore\"" >> ressources/sources/Randomize_Commodore.s;
+		echo -e ".comment \"I'm the result of hasard, what could you do against that ?\"" >> ressources/sources/Randomize_Commodore.s;
 		fi
 		while [ $i -lt $random_size ]; do
 			((i++));

@@ -56,9 +56,9 @@ void			init_sdl(t_core *cw, t_visu *visu)
 	int				freq;
 
 	freq = (MIX_DEFAULT_FREQUENCY) * 2;
-	if ((SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)))
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 		cw_error_run(cw, SDL_INIT, NULL);
-	if ((Mix_OpenAudio(freq, MIX_DEFAULT_FORMAT, STEREO, 128) == -1))
+	if ((Mix_OpenAudio(freq, MIX_DEFAULT_FORMAT, STEREO, 4096) < 0))
 		cw_error_run(cw, SDL_OPEN_AUDIO, NULL);
 	init_ttf(cw, visu);
 	if (visu->win_h == -1)
@@ -108,7 +108,7 @@ void			open_images(t_visu *visu)
 
     visu->light = 1;
     visu->mod_back = 1;
-	if (!(surf = SDL_LoadBMP(IMG_COMMODORE_SCREEN_2_1)))
+	if (!(surf = SDL_LoadBMP(visu->screen.light)))
 		cw_warning(SDL_LOAD_BMP);
 	if (!(visu->background = SDL_CreateTextureFromSurface(visu->ren, surf)))
 		cw_warning(SDL_CREATE_TEXT);

@@ -89,12 +89,12 @@ print_norme :
 
 all: LIBFT_M print_name $(NAME)
 	@if [ $(COUNT) = "1" ]; then \
-		echo $(SPACE)"\033[1;34m   Nothing are changed !\033[0m"; \
+	echo -e $(SPACE)"\033[1;34m   Nothing are changed !\033[0m"; \
 	fi
 
 $(NAME): $(COBJ)
-	@echo $(SPACE)"\033[JCompilation\033[38;5;326m completed\033[0m"
-	@echo $(SPACE)"Compilation" $(TYPE) "\033[34m" $(NAME) "\033[0m"
+	@echo -e $(SPACE)"\033[JCompilation\033[38;5;326m completed\033[0m"
+	@echo -e $(SPACE)"Compilation" $(TYPE) "\033[34m" $(NAME) "\033[0m"
 	@$(CC) $(COBJ) $(CFLAGS) $(LIBFT) -o $(NAME)
 
 $(DOBJ)%.o : $(DSRC)%.c $(CHEADER) $(LIBFT)
@@ -102,21 +102,21 @@ $(DOBJ)%.o : $(DSRC)%.c $(CHEADER) $(LIBFT)
 	@mkdir -p $(DOBJ)
 	@mkdir -p $(addprefix $(DOBJ), $(ALL_D))
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
-	@echo $(SPACE)"Compilation from function\033[38;5;326m"$< "\033[0m\033[K\033[1A"
+	@echo -e $(SPACE)"Compilation from function\033[38;5;326m"$< "\033[0m\033[K\033[1A"
 
 clean: print_name
 	@rm -rf $(DOBJ)
-	@echo $(SPACE)"Deleting \033[38;5;265mobjects\033[0m"
+	@echo -e $(SPACE)"Deleting \033[38;5;265mobjects\033[0m"
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo $(SPACE)"Deleting \033[38;5;265m"$(NAME) "\033[0m"
+	@echo -e $(SPACE)"Deleting \033[38;5;265m"$(NAME) "\033[0m"
 
 re: print_name
 	@rm -f $(NAME)
 	@rm -rf $(DOBJ)
-	@echo $(SPACE)"Deleting \033[38;5;265m"$(NAME) "\033[0m"
-	@echo $(SPACE)"Deleting \033[38;5;265mobjects\033[0m"
+	@echo -e $(SPACE)"Deleting \033[38;5;265m"$(NAME) "\033[0m"
+	@echo -e $(SPACE)"Deleting \033[38;5;265mobjects\033[0m"
 	@make all
 
 norme : print_norme

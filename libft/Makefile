@@ -134,18 +134,18 @@ SPACE = "                    "
 ESC = $(shell printf '\033')
 
 print_name :
-	@echo "\033[0m\n----------------------------------------------------------------------\n\033[37m"
-	@echo " \033[47m  \033[0m\033[37m                    [    LIBFT     ]                      \033[0m  \033[47m  \033[0m"
-	@echo "\n----------------------------------------------------------------------\n"
+	@echo -e "\033[0m\n----------------------------------------------------------------------\n\033[37m"
+	@echo -e " \033[47m  \033[0m\033[37m                    [    LIBFT     ]                      \033[0m  \033[47m  \033[0m"
+	@echo -e "\n----------------------------------------------------------------------\n"
 
 print_norme :
-	@echo "\033[0m\n----------------------------------------------------------------------\n\033[37m"
-	@echo " \033[47m  \033[0m\033[37m                    [    LIBFT   NORME  ]                 \033[0m  \033[47m  \033[0m"
-	@echo "\n----------------------------------------------------------------------\n"
+	@echo -e "\033[0m\n----------------------------------------------------------------------\n\033[37m"
+	@echo -e " \033[47m  \033[0m\033[37m                    [    LIBFT   NORME  ]                 \033[0m  \033[47m  \033[0m"
+	@echo -e "\n----------------------------------------------------------------------\n"
 
 all: print_name $(NAME)
 	@if [ $(COUNT) = "1" ]; then \
-		echo $(SPACE)"\033[1;34m   Nothing are changed !\033[0m"; \
+	echo -e $(SPACE)"\033[1;34m   Nothing are changed !\033[0m"; \
 	fi
 
 OBJECT = $(SRC:.c=.o)
@@ -165,7 +165,7 @@ ft_printf_PATH = srcs/ft_printf/
 
 
 $(NAME): $(OBJECT) $(HEADER)
-	@echo ""
+	@echo -e ""
 	@$(eval COUNT = "0")
 	@(cd $(ft_printf_PATH) && make)
 	@ar rc $(NAME) $(OBJECT) $(ft_printf_OBJECTS)
@@ -180,11 +180,11 @@ $(NAME): $(OBJECT) $(HEADER)
 clean : print_name
 	@(cd $(ft_printf_PATH) && make clean)
 	@rm -rf $(OBJECT)
-	@echo $(RM_OBJ)
+	@echo -e $(RM_OBJ)
 
 clean_exe:
 	@rm -rf $(NAME)
-	@echo $(RM_LIB)
+	@echo -e $(RM_LIB)
 
 fclean: clean clean_exe
 

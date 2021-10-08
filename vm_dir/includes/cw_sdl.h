@@ -24,6 +24,7 @@
 #  include "SDL2/SDL_mixer.h"
 # endif
 # define DIR_S "ressources_sdl/"
+# define SCREEN(cw, value) ((value / 4) * visu->screen.coef)
 # define RGB_PLAY_1 0x74d3ae
 # define RGB_PLAY_2 0xa6c48a
 # define RGB_PLAY_3 0x8b85c1
@@ -36,9 +37,12 @@
 # define RGB_FORK 0xf8ff38
 # define RGB_COM 0x5b65a3
 # define IMG_NB 1
-# define IMG_COMMODORE_SCREEN "ressources_sdl/background.bmp"
-# define IMG_COMMODORE_SCREEN_2 "ressources_sdl/background_2.bmp"
-# define IMG_COMMODORE_SCREEN_2_1 "ressources_sdl/background_2_1.bmp"
+# define IMG_COMMODORE_4k_BASE "ressources_sdl/background_4k.bmp"
+# define IMG_COMMODORE_4k_LIGHT "ressources_sdl/background_4k_light.bmp"
+# define IMG_COMMODORE_4k_GRAPH "ressources_sdl/background_4k_graph.bmp"
+# define IMG_COMMODORE_1080_BASE "ressources_sdl/background_1080.bmp"
+# define IMG_COMMODORE_1080_LIGHT "ressources_sdl/background_1080_light.bmp"
+# define IMG_COMMODORE_1080_GRAPH "ressources_sdl/background_1080_graph.bmp"
 # define RESIZE 8
 # define LIVE_CHAN 0
 # define FORK_CHAN 1
@@ -86,12 +90,28 @@ typedef struct	s_letter
 
 /*
 **-----------------------------------------------------------------------
+**	screen structure
+**-----------------------------------------------------------------------
+*/
+
+typedef struct s_screen
+{
+	char *base;
+	char *light;
+	char *graph;
+	int coef;
+}				t_screen;
+
+
+/*
+**-----------------------------------------------------------------------
 **	main structure
 **-----------------------------------------------------------------------
 */
 
 typedef struct	s_visu
 {
+	t_screen		screen;
 	int				win_w;
 	int				win_h;
 	SDL_Window		*win;

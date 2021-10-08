@@ -121,7 +121,7 @@ typedef struct	s_flags
 	int	flags;
 	int	speed;
 	int	dump_cycle;
-	int	size;
+	const char *screen;
 }				t_flags;
 
 /*

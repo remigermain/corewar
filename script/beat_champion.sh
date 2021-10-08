@@ -4,15 +4,15 @@ score='0';
 
 	usage()
 	{
-		extension=`echo $1 | grep -c ".cor"`
+		extension=echo -e $1 | grep -c ".cor"`
 		if [ $nb_arg -ne 1 ]; then
-			echo "Usage : sh test.sh <champ_to_beat.cor>";
+		echo -e "Usage : sh test.sh <champ_to_beat.cor>";
 			exit;
 		elif [ $extension -ne 1 ]; then
-			echo "Error : Your champion must have \".cor\" extension !";
+		echo -e "Error : Your champion must have \".cor\" extension !";
 			exit;
 		elif [ ! -f "$1" ]; then
-			echo "Error : File doesn't exist !";
+		echo -e "Error : File doesn't exist !";
 			exit;
 		fi
 	}
@@ -22,7 +22,7 @@ score='0';
 	{
 		sh script/champion_generator.sh "$2 Nemesis" "I'm sure to beat $2, that's a good start !" >> /dev/null;
 		haystack=`./ressources/original_corewar -a $1 -a ressources/compile/Randomize_Commodore.cor`;
-		score=`echo $haystack | grep -c "\"$2 Nemesis\", has won"`
+		score=echo -e $haystack | grep -c "\"$2 Nemesis\", has won"`
 	}
 
 
@@ -37,7 +37,7 @@ score='0';
 		while [ $score -eq 0 ]; do
 			launch_game $1 $foo;
 		done;
-				echo "Congratulations ! $foo Nemesis has been created !";
+			echo -e "Congratulations ! $foo Nemesis has been created !";
 		foo2="$foo";
 		foo+="_Nemesis.cor";
 		foo2+="_Nemesis.s";

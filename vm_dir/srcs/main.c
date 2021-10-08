@@ -17,7 +17,7 @@ static void	print_usage(void)
 {
 	ft_printf("usage : ./corewar [ -flags ] -p [ -n <number> ] <champion.cor>"\
 "\n\n [ flags ]\n  	--visu\t (-V)\t\t\t:  Visual made in SDL2.\n"
-"\n	[ visu flags ]\n\t\t--screen  : 1920 or 4k\n\t\t--animation (-a)	: "\
+"\n	[ visu flags ]\n\t\t--screen  : 1080 or 4k\n\t\t--animation (-a)	: "\
 " Print annimation in start and end ( default is off )."\
 "\n\t--dump\t (-d)   <Numbe"\
 "r>	:  Dumps memory after <Number> cyles and exits.\n	--color\t (-c)		"\
@@ -83,6 +83,19 @@ int			main(int argc, char **argv)
 	init_visu_strcut(&visu);
 	cw_check_define(&argm);
 	cw_flags(&cw, &argm);
+	if (cw.utils.screen) {
+		if (!ft_strcmp(cw.utils.screen, "1080")) {
+			visu.screen.coef = 3;
+			visu.screen.base = IMG_COMMODORE_1080_BASE;
+			visu.screen.light = IMG_COMMODORE_1080_LIGHT;
+			visu.screen.graph = IMG_COMMODORE_1080_GRAPH;
+		} else {
+			visu.screen.coef = 4;
+			visu.screen.base = IMG_COMMODORE_4k_BASE;
+			visu.screen.light = IMG_COMMODORE_4k_LIGHT;
+			visu.screen.graph = IMG_COMMODORE_4k_GRAPH;
+		}
+	}
 	if (!argm.error)
 	{
 		cw.last_live = cw.nb_player - 1;

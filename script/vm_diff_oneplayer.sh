@@ -6,39 +6,39 @@ ERROR="0"
 	{
 	#	./corewar $1 -d $2 > .diff_core && ./ressources/original_corewar $1 -d $2 > .diff_oricore
 		./corewar --diff $1 -d $2 > .diff_core && ./ressources/original_corewar -v 31 $1 -d $2 > .diff_oricore
-		echo "[finish]"
+	echo -e "[finish]"
 		DIFF=`diff .diff_core .diff_oricore`
 		DIFF_LINE=`diff .diff_core .diff_oricore | wc -l`
 		if [[ ${DIFF_LINE} -ne 0 ]]
 		then
-			echo "[ KO is a diff ]"
-			echo $DIFF
+		echo -e "[ KO is a diff ]"
+		echo -e $DIFF
 		else
-			echo "[ OK no diff ]"
+		echo -e "[ OK no diff ]"
 		fi
 	}
 
 if [[ $# -ne 2 ]]
 then
-	echo "You need 3 params\nscript <champion.cor> [ nb _cycle ]"
+echo -e "You need 3 params\nscript <champion.cor> [ nb _cycle ]"
 	exit;
 fi
 
 if ! [[ "$2" =~ ^[0-9]+$ ]]
 then
-	echo "your param 1 \"$1\" is not integers."
+echo -e "your param 1 \"$1\" is not integers."
 	ERROR="1"
 fi
 
 if [ ! -f "corewar" ]
 then
-	echo "Cant's find corewar"
+echo -e "Cant's find corewar"
 	ERROR="1"
 fi
 
 if [ ! -f "ressources/original_corewar" ]
 then
-	echo "Cant's find corewar"
+echo -e "Cant's find corewar"
 	ERROR="1"
 fi
 

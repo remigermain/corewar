@@ -84,8 +84,20 @@ static t_bool	cw_flags2(t_core *cw, t_argm *argm)
 		put_player(cw, argm);
 	else if (!ft_strcmp(argm->argv[argm->i], "--screen") && (argm->i++))
 	{
-		if (argm->argv[argm->i])
-			cw->utils.size = (!ft_strcmp(argm->argv[argm->i++], "1920") ? 3 : 4);
+		if (!argm->argv[argm->i]) {
+			cw_error(cw, argm, CW_VISU_SCREEN, NULL);
+		} else {
+			if (
+				!ft_strcmp(argm->argv[argm->i], "1080") ||
+				!ft_strcmp(argm->argv[argm->i], "4k")
+			) {
+				cw->utils.screen = argm->argv[argm->i];
+			}
+			else {
+				cw_error(cw, argm, CW_VISU_SCREEN, NULL);
+			}
+			argm->i++;
+		}
 	}
 	else if (!ft_strcmp(argm->argv[argm->i], "-n") ||
 				!ft_strcmp(argm->argv[argm->i], "--number") ||
@@ -101,7 +113,7 @@ static t_bool	cw_flags2(t_core *cw, t_argm *argm)
 void			cw_flags(t_core *cw, t_argm *argm)
 {
 	argm->i = 1;
-	cw->utils.size = 4;
+	cw->utils.screen = "1080";
 	while (argm->argv[argm->i] && argm->i < argm->argc)
 	{
 		if (!ft_strcmp(argm->argv[argm->i], "-V") ||

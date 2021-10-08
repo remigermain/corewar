@@ -13,8 +13,6 @@
 
 #include "corewar.h"
 
-#define SCREEN(cw, value) ((value / 4) * cw->utils.size)
-
 /*
 **-----------------------------------------------------------------------
 ** SDL function for music in walkman , button exit et light
@@ -26,10 +24,10 @@ static int	change_light(t_visu *visu)
 	SDL_Surface	*surf;
 
 	SDL_DestroyTexture(visu->background);
-	if (visu->light && !(surf = SDL_LoadBMP(IMG_COMMODORE_SCREEN_2_1)))
+	if (visu->light && !(surf = SDL_LoadBMP(visu->screen.base)))
 		cw_warning(SDL_LOAD_BMP);
 	else if (!visu->light &&
-		!(surf = SDL_LoadBMP(IMG_COMMODORE_SCREEN_2)))
+		!(surf = SDL_LoadBMP(visu->screen.light)))
 		cw_warning(SDL_LOAD_BMP);
 	if (!(visu->background =\
 		SDL_CreateTextureFromSurface(visu->ren, surf)))

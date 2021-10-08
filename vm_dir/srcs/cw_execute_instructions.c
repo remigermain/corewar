@@ -23,9 +23,7 @@
 void		convert_add(t_core *cw, t_process *p, t_inst *inst, int par_nb)
 {
 	int	value;
-	int mod;
 
-	mod = 2;
 	value = convert_adress(p, inst, inst->value[par_nb]);
 	if (inst->op == CW_LD || inst->op == CW_LDI || inst->op == CW_LLDI ||
 			inst->op == CW_OR || inst->op == CW_XOR || inst->op == CW_ST ||

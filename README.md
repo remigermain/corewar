@@ -1,30 +1,29 @@
-# Corwar :heavy_check_mark: Loiberti - Rcepre - Rgermain 
+# Corwar :heavy_check_mark: Loiberti - Rcepre - Rgermain
 
-Le Corewar est un jeu très particulier.
-Il consiste à rassembler autour d’une "ma-chine virtuelle" des "joueurs",
-lesquels vont y charger des "champions" qui vont sebattre à l’aide de processus,
-dans le but, entre autres, de faire en sorte qu’on dise d'eux qu’ils sont "en vie".
-Les processus s’exécutent séquentiellement au sein de la même machine virtuelle,
-et du même espace mémoire. Ils peuvent donc, entre autre chose, s’écrire les un 
-ssur les autres afin de se corrompre mutuellement, de forcer les autres à 
-exécuterdes instructions qui leur font du mal, de tenter de recréer à la volée 
-l’équivalent logiciel d’unCôtes du Rhône 1982, etc ...
-Le jeu se termine quand plus aucun processus n’est en vie. 
-À ce moment là, legagnant est le dernier joueur à avoir été rapporté comme étant
-"en vie".II.2  Découpage du projetLe projet consiste à rendre trois parties 
-distinctes :
+Corewar is a very particular game.
+It consists in gathering around a "virtual machine" of "players",
+who will load "champions" who will fight with the help of processes,
+in order, among other things, to make sure that they are said to be "alive".
+The processes run sequentially within the same virtual machine
+and the same memory space. They can therefore, among other things, write to each other in order to
+on each other in order to corrupt each other, to force each other to
+instructions that harm them, to try to recreate on the fly the software equivalent of a
+the software equivalent of a 1982 Côtes du Rhône, etc ...
+The game ends when no process is left alive.
+At this point, the winner is the last player to have been reported as "alive".
+"II.2 Breakdown of the projectThe project consists in making three distinct parts
+distinct:
 
-
-1.  L’assembleur: C’est le programme qui va compiler vos champions et les
-    traduire du langage dans lequel vous allez les écrire (l’assembleur) 
-    vers un "bytecode", à savoir un code machine qui sera directement interprété
-    par la machine virtuelle.
-2.  La machine virtuelle: C’est l’"arène" dans laquelle les champions vont 
-    s’exécuter. 
-    Elle offre de nombreuses fonctionnalités, toutes utiles au combat des 
+1.  The assembler: This is the program that will compile your champions and
+    translate them from the language in which you will write them (the assembler)
+    to a "bytecode", that is to say a machine code which will be directly interpreted
+    by the virtual machine.
+2.  The virtual machine: This is the "arena" in which the champions will run.
+    run.
+    It offers many functionalities, all useful to the combat of the
     cham-pions.
-3.  Le champion: il est ecrit en langage assembleur, est compileé par le 
-    programme asm, et peut etre lanceé par la VM de corewar.
+3.  The champion: it is written in assembly language, is compiled by the
+    program, and can be launched by the corewar VM.
 
 <br />
 <img src="/readme_img/corewar.jpg" />
@@ -38,20 +37,23 @@ Handling clang-like errors of the asm, and verbose mode:
 
 ![](/readme_img/asm_pict.png)
 
-Verbose of the VM: 
+Verbose of the VM:
 
 ![](/readme_img/verbose_vm.png)
 
 ### You need
-```
-you need brew in your home ( .brew )
-and install sdl2
-    install sdl2_ttf
-    install sdl2_mixer
+
+```bash
+#for linux
+dnf install SDL2-devel SDL2_ttf-devel SDL2_mixer-devel
+
+#for macos you need brew in your home ( .brew )
+brew install SDL2 SDL2_ttf SDL2_mixer
 
 ```
 
 #### usage corewar
+
 ```
 usage : ./corewar [ -flags ] -p [ -n <number> ] <champion.cor>
 
@@ -59,7 +61,8 @@ usage : ./corewar [ -flags ] -p [ -n <number> ] <champion.cor>
   	--visu	 (-V)			:  Visual made in SDL2.
 
 	[ visu flags ]
-		--animation (-a)	:  Print annimation in start and end ( default is off ).
+	--screen			:  Change screen resolution (1080 or 4k).
+	--animation (-a)	:  Print annimation in start and end ( default is off ).
 	--dump	 (-d)   <Number>	:  Dumps memory after <Number> cyles and exits.
 	--color	 (-c)			:  Dumps with color player.
 	--diff				:  Print verbose same as zaz's VM.
@@ -89,10 +92,11 @@ Corewar © 2019 le-101 Loiberti - Rcepre - Rgermain
 ```
 
 #### usage assembler
+
 ```
 usage : ./asm [-flags] <champion.s>
 
-[ flags ]
+[ -flags ]
 	--verbose (-v) :  Print compilation information.
 	--output  (-o) :  Define the output name.
 	--help    (-h) :  Print this Help.
@@ -100,6 +104,7 @@ Corewar	© 2019 le-101   Loiberti - Rcepre - Rgermain
 ```
 
 #### usage de-assembler
+
 ```
 Usage: ./dsm [ -flags ] <champions.cor>
 
@@ -113,12 +118,16 @@ Usage: ./dsm [ -flags ] <champions.cor>
 corewar © 2019 le-101  Loiberti - Rcepre - Rgermain
 ```
 
+#### scripts
+
+you have many scripts, generate random champions, diff verbse with zaz's vm ...
+
 #### Helper
+
 ```
 corewar © 2019 le-101  Loiberti - Rcepre - Rgermain
-````
+```
 
- 
- ## Credits :fr:
- 
- This Corwar mad by Loiberti - Rcepre - Rgermain , for le-101 shool's projects
+## Credits :fr:
+
+This Corwar mad by Loiberti - Rcepre - Rgermain , for le-101 shool's projects
