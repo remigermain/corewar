@@ -15,26 +15,39 @@
 
 static void	print_usage(void)
 {
-	ft_printf("usage : ./corewar [ -flags ] -p [ -n <number> ] <champion.cor>"\
-"\n\n [ flags ]\n  	--visu\t (-V)\t\t\t:  Visual made in SDL2.\n"
-"\n	[ visu flags ]\n\t\t--screen  : 1080 or 4k\n\t\t--animation (-a)	: "\
-" Print annimation in start and end ( default is off )."\
-"\n\t--dump\t (-d)   <Numbe"\
-"r>	:  Dumps memory after <Number> cyles and exits.\n	--color\t (-c)		"\
-"\t:  Dumps with color player.\n\t--diff\t\t\t\t:  Print verbose same as "\
-"zaz's VM.\n  	--verbose (-v)   <Number>	:  Print inf"\
-"ormation , <Number> for verbose mode ( Default is 1 ).\n		verbose mode "\
-":\n\t\t\t\t1 : print base\n\t\t\t\t2 : Print cycle_to_die\n\t\t\t\t4 : Prin"\
-"t instruction \n\t\t\t\t8 : Print Kill process\n\t\t\t\t16 : Print pc mouve"\
-"ment\n\n\t--step\t(-s)		\t:  Verbose step by step. ( d"\
-"efault if off ).\n	--aff\t(-f)		\t:  print aff result in stdin ( in verbos"\
-"e is same as mode 4 ).\n\n [ champion ]\n\t--player (-p)   <Number"\
-">	:  Set champion, <Number> for set number to player.\n\t\t\t(Default is UN"\
-"SIGNED INT MAX less the numbers of player)\n\n [ visu events ]\n\tm   : "\
-"turn ON/OFF music (when turn ON speed is limited to 1).\n\t+/- : inscrease/"\
-"decrease speed.\n\tr   : switch to responsive mode.\n\tp   : change backgrou"\
-"nd ( only with fullscreen mode ).\n\tesc : quit sdl.\n\nCorewar © 2019 le-10"\
-"1 Loiberti - Rcepre - Rgermain\n");
+	ft_printf("usage : ./corewar [ -flags ] -p [ -n <number> ] <champion.cor>\n"
+" [ flags ]\n"
+"  	--visu	 (-V)			:  Visual made in SDL2.\n"
+"\n"
+"	[ visu flags ]\n"
+"	--screen			:  Change screen resolution (1080 or 4k).\n"
+"	--animation (-a)	:  Print annimation in start and end ( default is off ).\n"
+"	--dump	 (-d)   <Number>	:  Dumps memory after <Number> cyles and exits.\n"
+"	--color	 (-c)			:  Dumps with color player.\n"
+"	--diff				:  Print verbose same as zaz's VM.\n"
+"  	--verbose (-v)   <Number>	:  Print information , <Number> for verbose mode ( Default is 1 ).\n"
+"		verbose mode :\n"
+"				1 : print base\n"
+"				2 : Print cycle_to_die\n"
+"				4 : Print instruction\n"
+"				8 : Print Kill process\n"
+"				16 : Print pc mouvement\n"
+"\n"
+"	--step	(-s)			:  Verbose step by step. ( default if off ).\n"
+"	--aff	(-f)			:  print aff result in stdin ( in verbose is same as mode 4 ).\n"
+"\n"
+" [ champion ]\n"
+"	--player (-p)   <Number>	:  Set champion, <Number> for set number to player.\n"
+"			(Default is UNSIGNED INT MAX less the numbers of player)\n"
+"\n"
+" [ visu events ]\n"
+"	m   : turn ON/OFF music (when turn ON speed is limited to 1).\n"
+"	+/- : inscrease/decrease speed.\n"
+"	r   : switch to responsive mode.\n"
+"	p   : change background ( only with fullscreen mode ).\n"
+"	s   : step mode.\n"
+"	esc : quit sdl.\n"
+"Corewar © 2019 le-101 Loiberti - Rcepre - Rgermain\n");
 }
 
 static void	cw_usage(int argc, char **argv)
@@ -62,14 +75,27 @@ static void	cw_initstruct(t_core *cw, t_argm *argm, int argc, char **argv)
 	argm->argv = argv;
 }
 
-static void	init_visu_strcut(t_visu *visu)
+static void	init_visu_strcut(t_core *cw, t_visu *visu)
 {
 	ft_bzero(visu, sizeof(t_visu));
 	visu->win_h = -1;
 	visu->win_w = -1;
 	visu->speed = -1;
-	visu->pause = 1;
-	visu->test = 1;
+	visu->pause = test_bit(&(cw->utils.flags), CW_VISU);
+	visu->refresh = 1;
+	if (cw->utils.screen) {
+		if (!ft_strcmp(cw->utils.screen, "1080")) {
+			visu->screen.coef = 3;
+			visu->screen.base = IMG_COMMODORE_1080_BASE;
+			visu->screen.light = IMG_COMMODORE_1080_LIGHT;
+			visu->screen.graph = IMG_COMMODORE_1080_GRAPH;
+		} else {
+			visu->screen.coef = 4;
+			visu->screen.base = IMG_COMMODORE_4k_BASE;
+			visu->screen.light = IMG_COMMODORE_4k_LIGHT;
+			visu->screen.graph = IMG_COMMODORE_4k_GRAPH;
+		}
+	}
 }
 
 int			main(int argc, char **argv)
@@ -80,22 +106,9 @@ int			main(int argc, char **argv)
 
 	cw_usage(argc, argv);
 	cw_initstruct(&cw, &argm, argc, argv);
-	init_visu_strcut(&visu);
 	cw_check_define(&argm);
 	cw_flags(&cw, &argm);
-	if (cw.utils.screen) {
-		if (!ft_strcmp(cw.utils.screen, "1080")) {
-			visu.screen.coef = 3;
-			visu.screen.base = IMG_COMMODORE_1080_BASE;
-			visu.screen.light = IMG_COMMODORE_1080_LIGHT;
-			visu.screen.graph = IMG_COMMODORE_1080_GRAPH;
-		} else {
-			visu.screen.coef = 4;
-			visu.screen.base = IMG_COMMODORE_4k_BASE;
-			visu.screen.light = IMG_COMMODORE_4k_LIGHT;
-			visu.screen.graph = IMG_COMMODORE_4k_GRAPH;
-		}
-	}
+	init_visu_strcut(&cw, &visu);
 	if (!argm.error)
 	{
 		cw.last_live = cw.nb_player - 1;

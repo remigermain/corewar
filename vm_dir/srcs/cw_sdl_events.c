@@ -19,27 +19,19 @@
 **-----------------------------------------------------------------------
 */
 
-static void	handle_speed(t_visu *visu)
+static void	handle_speed(t_visu *visu, SDL_Keycode key)
 {
-	if (visu->event.key.keysym.sym == SDLK_KP_MINUS)
-	{
+	if (key == SDLK_KP_MINUS || key == SDLK_MINUS)
 		visu->speed -= 1;
-		if (visu->speed == 0)
-			visu->speed = -1;
-	}
-	if (visu->event.key.keysym.sym == SDLK_KP_PLUS)
-	{
+	else if (key == SDLK_KP_PLUS || key == SDLK_PLUS)
 		visu->speed += 1;
-		if (visu->speed == 0)
-			visu->speed = 1;
-	}
-	if (visu->speed > 1)
-		visu->sound = 0;
+	else if (key == SDLK_SPACE)
+		visu->pause = !visu->pause;
 }
 
-static void	handle_sound(t_visu *visu)
+static void	handle_sound(t_visu *visu, SDL_Keycode key)
 {
-	if (visu->event.key.keysym.sym == SDLK_m)
+	if (key == SDLK_m)
 	{
 		if (visu->sound)
 			visu->sound = 0;
@@ -57,11 +49,11 @@ static void	handle_sound(t_visu *visu)
 **-----------------------------------------------------------------------
 */
 
-static void	change_background(t_visu *visu)
+static void	change_background(t_visu *visu, SDL_Keycode key)
 {
 	SDL_Surface	*surf;
 
-	if (visu->event.key.keysym.sym == SDLK_p && !visu->responsive_mode)
+	if (key == SDLK_p && !visu->responsive_mode)
 	{
 		SDL_DestroyTexture(visu->background);
 		if (visu->mod_back && !(surf = SDL_LoadBMP(visu->screen.graph)))
@@ -76,9 +68,9 @@ static void	change_background(t_visu *visu)
 	}
 }
 
-void		handle_responsive(t_core *cw, t_visu *visu)
+void		handle_responsive(t_core *cw, t_visu *visu, SDL_Keycode key)
 {
-	if (visu->event.key.keysym.sym == SDLK_r)
+	if (key == SDLK_r)
 	{
 		if (visu->responsive_mode)
 			SDL_SetWindowFullscreen(visu->win, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -91,26 +83,36 @@ void		handle_responsive(t_core *cw, t_visu *visu)
 		update_win_size(visu, cw, RESIZE);
 	}
 	else
-		change_background(visu);
+		change_background(visu, key);
 }
 
 void		handle_events(t_visu *visu, t_core *cw)
 {
+	SDL_Keycode key;
+	static char hasdown = 1;
+
 	SDL_PollEvent(&visu->event);
+	get_mouse(visu, cw);
 	if (visu->event.type == SDL_WINDOWEVENT &&
 		visu->event.window.event == SDL_WINDOWEVENT_RESIZED)
 		update_win_size(visu, cw, RESIZE);
-	get_mouse(visu, cw);
-	if (visu->event.type == SDL_QUIT)
+	else if (visu->event.type == SDL_QUIT)
 		quit_sdl(visu, cw);
-	if (visu->event.type == SDL_KEYDOWN)
-	{
-		handle_speed(visu);
-		handle_sound(visu);
-		if (visu->event.key.keysym.sym == SDLK_SPACE)
-			visu->pause = visu->pause ? 0 : 1;
-		if (visu->event.key.keysym.sym == SDLK_ESCAPE)
+	else if (visu->event.type == SDL_KEYDOWN)
+		hasdown = 1;
+	else{
+		if (visu->event.type == SDL_KEYUP && visu->event.key.keysym.sym == SDLK_ESCAPE)
 			quit_sdl(visu, cw);
-		handle_responsive(cw, visu);
+		if (visu->event.type == SDL_TEXTINPUT && hasdown)
+		{
+			hasdown = 0;
+			key = visu->event.text.text[0];
+			if (key == SDLK_s) {
+				visu->step = 1;
+			}
+			handle_speed(visu, key);
+			handle_sound(visu, key);
+			handle_responsive(cw, visu, key);
+		}
 	}
 }

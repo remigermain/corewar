@@ -86,6 +86,7 @@ usage : ./corewar [ -flags ] -p [ -n <number> ] <champion.cor>
 	+/- : inscrease/decrease speed.
 	r   : switch to responsive mode.
 	p   : change background ( only with fullscreen mode ).
+	s   : step mode.
 	esc : quit sdl.
 
 Corewar © 2019 le-101 Loiberti - Rcepre - Rgermain

@@ -111,8 +111,8 @@ void		put_player(t_core *cw, t_argm *argm)
 			nb_player = ft_atoi(argm->argv[argm->i]);
 		if (!argm->argv[argm->i] || !ft_str_is_digit(argm->argv[argm->i]))
 			cw_error(cw, argm, CW_WRONG_NUMBER_PLAYER, NULL);
-		else if (nb_player > FT_INT_MAX || nb_player < FT_INT_MIN)
-			cw_error(cw, argm, nb_player < FT_INT_MIN ? CW_NUM_L : CW_NUM_H, 0);
+		else if (nb_player > FT_INT_MAX)
+			cw_error(cw, argm, CW_NUM_H, 0);
 		else
 			argm->i++;
 	}

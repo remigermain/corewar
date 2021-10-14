@@ -49,9 +49,8 @@ static void		visu_vm(t_core *cw, t_visu *visu, int cycle)
 {
 	if (test_bit(&(cw->utils.flags), CW_VISU))
 	{
-		if ((visu->speed > 0 && visu->test == ft_abs(visu->speed)) ||
-			visu->speed <= 0 || (visu->event.type == SDL_KEYDOWN &&
-			visu->event.key.keysym.sym == SDLK_s))
+		if (visu->step || (visu->speed > 0 && visu->refresh == ft_abs(visu->speed)) ||
+			visu->speed <= 0)
 		{
 			clear_screen(visu);
 			put_background(visu);
@@ -61,8 +60,9 @@ static void		visu_vm(t_core *cw, t_visu *visu, int cycle)
 			handle_time(visu);
 			SDL_RenderPresent(visu->ren);
 		}
-		++visu->test;
-		visu->test = (visu->test >= ft_abs(visu->speed) + 1) ? 0 : visu->test;
+		++visu->refresh;
+		visu->refresh = (visu->refresh >= ft_abs(visu->speed) + 1) ? 0 : visu->refresh;
+		visu->step = 0;
 	}
 }
 
@@ -112,10 +112,11 @@ static void		do_vm(t_core *cw, t_visu *visu, int *cycle, int *nb_cycle)
 		visu->t1 = SDL_GetTicks();
 		handle_events(visu, cw);
 	}
-	if (!test_bit(&(cw->utils.flags), CW_VISU) || (((visu->speed < 0 &&
-		visu->test == ft_abs(visu->speed)) || visu->speed > 0) && (!visu->pause
-		|| (visu->event.type == SDL_KEYDOWN &&
-			visu->event.key.keysym.sym == SDLK_s))))
+	if (!test_bit(&(cw->utils.flags), CW_VISU) ||
+		(!visu->pause && ((visu->speed < 0 &&
+		visu->refresh == ft_abs(visu->speed)) || visu->speed > 0)) ||
+		visu->step
+		)
 	{
 		cycle_verbose(cw);
 		covered_process(cw);

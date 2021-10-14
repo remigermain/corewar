@@ -125,7 +125,8 @@ typedef struct	s_visu
 	int				t1;
 	int				t2;
 	int				speed;
-	int				test;
+	int				refresh;
+	int				step;
 	TTF_Font		*font;
 	char			pause;
 	char			sound;

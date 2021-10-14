@@ -60,6 +60,7 @@ void			init_sdl(t_core *cw, t_visu *visu)
 		cw_error_run(cw, SDL_INIT, NULL);
 	if ((Mix_OpenAudio(freq, MIX_DEFAULT_FORMAT, STEREO, 4096) < 0))
 		cw_error_run(cw, SDL_OPEN_AUDIO, NULL);
+	SDL_StartTextInput();
 	init_ttf(cw, visu);
 	if (visu->win_h == -1)
 	{
@@ -97,6 +98,7 @@ void			quit_sdl(t_visu *visu, t_core *cw)
 	SDL_DestroyRenderer(visu->ren);
 	SDL_DestroyWindow(visu->win);
 	TTF_CloseFont(visu->font);
+	SDL_StopTextInput();
 	TTF_Quit();
 	SDL_Quit();
 	cw_error_run(cw, SDL_SDL_QUIT, NULL);
