@@ -1,4 +1,4 @@
-# Corwar
+# Corewar
 
 
 
@@ -139,4 +139,4 @@ corewar © 2019 le-101  Loiberti - Rcepre - Rgermain
 
 ## Credits :fr:
 
-This Corwar mad by Loiberti - Rcepre - Rgermain , for le-101 shool's projects
+This Corewar mad by Loiberti - Rcepre - Rgermain , for le-101 shool's projects
