@@ -1,10 +1,6 @@
 # Corewar
 
-
-
-https://user-images.githubusercontent.com/66946113/138447893-bc6b397b-a8ec-483e-a07e-d7c47ae5de72.mp4
-
-
+https://user-images.githubusercontent.com/66946113/138450943-63932487-35cb-4594-aef6-bf1552cfbcde.mp4
 
 
 ### :heavy_check_mark: Loiberti - Rcepre - Rgermain
