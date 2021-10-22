@@ -2,7 +2,8 @@
 
 
 
-https://user-images.githubusercontent.com/66946113/138442371-e5b8d824-756c-4777-b181-b2e48c22beac.mp4
+https://user-images.githubusercontent.com/66946113/138447893-bc6b397b-a8ec-483e-a07e-d7c47ae5de72.mp4
+
 
 
 
@@ -37,17 +38,17 @@ distinct:
 <img src="/readme_img/corewar.jpg" />
 Original screen made in sdl2.
 
-![](/readme_img/corewar2.png)
+![corewar](/readme_img/corewar2.png)
 
-![](/readme_img/corewar3.png)
+![corewar](/readme_img/corewar3.png)
 
 Handling clang-like errors of the asm, and verbose mode:
 
-![](/readme_img/asm_pict.png)
+![asm](/readme_img/asm_pict.png)
 
 Verbose of the VM:
 
-![](/readme_img/verbose_vm.png)
+![verbose](/readme_img/verbose_vm.png)
 
 ### You need
 
@@ -60,12 +61,12 @@ brew install SDL2 SDL2_ttf SDL2_mixer
 
 ```
 
-#### usage corewar
+#### Usage corewar
 
 ```
-usage : ./corewar [ -flags ] -p [ -n <number> ] <champion.cor>
+usage : ./corewar [ -flags ] -p [ -n <number> ] <champion.cor> ...
 
- [ flags ]
+ [ -flags ]
   	--visu	 (-V)			:  Visual made in SDL2.
 
 	[ visu flags ]
@@ -85,11 +86,11 @@ usage : ./corewar [ -flags ] -p [ -n <number> ] <champion.cor>
 	--step	(-s)			:  Verbose step by step. ( default if off ).
 	--aff	(-f)			:  print aff result in stdin ( in verbose is same as mode 4 ).
 
- [ champion ]
+ [ -champion ]
 	--player (-p)   <Number>	:  Set champion, <Number> for set number to player.
 			(Default is UNSIGNED INT MAX less the numbers of player)
 
- [ visu events ]
+ [ -visu events ]
 	m   : turn ON/OFF music (when turn ON speed is limited to 1).
 	+/- : inscrease/decrease speed.
 	r   : switch to responsive mode.
@@ -112,7 +113,7 @@ usage : ./asm [-flags] <champion.s>
 Corewar	© 2019 le-101   Loiberti - Rcepre - Rgermain
 ```
 
-#### usage de-assembler
+#### Usage de-assembler
 
 ```
 Usage: ./dsm [ -flags ] <champions.cor>
@@ -127,7 +128,7 @@ Usage: ./dsm [ -flags ] <champions.cor>
 corewar © 2019 le-101  Loiberti - Rcepre - Rgermain
 ```
 
-#### scripts
+#### Scripts
 
 you have many scripts, generate random champions, diff verbse with zaz's vm ...
 
