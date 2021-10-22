@@ -1,4 +1,12 @@
-# Corwar :heavy_check_mark: Loiberti - Rcepre - Rgermain
+# Corwar
+
+
+
+https://user-images.githubusercontent.com/66946113/138442371-e5b8d824-756c-4777-b181-b2e48c22beac.mp4
+
+
+
+### :heavy_check_mark: Loiberti - Rcepre - Rgermain
 
 Corewar is a very particular game.
 It consists in gathering around a "virtual machine" of "players",
